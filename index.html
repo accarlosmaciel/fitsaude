@@ -220,10 +220,10 @@
     // ════════════════════════════════════════════════════════
     //  DATA (Masculino & Feminino)
     // ════════════════════════════════════════════════════════
-    const SK_MASC = 'fitsaude_sched_masc_v6';
-    const SK_FEM = 'fitsaude_sched_fem_v6';
-    const DK = 'fitsaude_done_v6';
-    const GK = 'fitsaude_gender_v6';
+    const SK_MASC = 'fitsaude_sched_masc_v7';
+    const SK_FEM = 'fitsaude_sched_fem_v7';
+    const DK = 'fitsaude_done_v7';
+    const GK = 'fitsaude_gender_v7';
 
     const DEFAULT_MASCULINO = [
       {
@@ -283,7 +283,7 @@
 
     const DEFAULT_FEMININO = [
       {
-        day: 'Segunda', short: 'SEG', icon: '🍑', name: 'Glúteos & Posterior', color: '#e11d48', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/legs.png',
+        day: 'Segunda', short: 'SEG', icon: '🍑', name: 'Glúteos & Posterior', color: '#e11d48', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/fem_glutes.jpg',
         exercises: [
           { id: 'f_s1', name: 'Elevação Pélvica com Barra', muscle: 'Glúteo Máximo', sets: 4, reps: '10-12', weight: '50 kg' },
           { id: 'f_s2', name: 'Stiff com Halteres', muscle: 'Posterior/Glúteo', sets: 4, reps: '12', weight: '14 kg' },
@@ -293,7 +293,7 @@
         ]
       },
       {
-        day: 'Terça', short: 'TER', icon: '🏋️‍♀️', name: 'Membros Superiores & Postura', color: '#a78bfa', dur: '55 min', lvl: 'Média', rest: false, image: 'images/back.png',
+        day: 'Terça', short: 'TER', icon: '🏋️‍♀️', name: 'Membros Superiores & Postura', color: '#a78bfa', dur: '55 min', lvl: 'Média', rest: false, image: 'images/fem_upper.jpg',
         exercises: [
           { id: 'f_t1', name: 'Puxada Aberta no Pulley', muscle: 'Costas/Postura', sets: 3, reps: '12', weight: '30 kg' },
           { id: 'f_t2', name: 'Desenvolvimento com Halteres', muscle: 'Ombros', sets: 3, reps: '12', weight: '8 kg' },
@@ -302,9 +302,9 @@
           { id: 'f_t5', name: 'Rosca Direta com Halteres', muscle: 'Bíceps', sets: 3, reps: '12', weight: '6 kg' },
         ]
       },
-      { day: 'Quarta', short: 'QUA', icon: '😴', name: 'Descanso & Mobilidade', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
+      { day: 'Quarta', short: 'QUA', icon: '😴', name: 'Descanso & Mobilidade', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/fem_rest.jpg', exercises: [] },
       {
-        day: 'Quinta', short: 'QUI', icon: '🦵', name: 'Quadríceps & Glúteo Enfático', color: '#4cc9f0', dur: '70 min', lvl: 'Alta', rest: false, image: 'images/legs.png',
+        day: 'Quinta', short: 'QUI', icon: '🦵', name: 'Quadríceps & Glúteo Enfático', color: '#4cc9f0', dur: '70 min', lvl: 'Alta', rest: false, image: 'images/fem_legs.jpg',
         exercises: [
           { id: 'f_q1', name: 'Agachamento Sumô com Halter', muscle: 'Quadríceps/Glúteo', sets: 4, reps: '10-12', weight: '20 kg' },
           { id: 'f_q2', name: 'Leg Press Horizontal', muscle: 'Quadríceps', sets: 4, reps: '12', weight: '100 kg' },
@@ -314,7 +314,7 @@
         ]
       },
       {
-        day: 'Sexta', short: 'SEX', icon: '🔥', name: 'Core, Definição & Cardio', color: '#ffd166', dur: '50 min', lvl: 'Média-Alta', rest: false, image: 'images/shoulders.png',
+        day: 'Sexta', short: 'SEX', icon: '🔥', name: 'Core, Definição & Cardio', color: '#ffd166', dur: '50 min', lvl: 'Média-Alta', rest: false, image: 'images/fem_core.jpg',
         exercises: [
           { id: 'f_x1', name: 'Prancha Dinâmica', muscle: 'Core/Abdômen', sets: 3, reps: '45 seg', weight: 'Corpo' },
           { id: 'f_x2', name: 'Abdominal Infra na Prancha', muscle: 'Abdômen', sets: 3, reps: '15-20', weight: 'Corpo' },
@@ -324,7 +324,7 @@
         ]
       },
       {
-        day: 'Sábado', short: 'SÁB', icon: '⚡', name: 'Booty Sculpt & Full Body', color: '#ef476f', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/fullbody.png',
+        day: 'Sábado', short: 'SÁB', icon: '⚡', name: 'Booty Sculpt & Full Body', color: '#ef476f', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/fem_fullbody.jpg',
         exercises: [
           { id: 'f_a1', name: 'Agachamento Búlgaro', muscle: 'Glúteo/Quadríceps', sets: 3, reps: '10 cada', weight: '10 kg' },
           { id: 'f_a2', name: 'Elevação Pélvica Unilateral', muscle: 'Glúteo', sets: 3, reps: '12 cada', weight: 'Corpo' },
