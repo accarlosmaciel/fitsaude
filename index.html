@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#060608" />
+  <title>FitSaúde – Sistema de Treinos & Saúde</title>
+  <meta name="description"
+    content="App FitSaúde - Treinos da semana, acompanhamento de exercícios e assistente IA para tirar dúvidas de saúde e academia." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- Background -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- ── App Shell ──────────────────────────────────────── -->
+  <div class="app-shell">
+
+    <!-- App Header -->
+    <header class="app-header" id="app-header">
+      <div class="app-header-icon" id="header-icon">💪</div>
+      <div class="app-header-title" id="header-title">Fit<span>Saúde</span></div>
+      <button class="app-header-action" id="header-action-btn" onclick="openAddModal()">+ Exercício</button>
+    </header>
+
+    <!-- ══ SCREEN: TREINOS ═════════════════════════════════ -->
+    <div class="screen active" id="screen-treinos">
+
+      <div class="hero-strip">
+        <div class="hero-greeting" id="day-greeting">Bom dia! 👋</div>
+        <h1 class="hero-title">Seus <span>Treinos</span><br>da Semana</h1>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <span class="stat-v" id="s-sessions">5</span>
+          <span class="stat-l">Sessões</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-v" id="s-total">32</span>
+          <span class="stat-l">Exerc.</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-v" id="s-today">0</span>
+          <span class="stat-l">Hoje</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-v" id="s-pct">0%</span>
+          <span class="stat-l">Semana</span>
+        </div>
+      </div>
+
+      <!-- Day selector -->
+      <div class="section-label">📅 Dias da Semana</div>
+      <div class="day-scroll" id="day-scroll"></div>
+
+      <!-- Workout detail -->
+      <div id="workout-detail"></div>
+
+    </div>
+
+    <!-- ══ SCREEN: RESUMO ══════════════════════════════════ -->
+    <div class="screen" id="screen-resumo">
+      <div class="hero-strip">
+        <div class="hero-greeting">Visão Geral 📊</div>
+        <h1 class="hero-title">Resumo <span>Semanal</span></h1>
+      </div>
+
+      <div class="summary-grid-2" id="summary-grid"></div>
+
+      <div class="section-label">📈 Progresso por Dia</div>
+      <div class="week-prog-section">
+        <div class="week-prog-bars" id="week-prog-bars"></div>
+      </div>
+
+      <div class="section-label">🎯 Grupos Musculares</div>
+      <div class="muscle-section">
+        <div class="muscle-chips" id="muscle-chips"></div>
+      </div>
+
+      <!-- Reset button -->
+      <div style="padding:0 18px;">
+        <button class="btn-reset" id="btn-reset">🔄 Resetar Progresso da Semana</button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: CHAT ════════════════════════════════════ -->
+    <div class="screen" id="screen-chat">
+      <div class="chat-screen">
+
+        <!-- Bot info bar -->
+        <div class="chat-bot-header">
+          <div class="bot-avatar">🤖</div>
+          <div>
+            <div class="bot-name">FitBot IA</div>
+            <div class="bot-status">Online agora</div>
+          </div>
+        </div>
+
+        <!-- Messages area -->
+        <div class="chat-messages" id="chat-messages">
+          <!-- Initial bot message injected by JS -->
+        </div>
+
+        <!-- Typing indicator -->
+        <div class="typing-indicator" id="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+
+        <!-- Quick replies -->
+        <div class="quick-replies" id="quick-replies">
+          <button class="quick-btn" onclick="sendQuick('Como fazer agachamento?')">🦵 Agachamento</button>
+          <button class="quick-btn" onclick="sendQuick('Devo treinar com dor muscular?')">😣 Dor Muscular</button>
+          <button class="quick-btn" onclick="sendQuick('Quanto de proteína devo consumir?')">🥩 Proteína</button>
+          <button class="quick-btn" onclick="sendQuick('Como fazer aquecimento?')">🔥 Aquecimento</button>
+          <button class="quick-btn" onclick="sendQuick('Quantas horas devo dormir?')">😴 Sono</button>
+          <button class="quick-btn" onclick="sendQuick('Como ganhar massa muscular?')">💪 Ganhar Massa</button>
+          <button class="quick-btn" onclick="sendQuick('Posso treinar todo dia?')">📅 Frequência</button>
+          <button class="quick-btn" onclick="sendQuick('Como perder gordura?')">🔥 Emagrecer</button>
+        </div>
+
+        <!-- Input bar -->
+        <div class="chat-input-bar">
+          <textarea class="chat-input" id="chat-input" placeholder="Pergunte ao FitBot..." rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
+            oninput="autoResize(this)"></textarea>
+          <button class="chat-send-btn" id="send-btn" onclick="sendMessage()" aria-label="Enviar">
+            ➤
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /app-shell -->
+
+  <!-- ── Bottom Navigation ──────────────────────────────── -->
+  <nav class="bottom-nav" role="navigation" aria-label="Navegação principal">
+    <button class="nav-btn active" id="nav-treinos" onclick="switchScreen('treinos')" aria-label="Treinos">
+      <span class="nav-icon">🏋️</span>
+      <span class="nav-label">Treinos</span>
+    </button>
+    <button class="nav-btn" id="nav-resumo" onclick="switchScreen('resumo')" aria-label="Resumo">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">Resumo</span>
+    </button>
+    <button class="nav-btn" id="nav-chat" onclick="switchScreen('chat')" aria-label="Chat">
+      <span class="nav-icon">💬</span>
+      <div class="badge show" id="chat-badge"></div>
+      <span class="nav-label">FitBot</span>
+    </button>
+  </nav>
+
+  <!-- ── Toast ──────────────────────────────────────────── -->
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <span id="toast-icon">✅</span>
+    <span id="toast-msg">Ok!</span>
+  </div>
+
+  <!-- ── Modal Sheet: Add Exercise ──────────────────────── -->
+  <div class="modal-overlay" id="modal-overlay" onclick="e=>e.target===this&&closeModal()">
+    <div class="modal-sheet" id="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-eyebrow">Personalizar</div>
+      <div class="sheet-title">Adicionar Exercício</div>
+
+      <div class="form-group">
+        <label class="form-label" for="f-day">Dia do treino</label>
+        <select class="form-select" id="f-day"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-name">Nome do exercício</label>
+        <input class="form-input" id="f-name" type="text" placeholder="ex: Supino Reto" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-muscle">Grupo muscular</label>
+        <input class="form-input" id="f-muscle" type="text" placeholder="ex: Peitoral" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Séries / Reps / Carga</label>
+        <div class="form-row">
+          <input class="form-input" id="f-sets" type="number" value="3" min="1" max="20" placeholder="Séries" />
+          <input class="form-input" id="f-reps" type="text" value="12" placeholder="Reps" />
+          <input class="form-input" id="f-weight" type="text" placeholder="kg" />
+        </div>
+      </div>
+
+      <button class="btn-save" id="btn-save" onclick="saveExercise()">Salvar Exercício</button>
+      <button class="btn-reset" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════════════
+    //  DATA
+    // ════════════════════════════════════════════════════════
+    const SK = 'fitsaude_sched_v4';
+    const DK = 'fitsaude_done_v4';
+
+    const DEFAULT = [
+      {
+        day: 'Segunda', short: 'SEG', icon: '🏋️', name: 'Peito & Tríceps', color: '#dc143c', dur: '60 min', lvl: 'Alta', rest: false,
+        exercises: [
+          { id: 's1', name: 'Supino Reto', muscle: 'Peitoral', sets: 4, reps: '8-10', weight: '60 kg' },
+          { id: 's2', name: 'Supino Inclinado', muscle: 'Peitoral Superior', sets: 3, reps: '10-12', weight: '50 kg' },
+          { id: 's3', name: 'Crucifixo Polia', muscle: 'Peitoral', sets: 3, reps: '12-15', weight: '15 kg' },
+          { id: 's4', name: 'Tríceps Corda', muscle: 'Tríceps', sets: 4, reps: '12', weight: '30 kg' },
+          { id: 's5', name: 'Tríceps Francês', muscle: 'Tríceps', sets: 3, reps: '10-12', weight: '20 kg' },
+        ]
+      },
+      {
+        day: 'Terça', short: 'TER', icon: '🦵', name: 'Pernas', color: '#4cc9f0', dur: '75 min', lvl: 'Muito Alta', rest: false,
+        exercises: [
+          { id: 't1', name: 'Agachamento Livre', muscle: 'Quadríceps/Glúteo', sets: 5, reps: '6-8', weight: '80 kg' },
+          { id: 't2', name: 'Leg Press 45°', muscle: 'Quadríceps', sets: 4, reps: '10-12', weight: '180 kg' },
+          { id: 't3', name: 'Stiff', muscle: 'Posterior/Glúteo', sets: 4, reps: '10', weight: '50 kg' },
+          { id: 't4', name: 'Extensora', muscle: 'Quadríceps', sets: 3, reps: '15', weight: '50 kg' },
+          { id: 't5', name: 'Flexora', muscle: 'Posterior', sets: 3, reps: '12', weight: '40 kg' },
+          { id: 't6', name: 'Panturrilha', muscle: 'Panturrilha', sets: 4, reps: '20', weight: '80 kg' },
+        ]
+      },
+      { day: 'Quarta', short: 'QUA', icon: '😴', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, exercises: [] },
+      {
+        day: 'Quinta', short: 'QUI', icon: '💪', name: 'Costas & Bíceps', color: '#a78bfa', dur: '65 min', lvl: 'Alta', rest: false,
+        exercises: [
+          { id: 'q1', name: 'Puxada Frente', muscle: 'Costas/Dorsal', sets: 4, reps: '8-10', weight: 'Barra' },
+          { id: 'q2', name: 'Remada Curvada', muscle: 'Costas/Trapézio', sets: 4, reps: '10', weight: '60 kg' },
+          { id: 'q3', name: 'Remada Unilateral', muscle: 'Costas', sets: 3, reps: '10 cada', weight: '25 kg' },
+          { id: 'q4', name: 'Rosca Direta', muscle: 'Bíceps', sets: 4, reps: '10-12', weight: '20 kg' },
+          { id: 'q5', name: 'Rosca Martelo', muscle: 'Bíceps/Braquial', sets: 3, reps: '12', weight: '14 kg' },
+        ]
+      },
+      {
+        day: 'Sexta', short: 'SEX', icon: '🔥', name: 'Ombros & Abdômen', color: '#ffd166', dur: '55 min', lvl: 'Média-Alta', rest: false,
+        exercises: [
+          { id: 'x1', name: 'Desenvolvimento', muscle: 'Deltóide', sets: 4, reps: '10-12', weight: '20 kg' },
+          { id: 'x2', name: 'Elevação Lateral', muscle: 'Deltóide Lateral', sets: 4, reps: '12-15', weight: '8 kg' },
+          { id: 'x3', name: 'Elevação Frontal', muscle: 'Deltóide Anterior', sets: 3, reps: '12', weight: '8 kg' },
+          { id: 'x4', name: 'Abdominal Infra', muscle: 'Abdômen', sets: 3, reps: '15-20', weight: '—' },
+          { id: 'x5', name: 'Prancha', muscle: 'Core', sets: 3, reps: '60 seg', weight: '—' },
+        ]
+      },
+      {
+        day: 'Sábado', short: 'SÁB', icon: '⚡', name: 'Full Body', color: '#ef476f', dur: '80 min', lvl: 'Alta', rest: false,
+        exercises: [
+          { id: 'a1', name: 'Levantamento Terra', muscle: 'Costas/Pernas', sets: 4, reps: '5', weight: '100 kg' },
+          { id: 'a2', name: 'Barra Fixa', muscle: 'Costas/Bíceps', sets: 3, reps: 'Máx', weight: 'Corpo' },
+          { id: 'a3', name: 'Flexão de Braço', muscle: 'Peitoral/Tríceps', sets: 3, reps: '15-20', weight: 'Corpo' },
+          { id: 'a4', name: 'Agachamento Búlgaro', muscle: 'Pernas/Glúteo', sets: 3, reps: '10 cada', weight: '20 kg' },
+          { id: 'a5', name: 'Burpee', muscle: 'Full Body', sets: 3, reps: '10', weight: '—' },
+        ]
+      },
+      { day: 'Domingo', short: 'DOM', icon: '🧘', name: 'Descanso/Cardio', color: '#22d3a0', dur: '30 min', lvl: 'Baixa', rest: true, exercises: [] },
+    ];
+
+    // ════════════════════════════════════════════════════════
+    //  STATE
+    // ════════════════════════════════════════════════════════
+    let schedule = loadSched();
+    let done = loadDone();
+    let activeDay = getTodayIdx();
+    let currentScreen = 'treinos';
+
+    function loadSched() { try { const r = localStorage.getItem(SK); return r ? JSON.parse(r) : JSON.parse(JSON.stringify(DEFAULT)); } catch { return JSON.parse(JSON.stringify(DEFAULT)); } }
+    function saveSched() { localStorage.setItem(SK, JSON.stringify(schedule)); }
+    function loadDone() { try { const r = localStorage.getItem(DK); return r ? new Set(JSON.parse(r)) : new Set(); } catch { return new Set(); } }
+    function saveDone() { localStorage.setItem(DK, JSON.stringify([...done])); }
+
+    function getTodayIdx() {
+      const map = [6, 0, 1, 2, 3, 4, 5];
+      return map[new Date().getDay()];
+    }
+
+    function getGreeting() {
+      const h = new Date().getHours();
+      if (h < 12) return 'Bom dia! 👋';
+      if (h < 18) return 'Boa tarde! 👋';
+      return 'Boa noite! 👋';
+    }
+
+    // ════════════════════════════════════════════════════════
+    //  RENDER
+    // ════════════════════════════════════════════════════════
+    function render() {
+      renderDayScroll();
+      renderWorkout();
+      renderSummary();
+      updateStats();
+    }
+
+    /* ── Day scroll pills ── */
+    function renderDayScroll() {
+      const c = document.getElementById('day-scroll');
+      c.innerHTML = schedule.map((d, i) => `
+    <div class="day-pill ${d.rest ? 'rest-pill' : ''} ${i === activeDay ? 'active' : ''}"
+         onclick="selectDay(${i})" role="tab" tabindex="0"
+         onkeydown="if(event.key==='Enter')selectDay(${i})">
+      ${i === getTodayIdx() ? '<div class="day-today-dot"></div>' : ''}
+      <span class="day-short-lbl">${d.short}</span>
+      <span class="day-emoji">${d.icon}</span>
+      <span class="day-full-lbl">${d.day}</span>
+    </div>
+  `).join('');
+    }
+
+    /* ── Workout detail ── */
+    function renderWorkout() {
+      const c = document.getElementById('workout-detail');
+      const d = schedule[activeDay];
+
+      if (d.rest) {
+        c.innerHTML = `
+      <div class="rest-screen-panel">
+        <span class="rest-icon-big">${d.icon}</span>
+        <h2>${d.name}</h2>
+        <p>Hoje é dia de descanso! Aproveite para recuperar os músculos, se hidratar e dormir bem. O crescimento acontece durante o repouso. 💚</p>
+      </div>`;
+        return;
+      }
+
+      const total = d.exercises.length;
+      const doneEx = d.exercises.filter(e => done.has(e.id)).length;
+      const pct = total ? Math.round((doneEx / total) * 100) : 0;
+
+      c.innerHTML = `
+    <!-- Card header -->
+    <div class="workout-card-header">
+      <div class="workout-card-top">
+        <div class="workout-emoji-wrap" style="background:${d.color}18;">
+          <span>${d.icon}</span>
+        </div>
+        <div>
+          <div class="workout-title">${d.name}</div>
+          <div class="workout-day-txt">${d.day} • ${d.exercises.length} exercícios</div>
+        </div>
+      </div>
+      <div class="workout-chips">
+        <div class="chip">⏱ ${d.dur}</div>
+        <div class="chip">🔥 ${d.lvl}</div>
+        <div class="chip">✅ ${doneEx}/${total}</div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="prog-wrap">
+      <div class="prog-label">Progresso <span>${pct}%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+
+    <!-- Exercises -->
+    <div class="section-label">🏋️ Exercícios</div>
+    <div class="ex-list-wrap">
+      ${d.exercises.map((ex, i) => renderExItem(ex, i)).join('')}
+    </div>
+  `;
+    }
+
+    function renderExItem(ex, i) {
+      const isDone = done.has(ex.id);
+      return `
+    <div class="ex-item ${isDone ? 'done' : ''}" id="ex-${ex.id}"
+         onclick="toggleEx('${ex.id}')" role="checkbox" aria-checked="${isDone}" tabindex="0"
+         onkeydown="if(event.key==='Enter'||event.key===' ')toggleEx('${ex.id}')">
+      <div class="ex-num-box">${isDone ? '✓' : i + 1}</div>
+      <div class="ex-body">
+        <div class="ex-name">${ex.name}</div>
+        <div class="ex-muscle">${ex.muscle}</div>
+      </div>
+      <div class="ex-meta">
+        <div class="ex-meta-pill">
+          <span class="ex-meta-v">${ex.sets}</span>
+          <span class="ex-meta-l">Séries</span>
+        </div>
+        <div class="ex-meta-pill">
+          <span class="ex-meta-v" style="font-size:0.72rem;">${ex.reps}</span>
+          <span class="ex-meta-l">Reps</span>
+        </div>
+      </div>
+      <div class="ex-check-circle">${isDone ? '✓' : ''}</div>
+    </div>
+  `;
+    }
+
+    /* ── Summary ── */
+    function renderSummary() {
+      const nonRest = schedule.filter(d => !d.rest);
+      const totalEx = schedule.reduce((a, d) => a + d.exercises.length, 0);
+      const totalDone = [...done].length;
+      const totalSets = schedule.reduce((a, d) => a + d.exercises.reduce((b, e) => b + e.sets, 0), 0);
+      const avg = nonRest.length ? Math.round(totalEx / nonRest.length) : 0;
+
+      document.getElementById('summary-grid').innerHTML = `
+    ${[['📅', nonRest.length, 'Dias Treino'], ['🏋️', totalEx, 'Exercícios'], ['🔢', totalSets, 'Séries'], ['📊', avg, 'Ex/Sessão'], ['✅', totalDone, 'Concluídos']].map(([ic, v, l]) => `
+    <div class="sum-card">
+      <span class="sum-card-icon">${ic}</span>
+      <div class="sum-card-val">${v}</div>
+      <div class="sum-card-lbl">${l}</div>
+    </div>`).join('')}
+  `;
+
+      // Per-day progress bars
+      document.getElementById('week-prog-bars').innerHTML = schedule.filter(d => !d.rest).map(d => {
+        const t = d.exercises.length;
+        const dn = d.exercises.filter(e => done.has(e.id)).length;
+        const p = t ? Math.round((dn / t) * 100) : 0;
+        return `<div class="week-bar-row">
+      <div class="week-bar-day">${d.short}</div>
+      <div class="week-bar-track"><div class="week-bar-fill" style="width:${p}%"></div></div>
+      <div class="week-bar-pct">${p}%</div>
+    </div>`;
+      }).join('');
+
+      // Muscle chips
+      const muscles = new Set();
+      const mc = {
+        'Peitoral': { bg: 'rgba(220,20,60,0.1)', c: '#f43f5e', b: 'rgba(220,20,60,0.25)' },
+        'Tríceps': { bg: 'rgba(255,209,102,0.1)', c: '#ffd166', b: 'rgba(255,209,102,0.25)' },
+        'Quadríceps': { bg: 'rgba(76,201,240,0.1)', c: '#4cc9f0', b: 'rgba(76,201,240,0.25)' },
+        'Posterior': { bg: 'rgba(167,139,250,0.1)', c: '#a78bfa', b: 'rgba(167,139,250,0.25)' },
+        'Costas': { bg: 'rgba(167,139,250,0.1)', c: '#a78bfa', b: 'rgba(167,139,250,0.25)' },
+        'Bíceps': { bg: 'rgba(220,20,60,0.1)', c: '#f43f5e', b: 'rgba(220,20,60,0.25)' },
+        'Deltóide': { bg: 'rgba(34,211,160,0.1)', c: '#22d3a0', b: 'rgba(34,211,160,0.25)' },
+        'Abdômen': { bg: 'rgba(239,71,111,0.1)', c: '#ef476f', b: 'rgba(239,71,111,0.25)' },
+        'Glúteo': { bg: 'rgba(34,211,160,0.1)', c: '#22d3a0', b: 'rgba(34,211,160,0.25)' },
+        'Full Body': { bg: 'rgba(255,107,53,0.1)', c: '#ff6b35', b: 'rgba(255,107,53,0.25)' },
+      };
+      const def = { bg: 'rgba(255,255,255,0.05)', c: '#7a7a8c', b: 'rgba(255,255,255,0.1)' };
+      schedule.forEach(d => d.exercises.forEach(e => e.muscle.split('/').forEach(m => muscles.add(m.trim().split(' ')[0]))));
+      document.getElementById('muscle-chips').innerHTML = [...muscles].map(m => {
+        const s = mc[m] || def;
+        return `<span class="muscle-chip" style="background:${s.bg};color:${s.c};border-color:${s.b};">${m}</span>`;
+      }).join('');
+    }
+
+    function updateStats() {
+      const todayEx = schedule[activeDay]?.exercises || [];
+      const doneToday = todayEx.filter(e => done.has(e.id)).length;
+      const totalEx = schedule.reduce((a, d) => a + d.exercises.length, 0);
+      const pct = totalEx ? Math.round(([...done].length / totalEx) * 100) : 0;
+      document.getElementById('s-sessions').textContent = schedule.filter(d => !d.rest).length;
+      document.getElementById('s-total').textContent = totalEx;
+      document.getElementById('s-today').textContent = doneToday;
+      document.getElementById('s-pct').textContent = pct + '%';
+    }
+
+    // ════════════════════════════════════════════════════════
+    //  INTERACTIONS
+    // ════════════════════════════════════════════════════════
+    function selectDay(i) {
+      activeDay = i;
+      render();
+      document.getElementById('day-scroll').children[i]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    function toggleEx(id) {
+      if (done.has(id)) { done.delete(id); toast('❌', 'Desmarcado'); }
+      else { done.add(id); toast('✅', 'Exercício concluído! 💪'); confetti(); }
+      saveDone();
+      renderWorkout();
+      updateStats();
+      renderSummary();
+    }
+
+    function switchScreen(name) {
+      currentScreen = name;
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('screen-' + name).classList.add('active');
+      document.getElementById('nav-' + name).classList.add('active');
+
+      // Header updates
+      const titles = { treinos: 'Fit<span>Saúde</span>', resumo: 'Resumo <span>Semanal</span>', chat: 'FitBot <span>IA</span>' };
+      const icons = { treinos: '💪', resumo: '📊', chat: '🤖' };
+      document.getElementById('header-title').innerHTML = titles[name];
+      document.getElementById('header-icon').textContent = icons[name];
+      document.getElementById('header-action-btn').style.display = name === 'treinos' ? '' : 'none';
+
+      if (name === 'chat') {
+        document.getElementById('chat-badge').classList.remove('show');
+        setTimeout(() => scrollChat(), 100);
+      }
+    }
+
+    /* ── Reset ── */
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      if (!confirm('Resetar todo o progresso da semana?')) return;
+      done.clear(); saveDone(); render();
+      toast('🔄', 'Semana resetada!');
+    });
+
+    /* ── Modal ── */
+    function openAddModal() {
+      const sel = document.getElementById('f-day');
+      sel.innerHTML = schedule.filter(d => !d.rest).map(d => {
+        const i = schedule.indexOf(d);
+        return `<option value="${i}" ${i === activeDay ? 'selected' : ''}>${d.day} – ${d.name}</option>`;
+      }).join('');
+      document.getElementById('modal-overlay').classList.add('show');
+      setTimeout(() => document.getElementById('f-name').focus(), 400);
+    }
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('show');
+      ['f-name', 'f-muscle', 'f-weight'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('f-sets').value = 3;
+      document.getElementById('f-reps').value = 12;
+    }
+    document.getElementById('modal-overlay').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
+
+    function saveExercise() {
+      const dayIdx = parseInt(document.getElementById('f-day').value);
+      const name = document.getElementById('f-name').value.trim();
+      const muscle = document.getElementById('f-muscle').value.trim() || 'Geral';
+      const sets = parseInt(document.getElementById('f-sets').value) || 3;
+      const reps = document.getElementById('f-reps').value.trim() || '12';
+      const weight = document.getElementById('f-weight').value.trim() || '—';
+      if (!name) { document.getElementById('f-name').style.borderColor = '#dc143c'; return; }
+      document.getElementById('f-name').style.borderColor = '';
+      schedule[dayIdx].exercises.push({ id: 'c' + Date.now(), name, muscle, sets, reps, weight });
+      saveSched(); activeDay = dayIdx; closeModal(); render();
+      toast('➕', `"${name}" adicionado!`);
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    /* ── Toast ── */
+    function toast(icon, msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-icon').textContent = icon;
+      document.getElementById('toast-msg').textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._t);
+      t._t = setTimeout(() => t.classList.remove('show'), 2400);
+    }
+
+    /* ── Confetti ── */
+    function confetti() {
+      const cols = ['#dc143c', '#f43f5e', '#22d3a0', '#ffd166', '#a78bfa'];
+      for (let i = 0; i < 20; i++) {
+        const el = document.createElement('div');
+        const c = cols[Math.floor(Math.random() * cols.length)];
+        const sz = Math.random() * 7 + 3;
+        el.style.cssText = `position:fixed;z-index:9999;width:${sz}px;height:${sz}px;background:${c};border-radius:${Math.random() > .5 ? '50%' : '2px'};left:${Math.random() * 100}vw;top:${Math.random() * 50 + 10}vh;pointer-events:none;animation:cf 1.1s ease forwards;`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1300);
+      }
+      if (!document.getElementById('cf-style')) {
+        const s = document.createElement('style');
+        s.id = 'cf-style';
+        s.textContent = '@keyframes cf{0%{transform:translateY(0)rotate(0);opacity:1}100%{transform:translateY(70px)rotate(360deg);opacity:0}}';
+        document.head.appendChild(s);
+      }
+    }
+
+    // ════════════════════════════════════════════════════════
+    //  CHAT / FITBOT IA (Respostas rápidas e claras)
+    // ════════════════════════════════════════════════════════
+    const BOT_RESPONSES = [
+      // Agachamento
+      {
+        keys: ['agach', 'squat', 'agachar'],
+        reply: `**🦵 Agachamento Perfeito**\n\n• **Pés:** Largura dos ombros, ligeiramente abertos.\n• **Joelhos:** Seguem a direção das pontas dos pés.\n• **Coluna:** Mantida reta e neutra durante o movimento.\n• **Movimento:** Puxe o quadril para trás como se fosse sentar.\n\n💡 *Dica:* Não deixe os calcanhares saírem do chão!`
+      },
+
+      // Supino
+      {
+        keys: ['supino', 'peito', 'bench'],
+        reply: `**🏋️ Supino Reto**\n\n• **Pegada:** Ligeiramente mais larga que os ombros.\n• **Escápulas:** Retraídas (espremidas para trás no banco).\n• **Descida:** Baixe a barra até a linha média do peito de forma controlada.\n• **Cotovelos:** Mantidos a aproximadamente 45° do corpo.\n\n💡 *Dica:* Acredite no impulso dos pés firmes no chão!`
+      },
+
+      // Proteína
+      {
+        keys: ['proteína', 'proteina', 'protein', 'whey'],
+        reply: `**🥩 Proteína Diária**\n\n• **Meta ideal:** 1,6g a 2,2g por kg de peso corporal.\n• **Exemplo:** Se você pesa 70kg, consuma entre 110g e 150g de proteína/dia.\n• **Boas fontes:** Ovos, peito de frango, carne magra, peixes, Whey e tofu.\n\n💡 *Dica:* Distribua em 3 a 5 refeições ao longo do dia.`
+      },
+
+      // Dor muscular
+      {
+        keys: ['dor', 'doendo', 'dolorido', 'dmit', 'doms'],
+        reply: `**😣 Treinar com Dor Muscular?**\n\n• **Dor leve (tardia):** Pode treinar outro grupo muscular normalmente.\n• **Dor forte:** Dê descanso ao músculo dolorido (48h a 72h).\n• **Dor articular/aguda:** Pare o treino! Pode indicar lesão.\n\n💡 *Recuperação:* Beba bastante água, durma bem e consuma proteínas.`
+      },
+
+      // Aquecimento
+      {
+        keys: ['aquec', 'warm', 'aquecer'],
+        reply: `**🔥 Aquecimento Eficiente**\n\n1. **5 min:** Cardio leve (esteira ou bike) para subir a temperatura.\n2. **Mobilidade:** Giros de articulação (ombros, quadril, tornozelos).\n3. **Série de preparação:** 1 a 2 séries com 50% da carga habitual antes do exercício pesado.\n\n💡 *Evite:* Alongamentos estáticos intensos antes de pegar peso.`
+      },
+
+      // Sono
+      {
+        keys: ['dormir', 'sono', 'sleep', 'descanso'],
+        reply: `**😴 Sono & Recuperação**\n\n• **Ideal:** 7 a 9 horas de sono por noite.\n• O GH (hormônio do crescimento) e a síntese proteica atingem o pico no sono profundo.\n• **Dica de higiene:** Desligue telas 30 minutos antes de deitar e mantenha o quarto escuro.\n\n💪 *Sem descanso correto, o ganho de massa reduz drasticamente!*`
+      },
+
+      // Ganho de massa / Hipertrofia
+      {
+        keys: ['massa', 'muscul', 'hipertrof', 'ganhar', 'crescer'],
+        reply: `**💪 Regras do Ganho Muscular**\n\n1. **Sobrecarga Progressiva:** Aumente cargas ou repetições gradualmente.\n2. **Superávit Calórico:** Coma um pouco mais do que gasta (+300 kcal/dia).\n3. **Proteína:** Mantenha em ~2g/kg diários.\n4. **Frequência:** Treine o mesmo músculo 2x por semana.`
+      },
+
+      // Emagrecer / Perda de gordura
+      {
+        keys: ['emagrec', 'gordu', 'perder', 'cutting', 'peso', 'caloria'],
+        reply: `**🔥 Perda de Gordura Rápida & Eficiente**\n\n1. **Déficit Calórico:** Consuma menos calorias do que gasta (-300 a 500 kcal).\n2. **Musculação:** Imprescindível para não perder massa magra junto.\n3. **Cardio:** 20 a 40 minutos diários ou HIIT.\n4. **Água:** Mínimo de 35ml por kg de peso ao dia.`
+      },
+
+      // Frequência
+      {
+        keys: ['todo dia', 'frequência', 'frequencia', 'quantos dias', 'vezes'],
+        reply: `**📅 Quantos dias treinar por semana?**\n\n• **Iniciantes:** 3 a 4 dias por semana.\n• **Intermediários/Avançados:** 5 a 6 dias por semana.\n• **Atenção:** Guarde pelo menos 1 a 2 dias para descanso total semanal!`
+      },
+
+      // Cardio
+      {
+        keys: ['cardio', 'corrida', 'correr', 'aerobico', 'esteira', 'bike'],
+        reply: `**🏃 Cardio: Antes ou Depois da Musculação?**\n\n• **Melhor depois do treino:** Assim você usa 100% da sua energia nas cargas.\n• **Se o foco for hipertrofia:** Limite o cardio a 20-30 min após a musculação.\n• **Se o foco for resistência:** Pode inverter sem problemas.`
+      },
+
+      // Creatina
+      {
+        keys: ['creatina', 'creatine'],
+        reply: `**🧪 Creatina: Como Tomar**\n\n• **Dose:** 3g a 5g todos os dias (com ou sem treino).\n• **Horário:** Tanto faz! O efeito é acumulativo no corpo.\n• **Benefício:** Aumenta força, volume celular e resistência muscular.\n\n💡 *Mito:* Não precisa fazer fase de saturação.`
+      },
+
+      // Pré-treino
+      {
+        keys: ['pré-treino', 'pre treino', 'cafeina', 'energia'],
+        reply: `**⚡ Opções de Pré-Treino**\n\n• **Refeição (1h a 2h antes):** Banana com aveia + ovos ou pasta de amendoim.\n• **Estimulantes (30 min antes):** 100mg a 200mg de cafeína ou café preto forte.\n\n💡 *Evite tomar café ou pré-treinos fortes após as 17h para não prejudicar o sono.*`
+      },
+
+      // Saudação
+      {
+        keys: ['oi', 'olá', 'ola', 'bom dia', 'boa tarde', 'boa noite', 'ajuda'],
+        reply: `👋 **Olá! Sou o FitBot, assistente do FitSaúde!**\n\nComo posso te ajudar no treino ou na saúde hoje?\n\n• Escolha um dos botões abaixo ou digite sua dúvida no campo de texto! 💪`
+      }
+    ];
+
+    const DEFAULT_REPLY = `🤔 **Dúvida recebida!**\n\nPara te dar a resposta mais precisa, você pode perguntar sobre:\n\n• **Exercícios:** Agachamento, Supino, Aquecimento...\n• **Nutrição:** Proteína, Creatina, Pré-treino...\n• **Metas:** Ganhar Massa, Perder Gordura, Sono...\n\nClique em uma das opções rápidas abaixo! 👆`;
+
+    let isBotTyping = false;
+
+    function getBotReply(text) {
+      const lower = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      for (const r of BOT_RESPONSES) {
+        if (r.keys.some(k => lower.includes(k.normalize('NFD').replace(/[\u0300-\u036f]/g, '')))) return r.reply;
+      }
+      return DEFAULT_REPLY;
+    }
+
+    function formatMd(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function getTime() {
+      return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function addMsg(role, text) {
+      const msgs = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = `msg ${role}`;
+      div.innerHTML = `
+    <div class="msg-bubble">${formatMd(text)}</div>
+    <div class="msg-time">${getTime()}</div>
+  `;
+      msgs.appendChild(div);
+      scrollChat();
+    }
+
+    function scrollChat() {
+      const msgs = document.getElementById('chat-messages');
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text || isBotTyping) return;
+      input.value = '';
+      input.style.height = '';
+      addMsg('user', text);
+      showTyping();
+      const delay = 900 + Math.random() * 700;
+      setTimeout(() => {
+        hideTyping();
+        addMsg('bot', getBotReply(text));
+      }, delay);
+    }
+
+    function sendQuick(text) {
+      if (currentScreen !== 'chat') switchScreen('chat');
+      const input = document.getElementById('chat-input');
+      input.value = text;
+      setTimeout(() => sendMessage(), 100);
+    }
+
+    function showTyping() {
+      isBotTyping = true;
+      document.getElementById('typing-indicator').classList.add('show');
+      scrollChat();
+    }
+    function hideTyping() {
+      isBotTyping = false;
+      document.getElementById('typing-indicator').classList.remove('show');
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+
+    // ════════════════════════════════════════════════════════
+    //  INIT
+    // ════════════════════════════════════════════════════════
+    document.getElementById('day-greeting').textContent = getGreeting();
+    render();
+
+    // Initial bot message
+    setTimeout(() => {
+      addMsg('bot', `👋 **Olá! Bem-vindo ao FitWeek!**\n\nSou o **FitBot**, sua IA de treinos! Posso te ajudar com técnicas de exercícios, nutrição, recuperação e muito mais.\n\nUse os atalhos rápidos abaixo ou escreva sua dúvida! 💪`);
+    }, 600);
+  </script>
+</body>
+
+</html>
