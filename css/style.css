@@ -1549,3 +1549,207 @@ body::before {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--red);
 }
+
+/* ─── Planilhas (Spreadsheets) ───────────────────────────────── */
+.sheets-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 18px 24px;
+}
+
+.sheet-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--ease);
+}
+
+.sheet-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--red-pale), transparent);
+}
+
+.sheet-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.sheet-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  background: rgba(220, 20, 60, 0.1);
+  border: 1px solid var(--border-red);
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.sheet-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.sheet-card-subtitle {
+  font-size: 0.74rem;
+  color: var(--txt2);
+  margin-top: 2px;
+}
+
+.sheet-card-desc {
+  font-size: 0.82rem;
+  color: var(--txt2);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.sheet-card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.sheet-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--txt2);
+}
+
+.sheet-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-sheet-download {
+  flex: 1;
+  background: linear-gradient(135deg, var(--red), var(--red-light));
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  font-size: 0.8rem;
+  font-weight: 800;
+  font-family: 'Space Grotesk', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: var(--sh-red);
+  transition: var(--ease);
+}
+
+.btn-sheet-download:active {
+  transform: scale(0.96);
+}
+
+.btn-sheet-view {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--txt);
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--ease);
+}
+
+.btn-sheet-view:active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.btn-sheet-apply {
+  background: var(--green-sub);
+  border: 1px solid rgba(34, 211, 160, 0.3);
+  color: var(--green);
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  font-size: 0.8rem;
+  font-weight: 800;
+  font-family: 'Space Grotesk', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--ease);
+}
+
+.btn-sheet-apply:active {
+  transform: scale(0.96);
+}
+
+/* Modal Table Preview */
+.sheet-preview-table-wrap {
+  overflow-x: auto;
+  margin-top: 14px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+}
+
+.sheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  text-align: left;
+}
+
+.sheet-table th {
+  background: var(--bg3);
+  color: var(--red-pale);
+  padding: 10px 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.66rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sheet-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--txt);
+}
+
+.sheet-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ai-status-badge {
+  font-size: 0.65rem;
+  color: var(--green);
+  font-weight: 700;
+  background: rgba(34, 211, 160, 0.1);
+  padding: 2px 8px;
+  border-radius: 100px;
+  border: 1px solid rgba(34, 211, 160, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+}
