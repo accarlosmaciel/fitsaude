@@ -207,12 +207,12 @@
     // ════════════════════════════════════════════════════════
     //  DATA
     // ════════════════════════════════════════════════════════
-    const SK = 'fitsaude_sched_v4';
-    const DK = 'fitsaude_done_v4';
+    const SK = 'fitsaude_sched_v5';
+    const DK = 'fitsaude_done_v5';
 
     const DEFAULT = [
       {
-        day: 'Segunda', short: 'SEG', icon: '🏋️', name: 'Peito & Tríceps', color: '#dc143c', dur: '60 min', lvl: 'Alta', rest: false,
+        day: 'Segunda', short: 'SEG', icon: '🏋️', name: 'Peito & Tríceps', color: '#dc143c', dur: '60 min', lvl: 'Alta', rest: false, image: 'images/chest.png',
         exercises: [
           { id: 's1', name: 'Supino Reto', muscle: 'Peitoral', sets: 4, reps: '8-10', weight: '60 kg' },
           { id: 's2', name: 'Supino Inclinado', muscle: 'Peitoral Superior', sets: 3, reps: '10-12', weight: '50 kg' },
@@ -222,7 +222,7 @@
         ]
       },
       {
-        day: 'Terça', short: 'TER', icon: '🦵', name: 'Pernas', color: '#4cc9f0', dur: '75 min', lvl: 'Muito Alta', rest: false,
+        day: 'Terça', short: 'TER', icon: '🦵', name: 'Pernas', color: '#4cc9f0', dur: '75 min', lvl: 'Muito Alta', rest: false, image: 'images/legs.png',
         exercises: [
           { id: 't1', name: 'Agachamento Livre', muscle: 'Quadríceps/Glúteo', sets: 5, reps: '6-8', weight: '80 kg' },
           { id: 't2', name: 'Leg Press 45°', muscle: 'Quadríceps', sets: 4, reps: '10-12', weight: '180 kg' },
@@ -232,9 +232,9 @@
           { id: 't6', name: 'Panturrilha', muscle: 'Panturrilha', sets: 4, reps: '20', weight: '80 kg' },
         ]
       },
-      { day: 'Quarta', short: 'QUA', icon: '😴', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, exercises: [] },
+      { day: 'Quarta', short: 'QUA', icon: '😴', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
       {
-        day: 'Quinta', short: 'QUI', icon: '💪', name: 'Costas & Bíceps', color: '#a78bfa', dur: '65 min', lvl: 'Alta', rest: false,
+        day: 'Quinta', short: 'QUI', icon: '💪', name: 'Costas & Bíceps', color: '#a78bfa', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/back.png',
         exercises: [
           { id: 'q1', name: 'Puxada Frente', muscle: 'Costas/Dorsal', sets: 4, reps: '8-10', weight: 'Barra' },
           { id: 'q2', name: 'Remada Curvada', muscle: 'Costas/Trapézio', sets: 4, reps: '10', weight: '60 kg' },
@@ -244,7 +244,7 @@
         ]
       },
       {
-        day: 'Sexta', short: 'SEX', icon: '🔥', name: 'Ombros & Abdômen', color: '#ffd166', dur: '55 min', lvl: 'Média-Alta', rest: false,
+        day: 'Sexta', short: 'SEX', icon: '🔥', name: 'Ombros & Abdômen', color: '#ffd166', dur: '55 min', lvl: 'Média-Alta', rest: false, image: 'images/shoulders.png',
         exercises: [
           { id: 'x1', name: 'Desenvolvimento', muscle: 'Deltóide', sets: 4, reps: '10-12', weight: '20 kg' },
           { id: 'x2', name: 'Elevação Lateral', muscle: 'Deltóide Lateral', sets: 4, reps: '12-15', weight: '8 kg' },
@@ -254,7 +254,7 @@
         ]
       },
       {
-        day: 'Sábado', short: 'SÁB', icon: '⚡', name: 'Full Body', color: '#ef476f', dur: '80 min', lvl: 'Alta', rest: false,
+        day: 'Sábado', short: 'SÁB', icon: '⚡', name: 'Full Body', color: '#ef476f', dur: '80 min', lvl: 'Alta', rest: false, image: 'images/fullbody.png',
         exercises: [
           { id: 'a1', name: 'Levantamento Terra', muscle: 'Costas/Pernas', sets: 4, reps: '5', weight: '100 kg' },
           { id: 'a2', name: 'Barra Fixa', muscle: 'Costas/Bíceps', sets: 3, reps: 'Máx', weight: 'Corpo' },
@@ -263,7 +263,7 @@
           { id: 'a5', name: 'Burpee', muscle: 'Full Body', sets: 3, reps: '10', weight: '—' },
         ]
       },
-      { day: 'Domingo', short: 'DOM', icon: '🧘', name: 'Descanso/Cardio', color: '#22d3a0', dur: '30 min', lvl: 'Baixa', rest: true, exercises: [] },
+      { day: 'Domingo', short: 'DOM', icon: '🧘', name: 'Descanso/Cardio', color: '#22d3a0', dur: '30 min', lvl: 'Baixa', rest: true, image: 'images/rest.png', exercises: [] },
     ];
 
     // ════════════════════════════════════════════════════════
@@ -324,7 +324,7 @@
       if (d.rest) {
         c.innerHTML = `
       <div class="rest-screen-panel">
-        <span class="rest-icon-big">${d.icon}</span>
+        <img src="${d.image || 'images/rest.png'}" alt="${d.name}" class="rest-banner-img" />
         <h2>${d.name}</h2>
         <p>Hoje é dia de descanso! Aproveite para recuperar os músculos, se hidratar e dormir bem. O crescimento acontece durante o repouso. 💚</p>
       </div>`;
@@ -338,6 +338,10 @@
       c.innerHTML = `
     <!-- Card header -->
     <div class="workout-card-header">
+      <div class="workout-card-banner-wrap">
+        <img src="${d.image || 'images/chest.png'}" alt="${d.name}" class="workout-card-img" />
+        <div class="workout-card-overlay"></div>
+      </div>
       <div class="workout-card-top">
         <div class="workout-emoji-wrap" style="background:${d.color}18;">
           <span>${d.icon}</span>
