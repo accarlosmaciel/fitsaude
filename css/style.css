@@ -1571,7 +1571,9 @@ body::before {
 .sheet-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--red), var(--red-pale), transparent);
 }

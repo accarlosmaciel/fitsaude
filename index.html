@@ -12,6 +12,7 @@
   <meta name="description"
     content="App FitSaúde - Treinos da semana, acompanhamento de exercícios e assistente IA para tirar dúvidas de saúde e academia." />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
 <body>
@@ -28,7 +29,7 @@
 
     <!-- App Header -->
     <header class="app-header" id="app-header">
-      <div class="app-header-icon" id="header-icon">💪</div>
+      <div class="app-header-icon" id="header-icon"><i class="fa-solid fa-dumbbell"></i></div>
       <div class="app-header-title" id="header-title">Fit<span>Saúde</span></div>
       <button class="app-header-action" id="header-action-btn" onclick="openAddModal()">+ Exercício</button>
     </header>
@@ -37,7 +38,7 @@
     <div class="screen active" id="screen-treinos">
 
       <div class="hero-strip">
-        <div class="hero-greeting" id="day-greeting">Bom dia! 👋</div>
+        <div class="hero-greeting" id="day-greeting">Bom dia! <i class="fa-solid fa-hand-wave"></i></div>
         <h1 class="hero-title">Seus <span>Treinos</span><br>da Semana</h1>
       </div>
 
@@ -66,16 +67,16 @@
         <div class="modality-title">Modalidade de Treino</div>
         <div class="modality-toggle">
           <button class="modality-btn active" id="btn-mod-masc" onclick="setGender('masculino')">
-            <span>🏋️‍♂️</span> Masculino
+            <span><i class="fa-solid fa-mars"></i></span> Masculino
           </button>
           <button class="modality-btn" id="btn-mod-fem" onclick="setGender('feminino')">
-            <span>🏋️‍♀️</span> Feminino
+            <span><i class="fa-solid fa-venus"></i></span> Feminino
           </button>
         </div>
       </div>
 
       <!-- Day selector -->
-      <div class="section-label">📅 Dias da Semana</div>
+      <div class="section-label"><i class="fa-solid fa-calendar-days"></i> Dias da Semana</div>
       <div class="day-scroll" id="day-scroll"></div>
 
       <!-- Workout detail -->
@@ -86,11 +87,11 @@
     <!-- ══ SCREEN: PLANILHAS ═════════════════════════════════ -->
     <div class="screen" id="screen-planilhas">
       <div class="hero-strip">
-        <div class="hero-greeting">Material para Alunos 📋</div>
+        <div class="hero-greeting">Material para Alunos <i class="fa-solid fa-clipboard-list"></i></div>
         <h1 class="hero-title">Planilhas <span>de Treino</span></h1>
       </div>
 
-      <div class="section-label">📥 Baixar / Aplicar Planilhas</div>
+      <div class="section-label"><i class="fa-solid fa-download"></i> Baixar / Aplicar Planilhas</div>
       <div class="sheets-grid" id="sheets-grid">
         <!-- Rendered dynamically by JS -->
       </div>
@@ -99,25 +100,26 @@
     <!-- ══ SCREEN: RESUMO ══════════════════════════════════ -->
     <div class="screen" id="screen-resumo">
       <div class="hero-strip">
-        <div class="hero-greeting">Visão Geral 📊</div>
+        <div class="hero-greeting">Visão Geral <i class="fa-solid fa-chart-bar"></i></div>
         <h1 class="hero-title">Resumo <span>Semanal</span></h1>
       </div>
 
       <div class="summary-grid-2" id="summary-grid"></div>
 
-      <div class="section-label">📈 Progresso por Dia</div>
+      <div class="section-label"><i class="fa-solid fa-chart-line"></i> Progresso por Dia</div>
       <div class="week-prog-section">
         <div class="week-prog-bars" id="week-prog-bars"></div>
       </div>
 
-      <div class="section-label">🎯 Grupos Musculares</div>
+      <div class="section-label"><i class="fa-solid fa-bullseye"></i> Grupos Musculares</div>
       <div class="muscle-section">
         <div class="muscle-chips" id="muscle-chips"></div>
       </div>
 
       <!-- Reset button -->
       <div style="padding:0 18px;">
-        <button class="btn-reset" id="btn-reset">🔄 Resetar Progresso da Semana</button>
+        <button class="btn-reset" id="btn-reset"><i class="fa-solid fa-rotate-right"></i> Resetar Progresso da
+          Semana</button>
       </div>
     </div>
 
@@ -127,9 +129,10 @@
 
         <!-- Bot info bar -->
         <div class="chat-bot-header">
-          <div class="bot-avatar">🤖</div>
+          <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
           <div>
-            <div class="bot-name">FitBot IA <span class="ai-status-badge">🟢 Groq Llama 3.3</span></div>
+            <div class="bot-name">FitBot IA <span class="ai-status-badge"><i class="fa-solid fa-circle"
+                  style="color:#22d3a0;font-size:0.5rem;"></i> Groq Llama 3.3</span></div>
             <div class="bot-status" id="bot-status-txt">Especialista em Treinos & Saúde</div>
           </div>
         </div>
@@ -148,22 +151,29 @@
 
         <!-- Quick replies -->
         <div class="quick-replies" id="quick-replies">
-          <button class="quick-btn" onclick="sendQuick('Montar treino de hipertrofia')">🏋️ Monte um Treino</button>
-          <button class="quick-btn" onclick="sendQuick('Como fazer agachamento?')">🦵 Agachamento</button>
-          <button class="quick-btn" onclick="sendQuick('Devo treinar com dor muscular?')">😣 Dor Muscular</button>
-          <button class="quick-btn" onclick="sendQuick('Quanto de proteína devo consumir?')">🥩 Proteína</button>
-          <button class="quick-btn" onclick="sendQuick('Como fazer aquecimento?')">🔥 Aquecimento</button>
-          <button class="quick-btn" onclick="sendQuick('Como suplementar Creatina?')">🧪 Creatina</button>
-          <button class="quick-btn" onclick="sendQuick('Como perder gordura mantendo massa?')">🔥 Perder Gordura</button>
+          <button class="quick-btn" onclick="sendQuick('Montar treino de hipertrofia')"><i
+              class="fa-solid fa-dumbbell"></i> Monte um Treino</button>
+          <button class="quick-btn" onclick="sendQuick('Como fazer agachamento?')"><i
+              class="fa-solid fa-person-walking"></i> Agachamento</button>
+          <button class="quick-btn" onclick="sendQuick('Devo treinar com dor muscular?')"><i
+              class="fa-solid fa-heart-crack"></i> Dor Muscular</button>
+          <button class="quick-btn" onclick="sendQuick('Quanto de proteína devo consumir?')"><i
+              class="fa-solid fa-drumstick-bite"></i> Proteína</button>
+          <button class="quick-btn" onclick="sendQuick('Como fazer aquecimento?')"><i class="fa-solid fa-fire"></i>
+            Aquecimento</button>
+          <button class="quick-btn" onclick="sendQuick('Como suplementar Creatina?')"><i class="fa-solid fa-flask"></i>
+            Creatina</button>
+          <button class="quick-btn" onclick="sendQuick('Como perder gordura mantendo massa?')"><i
+              class="fa-solid fa-weight-scale"></i> Perder Gordura</button>
         </div>
 
         <!-- Input bar -->
         <div class="chat-input-bar">
-          <textarea class="chat-input" id="chat-input" placeholder="Pergunte qualquer coisa sobre treinos e saúde..." rows="1"
-            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
+          <textarea class="chat-input" id="chat-input" placeholder="Pergunte qualquer coisa sobre treinos e saúde..."
+            rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
             oninput="autoResize(this)"></textarea>
           <button class="chat-send-btn" id="send-btn" onclick="sendMessage()" aria-label="Enviar">
-            ➤
+            <i class="fa-solid fa-paper-plane"></i>
           </button>
         </div>
 
@@ -175,19 +185,19 @@
   <!-- ── Bottom Navigation ──────────────────────────────── -->
   <nav class="bottom-nav" role="navigation" aria-label="Navegação principal">
     <button class="nav-btn active" id="nav-treinos" onclick="switchScreen('treinos')" aria-label="Treinos">
-      <span class="nav-icon">🏋️</span>
+      <span class="nav-icon"><i class="fa-solid fa-dumbbell"></i></span>
       <span class="nav-label">Treinos</span>
     </button>
     <button class="nav-btn" id="nav-planilhas" onclick="switchScreen('planilhas')" aria-label="Planilhas">
-      <span class="nav-icon">📋</span>
+      <span class="nav-icon"><i class="fa-solid fa-table-list"></i></span>
       <span class="nav-label">Planilhas</span>
     </button>
     <button class="nav-btn" id="nav-resumo" onclick="switchScreen('resumo')" aria-label="Resumo">
-      <span class="nav-icon">📊</span>
+      <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
       <span class="nav-label">Resumo</span>
     </button>
     <button class="nav-btn" id="nav-chat" onclick="switchScreen('chat')" aria-label="Chat">
-      <span class="nav-icon">💬</span>
+      <span class="nav-icon"><i class="fa-solid fa-comment-dots"></i></span>
       <div class="badge show" id="chat-badge"></div>
       <span class="nav-label">FitBot</span>
     </button>
@@ -195,7 +205,7 @@
 
   <!-- ── Toast ──────────────────────────────────────────── -->
   <div class="toast" id="toast" role="alert" aria-live="polite">
-    <span id="toast-icon">✅</span>
+    <span id="toast-icon"><i class="fa-solid fa-circle-check"></i></span>
     <span id="toast-msg">Ok!</span>
   </div>
 
@@ -243,7 +253,7 @@
 
     const DEFAULT_MASCULINO = [
       {
-        day: 'Segunda', short: 'SEG', icon: '🏋️‍♂️', name: 'Peito & Tríceps', color: '#dc143c', dur: '60 min', lvl: 'Alta', rest: false, image: 'images/chest.png',
+        day: 'Segunda', short: 'SEG', icon: '<i class="fa-solid fa-person-running"></i>', name: 'Peito & Tríceps', color: '#dc143c', dur: '60 min', lvl: 'Alta', rest: false, image: 'images/chest.png',
         exercises: [
           { id: 'm_s1', name: 'Supino Reto com Barra', muscle: 'Peitoral', sets: 4, reps: '8-10', weight: '60 kg' },
           { id: 'm_s2', name: 'Supino Inclinado com Halteres', muscle: 'Peitoral Superior', sets: 3, reps: '10-12', weight: '22 kg' },
@@ -253,7 +263,7 @@
         ]
       },
       {
-        day: 'Terça', short: 'TER', icon: '🦵', name: 'Pernas & Quadríceps', color: '#4cc9f0', dur: '75 min', lvl: 'Muito Alta', rest: false, image: 'images/legs.png',
+        day: 'Terça', short: 'TER', icon: '<i class="fa-solid fa-shoe-prints"></i>', name: 'Pernas & Quadríceps', color: '#4cc9f0', dur: '75 min', lvl: 'Muito Alta', rest: false, image: 'images/legs.png',
         exercises: [
           { id: 'm_t1', name: 'Agachamento Livre', muscle: 'Quadríceps/Glúteo', sets: 5, reps: '6-8', weight: '80 kg' },
           { id: 'm_t2', name: 'Leg Press 45°', muscle: 'Quadríceps', sets: 4, reps: '10-12', weight: '180 kg' },
@@ -263,9 +273,9 @@
           { id: 'm_t6', name: 'Panturrilha em Pé', muscle: 'Panturrilha', sets: 4, reps: '20', weight: '80 kg' },
         ]
       },
-      { day: 'Quarta', short: 'QUA', icon: '😴', name: 'Descanso & Recuperação', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
+      { day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso & Recuperação', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
       {
-        day: 'Quinta', short: 'QUI', icon: '💪', name: 'Costas & Bíceps', color: '#a78bfa', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/back.png',
+        day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-hand-fist"></i>', name: 'Costas & Bíceps', color: '#a78bfa', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/back.png',
         exercises: [
           { id: 'm_q1', name: 'Puxada Aberta no Pulley', muscle: 'Costas/Dorsal', sets: 4, reps: '8-10', weight: '55 kg' },
           { id: 'm_q2', name: 'Remada Curvada com Barra', muscle: 'Costas/Trapézio', sets: 4, reps: '10', weight: '50 kg' },
@@ -275,7 +285,7 @@
         ]
       },
       {
-        day: 'Sexta', short: 'SEX', icon: '🔥', name: 'Ombros & Core', color: '#ffd166', dur: '55 min', lvl: 'Média-Alta', rest: false, image: 'images/shoulders.png',
+        day: 'Sexta', short: 'SEX', icon: '<i class="fa-solid fa-fire"></i>', name: 'Ombros & Core', color: '#ffd166', dur: '55 min', lvl: 'Média-Alta', rest: false, image: 'images/shoulders.png',
         exercises: [
           { id: 'm_x1', name: 'Desenvolvimento com Halteres', muscle: 'Deltóide', sets: 4, reps: '10-12', weight: '20 kg' },
           { id: 'm_x2', name: 'Elevação Lateral na Polia', muscle: 'Deltóide Lateral', sets: 4, reps: '12-15', weight: '8 kg' },
@@ -285,7 +295,7 @@
         ]
       },
       {
-        day: 'Sábado', short: 'SÁB', icon: '⚡', name: 'Full Body & Força', color: '#ef476f', dur: '80 min', lvl: 'Alta', rest: false, image: 'images/fullbody.png',
+        day: 'Sábado', short: 'SÁB', icon: '<i class="fa-solid fa-bolt"></i>', name: 'Full Body & Força', color: '#ef476f', dur: '80 min', lvl: 'Alta', rest: false, image: 'images/fullbody.png',
         exercises: [
           { id: 'm_a1', name: 'Levantamento Terra', muscle: 'Costas/Pernas', sets: 4, reps: '5', weight: '100 kg' },
           { id: 'm_a2', name: 'Barra Fixa', muscle: 'Costas/Bíceps', sets: 3, reps: 'Máx', weight: 'Corpo' },
@@ -294,12 +304,12 @@
           { id: 'm_a5', name: 'Burpees', muscle: 'Full Body', sets: 3, reps: '12', weight: 'Corpo' },
         ]
       },
-      { day: 'Domingo', short: 'DOM', icon: '🧘', name: 'Descanso/Cardio Leve', color: '#22d3a0', dur: '30 min', lvl: 'Baixa', rest: true, image: 'images/rest.png', exercises: [] },
+      { day: 'Domingo', short: 'DOM', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso/Cardio Leve', color: '#22d3a0', dur: '30 min', lvl: 'Baixa', rest: true, image: 'images/rest.png', exercises: [] },
     ];
 
     const DEFAULT_FEMININO = [
       {
-        day: 'Segunda', short: 'SEG', icon: '🍑', name: 'Glúteos & Posterior', color: '#e11d48', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/fem_glutes.jpg',
+        day: 'Segunda', short: 'SEG', icon: '<i class="fa-solid fa-person-walking"></i>', name: 'Glúteos & Posterior', color: '#e11d48', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/fem_glutes.jpg',
         exercises: [
           { id: 'f_s1', name: 'Elevação Pélvica com Barra', muscle: 'Glúteo Máximo', sets: 4, reps: '10-12', weight: '50 kg' },
           { id: 'f_s2', name: 'Stiff com Halteres', muscle: 'Posterior/Glúteo', sets: 4, reps: '12', weight: '14 kg' },
@@ -309,7 +319,7 @@
         ]
       },
       {
-        day: 'Terça', short: 'TER', icon: '🏋️‍♀️', name: 'Membros Superiores & Postura', color: '#a78bfa', dur: '55 min', lvl: 'Média', rest: false, image: 'images/fem_upper.jpg',
+        day: 'Terça', short: 'TER', icon: '<i class="fa-solid fa-dumbbell"></i>', name: 'Membros Superiores & Postura', color: '#a78bfa', dur: '55 min', lvl: 'Média', rest: false, image: 'images/fem_upper.jpg',
         exercises: [
           { id: 'f_t1', name: 'Puxada Aberta no Pulley', muscle: 'Costas/Postura', sets: 3, reps: '12', weight: '30 kg' },
           { id: 'f_t2', name: 'Desenvolvimento com Halteres', muscle: 'Ombros', sets: 3, reps: '12', weight: '8 kg' },
@@ -318,9 +328,9 @@
           { id: 'f_t5', name: 'Rosca Direta com Halteres', muscle: 'Bíceps', sets: 3, reps: '12', weight: '6 kg' },
         ]
       },
-      { day: 'Quarta', short: 'QUA', icon: '😴', name: 'Descanso & Mobilidade', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/fem_rest.jpg', exercises: [] },
+      { day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso & Mobilidade', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/fem_rest.jpg', exercises: [] },
       {
-        day: 'Quinta', short: 'QUI', icon: '🦵', name: 'Quadríceps & Glúteo Enfático', color: '#4cc9f0', dur: '70 min', lvl: 'Alta', rest: false, image: 'images/fem_legs.jpg',
+        day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-shoe-prints"></i>', name: 'Quadríceps & Glúteo Enfático', color: '#4cc9f0', dur: '70 min', lvl: 'Alta', rest: false, image: 'images/fem_legs.jpg',
         exercises: [
           { id: 'f_q1', name: 'Agachamento Sumô com Halter', muscle: 'Quadríceps/Glúteo', sets: 4, reps: '10-12', weight: '20 kg' },
           { id: 'f_q2', name: 'Leg Press Horizontal', muscle: 'Quadríceps', sets: 4, reps: '12', weight: '100 kg' },
@@ -330,7 +340,7 @@
         ]
       },
       {
-        day: 'Sexta', short: 'SEX', icon: '🔥', name: 'Core, Definição & Cardio', color: '#ffd166', dur: '50 min', lvl: 'Média-Alta', rest: false, image: 'images/fem_core.jpg',
+        day: 'Sexta', short: 'SEX', icon: '<i class="fa-solid fa-fire"></i>', name: 'Core, Definição & Cardio', color: '#ffd166', dur: '50 min', lvl: 'Média-Alta', rest: false, image: 'images/fem_core.jpg',
         exercises: [
           { id: 'f_x1', name: 'Prancha Dinâmica', muscle: 'Core/Abdômen', sets: 3, reps: '45 seg', weight: 'Corpo' },
           { id: 'f_x2', name: 'Abdominal Infra na Prancha', muscle: 'Abdômen', sets: 3, reps: '15-20', weight: 'Corpo' },
@@ -340,7 +350,7 @@
         ]
       },
       {
-        day: 'Sábado', short: 'SÁB', icon: '⚡', name: 'Booty Sculpt & Full Body', color: '#ef476f', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/fem_fullbody.jpg',
+        day: 'Sábado', short: 'SÁB', icon: '<i class="fa-solid fa-bolt"></i>', name: 'Booty Sculpt & Full Body', color: '#ef476f', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/fem_fullbody.jpg',
         exercises: [
           { id: 'f_a1', name: 'Agachamento Búlgaro', muscle: 'Glúteo/Quadríceps', sets: 3, reps: '10 cada', weight: '10 kg' },
           { id: 'f_a2', name: 'Elevação Pélvica Unilateral', muscle: 'Glúteo', sets: 3, reps: '12 cada', weight: 'Corpo' },
@@ -349,7 +359,7 @@
           { id: 'f_a5', name: 'Polichinelos / Corda', muscle: 'Cardio', sets: 3, reps: '1 min', weight: 'Corpo' },
         ]
       },
-      { day: 'Domingo', short: 'DOM', icon: '🧘', name: 'Descanso & Caminhada Leve', color: '#22d3a0', dur: '35 min', lvl: 'Baixa', rest: true, image: 'images/rest.png', exercises: [] },
+      { day: 'Domingo', short: 'DOM', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso & Caminhada Leve', color: '#22d3a0', dur: '35 min', lvl: 'Baixa', rest: true, image: 'images/rest.png', exercises: [] },
     ];
 
     // ════════════════════════════════════════════════════════
@@ -408,9 +418,9 @@
 
     function getGreeting() {
       const h = new Date().getHours();
-      if (h < 12) return 'Bom dia! 👋';
-      if (h < 18) return 'Boa tarde! 👋';
-      return 'Boa noite! 👋';
+      if (h < 12) return 'Bom dia! <i class="fa-solid fa-sun"></i>';
+      if (h < 18) return 'Boa tarde! <i class="fa-solid fa-cloud-sun"></i>';
+      return 'Boa noite! <i class="fa-solid fa-moon"></i>';
     }
 
     // ════════════════════════════════════════════════════════
@@ -458,7 +468,7 @@
       <div class="rest-screen-panel">
         <img src="${d.image || 'images/rest.png'}" alt="${d.name}" class="rest-banner-img" />
         <h2>${d.name}</h2>
-        <p>Hoje é dia de descanso! Aproveite para recuperar os músculos, se hidratar e dormir bem. O crescimento acontece durante o repouso. 💚</p>
+        <p>Hoje é dia de descanso! Aproveite para recuperar os músculos, se hidratar e dormir bem. O crescimento acontece durante o repouso. <i class="fa-solid fa-heart" style="color:#22d3a0"></i></p>
       </div>`;
         return;
       }
@@ -484,9 +494,9 @@
         </div>
       </div>
       <div class="workout-chips">
-        <div class="chip">⏱ ${d.dur}</div>
-        <div class="chip">🔥 ${d.lvl}</div>
-        <div class="chip">✅ ${doneEx}/${total}</div>
+        <div class="chip"><i class="fa-solid fa-clock"></i> ${d.dur}</div>
+        <div class="chip"><i class="fa-solid fa-fire"></i> ${d.lvl}</div>
+        <div class="chip"><i class="fa-solid fa-circle-check"></i> ${doneEx}/${total}</div>
       </div>
     </div>
 
@@ -497,7 +507,7 @@
     </div>
 
     <!-- Exercises -->
-    <div class="section-label">🏋️ Exercícios</div>
+    <div class="section-label"><i class="fa-solid fa-list-check"></i> Exercícios</div>
     <div class="ex-list-wrap">
       ${d.exercises.map((ex, i) => renderExItem(ex, i)).join('')}
     </div>
@@ -510,7 +520,7 @@
     <div class="ex-item ${isDone ? 'done' : ''}" id="ex-${ex.id}"
          onclick="toggleEx('${ex.id}')" role="checkbox" aria-checked="${isDone}" tabindex="0"
          onkeydown="if(event.key==='Enter'||event.key===' ')toggleEx('${ex.id}')">
-      <div class="ex-num-box">${isDone ? '✓' : i + 1}</div>
+      <div class="ex-num-box">${isDone ? '<i class="fa-solid fa-check"></i>' : i + 1}</div>
       <div class="ex-body">
         <div class="ex-name">${ex.name}</div>
         <div class="ex-muscle">${ex.muscle}</div>
@@ -525,7 +535,7 @@
           <span class="ex-meta-l">Reps</span>
         </div>
       </div>
-      <div class="ex-check-circle">${isDone ? '✓' : ''}</div>
+      <div class="ex-check-circle">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
     </div>
   `;
     }
@@ -539,7 +549,7 @@
       const avg = nonRest.length ? Math.round(totalEx / nonRest.length) : 0;
 
       document.getElementById('summary-grid').innerHTML = `
-    ${[['📅', nonRest.length, 'Dias Treino'], ['🏋️', totalEx, 'Exercícios'], ['🔢', totalSets, 'Séries'], ['📊', avg, 'Ex/Sessão'], ['✅', totalDone, 'Concluídos']].map(([ic, v, l]) => `
+    ${[['<i class="fa-solid fa-calendar-check"></i>', nonRest.length, 'Dias Treino'], ['<i class="fa-solid fa-dumbbell"></i>', totalEx, 'Exercícios'], ['<i class="fa-solid fa-hashtag"></i>', totalSets, 'Séries'], ['<i class="fa-solid fa-chart-bar"></i>', avg, 'Ex/Sessão'], ['<i class="fa-solid fa-circle-check"></i>', totalDone, 'Concluídos']].map(([ic, v, l]) => `
     <div class="sum-card">
       <span class="sum-card-icon">${ic}</span>
       <div class="sum-card-val">${v}</div>
@@ -602,8 +612,8 @@
     }
 
     function toggleEx(id) {
-      if (done.has(id)) { done.delete(id); toast('❌', 'Desmarcado'); }
-      else { done.add(id); toast('✅', 'Exercício concluído! 💪'); confetti(); }
+      if (done.has(id)) { done.delete(id); toast('<i class="fa-solid fa-xmark"></i>', 'Desmarcado'); }
+      else { done.add(id); toast('<i class="fa-solid fa-circle-check"></i>', 'Exercício concluído!'); confetti(); }
       saveDone();
       renderWorkout();
       updateStats();
@@ -624,9 +634,9 @@
         resumo: 'Resumo <span>Semanal</span>',
         chat: 'FitBot <span>IA</span>'
       };
-      const icons = { treinos: '💪', planilhas: '📋', resumo: '📊', chat: '🤖' };
+      const icons = { treinos: '<i class="fa-solid fa-dumbbell"></i>', planilhas: '<i class="fa-solid fa-table-list"></i>', resumo: '<i class="fa-solid fa-chart-pie"></i>', chat: '<i class="fa-solid fa-robot"></i>' };
       document.getElementById('header-title').innerHTML = titles[name] || 'Fit<span>Saúde</span>';
-      document.getElementById('header-icon').textContent = icons[name] || '💪';
+      document.getElementById('header-icon').innerHTML = icons[name] || '<i class="fa-solid fa-dumbbell"></i>';
       document.getElementById('header-action-btn').style.display = name === 'treinos' ? '' : 'none';
 
       if (name === 'planilhas') {
@@ -645,7 +655,7 @@
         id: 'plan_masc_abc',
         title: 'Planilha Hipertrofia Masculina ABC',
         gender: 'Masculino',
-        icon: '🏋️‍♂️',
+        icon: '<i class="fa-solid fa-person-running"></i>',
         desc: 'Divisão completa de 5 dias focada em ganho de massa muscular (hipertrofia), sobrecarga progressiva e força.',
         tags: ['Hipertrofia', '5 Dias/Semana', 'Intermediário'],
         schedule: DEFAULT_MASCULINO
@@ -654,7 +664,7 @@
         id: 'plan_fem_booty',
         title: 'Planilha Definição & Glúteos Feminina',
         gender: 'Feminino',
-        icon: '🏋️‍♀️',
+        icon: '<i class="fa-solid fa-person-walking"></i>',
         desc: 'Plano especializado de 5 dias com alta ênfase em Glúteos (Máximo/Médio), Coxas, Postura e Core.',
         tags: ['Definição', 'Glúteos & Coxas', '5 Dias/Semana'],
         schedule: DEFAULT_FEMININO
@@ -663,12 +673,12 @@
         id: 'plan_iniciante_fullbody',
         title: 'Planilha Iniciante Full Body 3x',
         gender: 'Unissex',
-        icon: '⚡',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         desc: 'Rotina de 3 dias alternados para quem está começando na academia ou busca condicionamento geral rápido.',
         tags: ['Iniciante', '3 Dias/Semana', 'Full Body'],
         schedule: [
           {
-            day: 'Segunda', short: 'SEG', icon: '🏋️', name: 'Full Body A', color: '#dc143c', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/fullbody.png',
+            day: 'Segunda', short: 'SEG', icon: '<i class="fa-solid fa-dumbbell"></i>', name: 'Full Body A', color: '#dc143c', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/fullbody.png',
             exercises: [
               { id: 'ini_1', name: 'Leg Press 45°', muscle: 'Quadríceps', sets: 3, reps: '12', weight: '60 kg' },
               { id: 'ini_2', name: 'Puxada Aberta no Pulley', muscle: 'Costas', sets: 3, reps: '12', weight: '25 kg' },
@@ -677,9 +687,9 @@
               { id: 'ini_5', name: 'Prancha Isométrica', muscle: 'Core', sets: 3, reps: '30 seg', weight: 'Corpo' }
             ]
           },
-          { day: 'Terça', short: 'TER', icon: '😴', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
+          { day: 'Terça', short: 'TER', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
           {
-            day: 'Quarta', short: 'QUA', icon: '⚡', name: 'Full Body B', color: '#4cc9f0', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/legs.png',
+            day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-bolt"></i>', name: 'Full Body B', color: '#4cc9f0', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/legs.png',
             exercises: [
               { id: 'ini_6', name: 'Agachamento Sumô com Halter', muscle: 'Pernas/Glúteo', sets: 3, reps: '12', weight: '12 kg' },
               { id: 'ini_7', name: 'Remada Baixa Triângulo', muscle: 'Costas', sets: 3, reps: '12', weight: '30 kg' },
@@ -688,9 +698,9 @@
               { id: 'ini_10', name: 'Abdominal Infra', muscle: 'Abdômen', sets: 3, reps: '15', weight: 'Corpo' }
             ]
           },
-          { day: 'Quinta', short: 'QUI', icon: '😴', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
+          { day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
           {
-            day: 'Sexta', short: 'SEX', icon: '🔥', name: 'Full Body C', color: '#ffd166', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/shoulders.png',
+            day: 'Sexta', short: 'SEX', icon: '<i class="fa-solid fa-fire"></i>', name: 'Full Body C', color: '#ffd166', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/shoulders.png',
             exercises: [
               { id: 'ini_11', name: 'Stiff com Halteres', muscle: 'Posterior/Glúteo', sets: 3, reps: '12', weight: '10 kg' },
               { id: 'ini_12', name: 'Elevação Lateral', muscle: 'Ombros', sets: 3, reps: '12', weight: '4 kg' },
@@ -699,20 +709,20 @@
               { id: 'ini_15', name: 'Caminhada Esteira', muscle: 'Cardio', sets: 1, reps: '20 min', weight: 'Cardio' }
             ]
           },
-          { day: 'Sábado', short: 'SÁB', icon: '🧘', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
-          { day: 'Domingo', short: 'DOM', icon: '🧘', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] }
+          { day: 'Sábado', short: 'SÁB', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
+          { day: 'Domingo', short: 'DOM', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] }
         ]
       },
       {
         id: 'plan_fatburn_hiit',
         title: 'Planilha Perda de Gordura & HIIT',
         gender: 'Unissex',
-        icon: '🔥',
+        icon: '<i class="fa-solid fa-fire"></i>',
         desc: 'Combinação metabólica de alta intensidade para acelerar o gasto calórico e preservar massa magra.',
         tags: ['Emagrecimento', 'Metabólico', '4 Dias/Semana'],
         schedule: [
           {
-            day: 'Segunda', short: 'SEG', icon: '🔥', name: 'Superiores & HIIT', color: '#ef476f', dur: '55 min', lvl: 'Alta', rest: false, image: 'images/chest.png',
+            day: 'Segunda', short: 'SEG', icon: '<i class="fa-solid fa-fire"></i>', name: 'Superiores & HIIT', color: '#ef476f', dur: '55 min', lvl: 'Alta', rest: false, image: 'images/chest.png',
             exercises: [
               { id: 'fb_1', name: 'Supino Reto + Flexão', muscle: 'Peitoral (Bi-set)', sets: 4, reps: '10 + 10', weight: '40 kg' },
               { id: 'fb_2', name: 'Remada Curvada com Halteres', muscle: 'Costas', sets: 4, reps: '12', weight: '16 kg' },
@@ -721,7 +731,7 @@
             ]
           },
           {
-            day: 'Terça', short: 'TER', icon: '🦵', name: 'Inferiores & Core', color: '#4cc9f0', dur: '60 min', lvl: 'Alta', rest: false, image: 'images/legs.png',
+            day: 'Terça', short: 'TER', icon: '<i class="fa-solid fa-shoe-prints"></i>', name: 'Inferiores & Core', color: '#4cc9f0', dur: '60 min', lvl: 'Alta', rest: false, image: 'images/legs.png',
             exercises: [
               { id: 'fb_5', name: 'Agachamento Livre', muscle: 'Quadríceps', sets: 4, reps: '10', weight: '50 kg' },
               { id: 'fb_6', name: 'Leg Press 45°', muscle: 'Coxas', sets: 4, reps: '12', weight: '120 kg' },
@@ -729,9 +739,9 @@
               { id: 'fb_8', name: 'Prancha + Mountain Climbers', muscle: 'Core', sets: 4, reps: '45 seg', weight: 'Corpo' }
             ]
           },
-          { day: 'Quarta', short: 'QUA', icon: '😴', name: 'Descanso Ativo', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
+          { day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso Ativo', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
           {
-            day: 'Quinta', short: 'QUI', icon: '⚡', name: 'Full Body Metabólico', color: '#a78bfa', dur: '55 min', lvl: 'Alta', rest: false, image: 'images/fullbody.png',
+            day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-bolt"></i>', name: 'Full Body Metabólico', color: '#a78bfa', dur: '55 min', lvl: 'Alta', rest: false, image: 'images/fullbody.png',
             exercises: [
               { id: 'fb_9', name: 'Levantamento Terra com Halteres', muscle: 'Posterior/Costas', sets: 4, reps: '10', weight: '18 kg' },
               { id: 'fb_10', name: 'Puxada Pulley', muscle: 'Costas', sets: 4, reps: '12', weight: '40 kg' },
@@ -740,15 +750,15 @@
             ]
           },
           {
-            day: 'Sexta', short: 'SEX', icon: '🏃', name: 'Cardio Burn & Core', color: '#ffd166', dur: '45 min', lvl: 'Média', rest: false, image: 'images/shoulders.png',
+            day: 'Sexta', short: 'SEX', icon: '<i class="fa-solid fa-person-running"></i>', name: 'Cardio Burn & Core', color: '#ffd166', dur: '45 min', lvl: 'Média', rest: false, image: 'images/shoulders.png',
             exercises: [
               { id: 'fb_13', name: 'Bike Spinning / Esteira', muscle: 'Cardio Contínuo', sets: 1, reps: '30 min', weight: 'Moderado' },
               { id: 'fb_14', name: 'Prancha Lateral', muscle: 'Core', sets: 3, reps: '40 seg cada', weight: 'Corpo' },
               { id: 'fb_15', name: 'Abdominal Russo', muscle: 'Cintura', sets: 3, reps: '20', weight: '5 kg' }
             ]
           },
-          { day: 'Sábado', short: 'SÁB', icon: '🧘', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
-          { day: 'Domingo', short: 'DOM', icon: '🧘', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] }
+          { day: 'Sábado', short: 'SÁB', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
+          { day: 'Domingo', short: 'DOM', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] }
         ]
       }
     ];
@@ -771,11 +781,11 @@
           </div>
           <div class="sheet-card-actions">
             <button class="btn-sheet-download" onclick="downloadPlanilha(${idx})">
-              📥 Baixar CSV
+              <i class="fa-solid fa-download"></i> Baixar CSV
             </button>
 
             <button class="btn-sheet-apply" onclick="applyPlanilha(${idx})">
-              ⚡ Aplicar no App
+              <i class="fa-solid fa-bolt"></i> Aplicar no App
             </button>
           </div>
         </div>
@@ -807,7 +817,7 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      toast('📥', `Planilha "${plan.title}" baixada!`);
+      toast('<i class="fa-solid fa-download"></i>', `Planilha "${plan.title}" baixada!`);
     }
 
     function applyPlanilha(idx) {
@@ -821,14 +831,14 @@
       saveDone();
       switchScreen('treinos');
       render();
-      toast('⚡', `Planilha "${plan.title}" aplicada com sucesso!`);
+      toast('<i class="fa-solid fa-bolt"></i>', `Planilha "${plan.title}" aplicada com sucesso!`);
     }
 
     /* ── Reset ── */
     document.getElementById('btn-reset').addEventListener('click', () => {
       if (!confirm('Resetar todo o progresso da semana?')) return;
       done.clear(); saveDone(); render();
-      toast('🔄', 'Semana resetada!');
+      toast('<i class="fa-solid fa-rotate-right"></i>', 'Semana resetada!');
     });
 
     /* ── Modal ── */
@@ -860,7 +870,7 @@
       document.getElementById('f-name').style.borderColor = '';
       schedule[dayIdx].exercises.push({ id: 'c' + Date.now(), name, muscle, sets, reps, weight });
       saveSched(); activeDay = dayIdx; closeModal(); render();
-      toast('➕', `"${name}" adicionado!`);
+      toast('<i class="fa-solid fa-plus"></i>', `"${name}" adicionado!`);
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
@@ -868,7 +878,7 @@
     /* ── Toast ── */
     function toast(icon, msg) {
       const t = document.getElementById('toast');
-      document.getElementById('toast-icon').textContent = icon;
+      document.getElementById('toast-icon').innerHTML = icon;
       document.getElementById('toast-msg').textContent = msg;
       t.classList.add('show');
       clearTimeout(t._t);
@@ -1041,13 +1051,13 @@ Diretrizes de resposta:
     // ════════════════════════════════════════════════════════
     //  INIT
     // ════════════════════════════════════════════════════════
-    document.getElementById('day-greeting').textContent = getGreeting();
+    document.getElementById('day-greeting').innerHTML = getGreeting();
     render();
     renderPlanilhas();
 
     // Initial bot message
     setTimeout(() => {
-      addMsg('bot', `👋 **Olá! Bem-vindo ao FitSaúde!**\n\nSou o **FitBot IA**, treinado e integrado à API Groq (**Llama 3.3**). Estou aqui para tirar qualquer dúvida dos alunos sobre treinos, dieta, execução de exercícios, séries e saúde!\n\nComo posso te ajudar hoje? ⚡`);
+      addMsg('bot', `<i class="fa-solid fa-hand-wave"></i> **Olá! Bem-vindo ao FitSaúde!**\n\nSou o **FitBot IA**, treinado e integrado à API Groq (**Llama 3.3**). Estou aqui para tirar qualquer dúvida dos alunos sobre treinos, dieta, execução de exercícios, séries e saúde!\n\nComo posso te ajudar hoje? <i class="fa-solid fa-bolt"></i>`);
     }, 400);
   </script>
 </body>
