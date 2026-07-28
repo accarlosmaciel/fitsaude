@@ -910,16 +910,17 @@
     const GROQ_API_KEY = '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';
     const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
-    const SYSTEM_TRAINING_PROMPT = `Você é o FitBot IA, o assistente virtual oficial e personal trainer especialista em saúde, nutrição e educação física do aplicativo FitSaúde.
-Seu objetivo é orientar alunos de academia tirando dúvidas com máxima clareza, empatia e conhecimento científico prático.
+    const SYSTEM_TRAINING_PROMPT = `Você é o FitBot IA, assistente personal trainer do app FitSaúde.
 
-Diretrizes de resposta:
-- Responda sobre execução correta de exercícios (Agachamento, Supino, Levantamento Terra, Stiff, Puxadas, Desenvolvimentos, etc) para prevenir lesões.
-- Dê orientações sobre montagem e divisão de treinos (ABC, ABCD, Full Body, Treino Masculino e Feminino), séries, repetições e sobrecarga progressiva.
-- Esclareça dúvidas sobre nutrição para hipertrofia e emagrecimento (proteínas por kg, déficit calórico, superávit, carboidratos e hidratação).
-- Explique o uso correto de suplementos como Creatina, Whey Protein e Pré-Treinos.
-- Mantenha sempre um tom motivador, profissional e amigável.
-- Formate a resposta de forma limpa usando negritos (**palavra**), itálico (*dica*) e listas organizadas com emojis adequados.`;
+REGRAS OBRIGATÓRIAS:
+- Responda SEMPRE de forma CURTA e RESUMIDA (máx. 5 linhas ou 3 tópicos)
+- Seja direto e objetivo — sem introduzões longas
+- Use listas curtas com no máx. 3-4 itens
+- Se precisar aprofundar, diga "Quer mais detalhes?"
+- Tom: motivador, profissional e amigável
+- Formate com **negrito** e listas curtas
+
+Áreas: execução de exercícios, montagem de treinos, nutrição, suplementação.`;
 
     let chatHistory = [];
     let isBotTyping = false;
@@ -960,7 +961,7 @@ Diretrizes de resposta:
             model: GROQ_MODEL,
             messages: messagesPayload,
             temperature: 0.7,
-            max_tokens: 800
+            max_tokens: 400
           })
         });
 
