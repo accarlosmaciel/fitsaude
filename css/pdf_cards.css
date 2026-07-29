@@ -1,0 +1,94 @@
+/* ─── PDF Cards ──────────────────────────────────────────────── */
+.pdf-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 18px 16px;
+}
+
+.pdf-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pdf-card:hover {
+  border-color: rgba(220, 20, 60, 0.35);
+  box-shadow: 0 0 18px rgba(220, 20, 60, 0.08);
+}
+
+.pdf-card-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.pdf-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pdf-card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.pdf-card-sub {
+  font-size: 0.73rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.pdf-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.pdf-tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.btn-pdf-download {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #dc143c, #f43f5e);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  padding: 9px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn-pdf-download:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.btn-pdf-download:active {
+  transform: scale(0.96);
+}
