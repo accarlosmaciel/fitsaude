@@ -13,6 +13,8 @@
     content="App FitSaúde - Treinos da semana, acompanhamento de exercícios e assistente IA para tirar dúvidas de saúde e academia." />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 </head>
 
 <body>
@@ -94,6 +96,47 @@
       <div class="section-label"><i class="fa-solid fa-download"></i> Baixar / Aplicar Planilhas</div>
       <div class="sheets-grid" id="sheets-grid">
         <!-- Rendered dynamically by JS -->
+      </div>
+
+      <div class="section-label" style="margin-top:16px;"><i class="fa-solid fa-file-pdf"></i> Planilhas em PDF</div>
+      <div class="pdf-cards-grid">
+
+        <div class="pdf-card">
+          <div class="pdf-card-icon" style="background:rgba(220,20,60,0.12);color:#f43f5e;">
+            <i class="fa-solid fa-mars"></i>
+          </div>
+          <div class="pdf-card-info">
+            <div class="pdf-card-title">Treino Masculino</div>
+            <div class="pdf-card-sub">Hipertrofia ABC • 5 dias/semana</div>
+            <div class="pdf-card-tags">
+              <span class="pdf-tag">Intermediário</span>
+              <span class="pdf-tag">Hipertrofia</span>
+              <span class="pdf-tag">Força</span>
+            </div>
+          </div>
+          <button class="btn-pdf-download" onclick="downloadPDF('masculino')">
+            <i class="fa-solid fa-file-arrow-down"></i> Baixar PDF
+          </button>
+        </div>
+
+        <div class="pdf-card">
+          <div class="pdf-card-icon" style="background:rgba(167,139,250,0.12);color:#a78bfa;">
+            <i class="fa-solid fa-venus"></i>
+          </div>
+          <div class="pdf-card-info">
+            <div class="pdf-card-title">Treino Feminino</div>
+            <div class="pdf-card-sub">Glúteos & Definição • 5 dias/semana</div>
+            <div class="pdf-card-tags">
+              <span class="pdf-tag">Glúteos</span>
+              <span class="pdf-tag">Definição</span>
+              <span class="pdf-tag">Core</span>
+            </div>
+          </div>
+          <button class="btn-pdf-download" onclick="downloadPDF('feminino')" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">
+            <i class="fa-solid fa-file-arrow-down"></i> Baixar PDF
+          </button>
+        </div>
+
       </div>
     </div>
 
@@ -832,6 +875,141 @@
       switchScreen('treinos');
       render();
       toast('<i class="fa-solid fa-bolt"></i>', `Planilha "${plan.title}" aplicada com sucesso!`);
+    }
+
+    // ════════════════════════════════════════════════════════
+    //  DOWNLOAD PDF
+    // ════════════════════════════════════════════════════════
+    function downloadPDF(gender) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+      const isMasc = gender === 'masculino';
+      const data = isMasc ? DEFAULT_MASCULINO : DEFAULT_FEMININO;
+      const title = isMasc ? 'PLANILHA DE TREINO MASCULINO' : 'PLANILHA DE TREINO FEMININO';
+      const subtitle = isMasc ? 'Hipertrofia ABC — 5 Dias/Semana — Intermediário' : 'Glúteos & Definição — 5 Dias/Semana';
+      const accentR = isMasc ? 220 : 167;
+      const accentG = isMasc ? 20 : 139;
+      const accentB = isMasc ? 60 : 250;
+
+      const W = doc.internal.pageSize.getWidth();
+
+      // ── Header background ──
+      doc.setFillColor(10, 10, 15);
+      doc.rect(0, 0, W, 38, 'F');
+
+      // ── Accent line ──
+      doc.setFillColor(accentR, accentG, accentB);
+      doc.rect(0, 38, W, 1.5, 'F');
+
+      // ── Title ──
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text(title, W / 2, 18, { align: 'center' });
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(180, 180, 200);
+      doc.text(subtitle, W / 2, 26, { align: 'center' });
+
+      doc.setFontSize(8);
+      doc.text('FitSaúde App  •  fitsaude.app', W / 2, 33, { align: 'center' });
+
+      // ── Body ──
+      let y = 48;
+
+      data.forEach((day) => {
+        if (y > 260) { doc.addPage(); y = 20; }
+
+        // Day header band
+        doc.setFillColor(accentR, accentG, accentB, 0.15);
+        doc.setDrawColor(accentR, accentG, accentB);
+        doc.setLineWidth(0.4);
+        doc.roundedRect(10, y, W - 20, 9, 2, 2, 'FD');
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(accentR, accentG, accentB);
+        const dayLabel = `${day.short}  —  ${day.name}`;
+        doc.text(dayLabel, 14, y + 6);
+
+        if (!day.rest && day.dur !== '—') {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8);
+          doc.setTextColor(150, 150, 170);
+          doc.text(`${day.dur}  •  ${day.lvl}`, W - 14, y + 6, { align: 'right' });
+        }
+
+        y += 12;
+
+        if (day.rest) {
+          doc.setFont('helvetica', 'italic');
+          doc.setFontSize(9);
+          doc.setTextColor(120, 120, 140);
+          doc.text('Dia de descanso — recuperação muscular e hidratação.', 14, y);
+          y += 10;
+          return;
+        }
+
+        // Exercise table
+        const rows = day.exercises.map((ex, i) => [
+          i + 1,
+          ex.name,
+          ex.muscle,
+          ex.sets,
+          ex.reps,
+          ex.weight || '—'
+        ]);
+
+        doc.autoTable({
+          startY: y,
+          head: [['#', 'Exercício', 'Músculo', 'Séries', 'Reps', 'Carga']],
+          body: rows,
+          margin: { left: 10, right: 10 },
+          styles: {
+            fontSize: 8.5,
+            cellPadding: 3,
+            textColor: [220, 220, 230],
+            fillColor: [18, 18, 25],
+            lineColor: [40, 40, 55],
+            lineWidth: 0.3,
+          },
+          headStyles: {
+            fillColor: [accentR, accentG, accentB],
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            fontSize: 8,
+          },
+          alternateRowStyles: {
+            fillColor: [24, 24, 32],
+          },
+          columnStyles: {
+            0: { cellWidth: 8, halign: 'center' },
+            1: { cellWidth: 65 },
+            2: { cellWidth: 40 },
+            3: { cellWidth: 16, halign: 'center' },
+            4: { cellWidth: 20, halign: 'center' },
+            5: { cellWidth: 22, halign: 'center' },
+          },
+          theme: 'grid',
+        });
+
+        y = doc.lastAutoTable.finalY + 8;
+      });
+
+      // ── Footer ──
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7);
+        doc.setTextColor(100, 100, 120);
+        doc.text(`FitSaúde — ${title}  •  Página ${i}/${pageCount}`, W / 2, 292, { align: 'center' });
+      }
+
+      const filename = isMasc ? 'FitSaude_Treino_Masculino.pdf' : 'FitSaude_Treino_Feminino.pdf';
+      doc.save(filename);
+      toast('<i class="fa-solid fa-file-pdf"></i>', `PDF ${isMasc ? 'Masculino' : 'Feminino'} gerado!`);
     }
 
     /* ── Reset ── */
