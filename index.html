@@ -290,10 +290,10 @@
     // ════════════════════════════════════════════════════════
     //  DATA (Masculino & Feminino)
     // ════════════════════════════════════════════════════════
-    const SK_MASC = 'fitsaude_sched_masc_v8';
-    const SK_FEM = 'fitsaude_sched_fem_v8';
-    const DK = 'fitsaude_done_v8';
-    const GK = 'fitsaude_gender_v8';
+    const SK_MASC = 'fitsaude_sched_masc_v9';
+    const SK_FEM = 'fitsaude_sched_fem_v9';
+    const DK = 'fitsaude_done_v9';
+    const GK = 'fitsaude_gender_v9';
 
     const DEFAULT_MASCULINO = [
       {
@@ -317,9 +317,8 @@
           { id: 'm_t6', name: 'Panturrilha em Pé', muscle: 'Panturrilha', sets: 4, reps: '20', weight: '80 kg' },
         ]
       },
-      { day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso & Recuperação', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
       {
-        day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-hand-fist"></i>', name: 'Costas & Bíceps', color: '#a78bfa', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/back.png',
+        day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-hand-fist"></i>', name: 'Costas & Bíceps', color: '#a78bfa', dur: '65 min', lvl: 'Alta', rest: false, image: 'images/back.png',
         exercises: [
           { id: 'm_q1', name: 'Puxada Aberta no Pulley', muscle: 'Costas/Dorsal', sets: 4, reps: '8-10', weight: '55 kg' },
           { id: 'm_q2', name: 'Remada Curvada com Barra', muscle: 'Costas/Trapézio', sets: 4, reps: '10', weight: '50 kg' },
@@ -328,6 +327,7 @@
           { id: 'm_q5', name: 'Rosca Martelo com Halteres', muscle: 'Bíceps/Braquial', sets: 3, reps: '12', weight: '14 kg' },
         ]
       },
+      { day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso & Recuperação', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
       {
         day: 'Sexta', short: 'SEX', icon: '<i class="fa-solid fa-fire"></i>', name: 'Ombros & Core', color: '#ffd166', dur: '55 min', lvl: 'Média-Alta', rest: false, image: 'images/shoulders.png',
         exercises: [
@@ -372,9 +372,8 @@
           { id: 'f_t5', name: 'Rosca Direta com Halteres', muscle: 'Bíceps', sets: 3, reps: '12', weight: '6 kg' },
         ]
       },
-      { day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso & Mobilidade', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/fem_rest.jpg', exercises: [] },
       {
-        day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-shoe-prints"></i>', name: 'Quadríceps & Glúteo Enfático', color: '#4cc9f0', dur: '70 min', lvl: 'Alta', rest: false, image: 'images/fem_legs.jpg',
+        day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-shoe-prints"></i>', name: 'Quadríceps & Glúteo Enfático', color: '#4cc9f0', dur: '70 min', lvl: 'Alta', rest: false, image: 'images/fem_legs.jpg',
         exercises: [
           { id: 'f_q1', name: 'Agachamento Sumô com Halter', muscle: 'Quadríceps/Glúteo', sets: 4, reps: '10-12', weight: '20 kg' },
           { id: 'f_q2', name: 'Leg Press Horizontal', muscle: 'Quadríceps', sets: 4, reps: '12', weight: '100 kg' },
@@ -383,6 +382,7 @@
           { id: 'f_q5', name: 'Panturrilha no Leg Press', muscle: 'Panturrilha', sets: 4, reps: '15-20', weight: '60 kg' },
         ]
       },
+      { day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso & Mobilidade', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/fem_rest.jpg', exercises: [] },
       {
         day: 'Sexta', short: 'SEX', icon: '<i class="fa-solid fa-fire"></i>', name: 'Core, Definição & Cardio', color: '#ffd166', dur: '50 min', lvl: 'Média-Alta', rest: false, image: 'images/fem_core.jpg',
         exercises: [
