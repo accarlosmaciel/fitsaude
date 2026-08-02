@@ -134,7 +134,8 @@
               <span class="pdf-tag">Core</span>
             </div>
           </div>
-          <button class="btn-pdf-download" onclick="downloadPDF('feminino')" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">
+          <button class="btn-pdf-download" onclick="downloadPDF('feminino')"
+            style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">
             <i class="fa-solid fa-file-arrow-down"></i> Baixar PDF
           </button>
         </div>
@@ -233,6 +234,101 @@
       </div>
     </div>
 
+    <!-- ══ SCREEN: PERFIL ══════════════════════════════════ -->
+    <div class="screen" id="screen-perfil">
+      <div class="hero-strip">
+        <div class="hero-greeting">Personalização <i class="fa-solid fa-id-card"></i></div>
+        <h1 class="hero-title">Seu <span>Perfil</span></h1>
+      </div>
+
+      <!-- Profile Header Card -->
+      <div class="profile-header-card">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar" id="p-avatar-icon"><i class="fa-solid fa-user"></i></div>
+          <div class="profile-avatar-badge"><i class="fa-solid fa-check"></i></div>
+        </div>
+        <div class="profile-user-info">
+          <h2 id="p-display-name">Aluno FitSaúde</h2>
+          <div class="profile-user-sub">
+            <span id="p-display-goal"><i class="fa-solid fa-bullseye"></i> Hipertrofia</span> • 
+            <span id="p-display-level">Intermediário</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Metrics Stats -->
+      <div class="profile-stats-grid">
+        <div class="profile-stat-box">
+          <div class="profile-stat-title"><i class="fa-solid fa-calculator"></i> IMC Calculado</div>
+          <div class="profile-stat-val" id="p-imc-val">24.5</div>
+          <div class="profile-stat-badge badge-imc-normal" id="p-imc-badge">Peso Ideal</div>
+        </div>
+        <div class="profile-stat-box">
+          <div class="profile-stat-title"><i class="fa-solid fa-drumstick-bite"></i> Meta Proteica</div>
+          <div class="profile-stat-val" id="p-protein-val">150g</div>
+          <div class="profile-stat-badge" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);" id="p-protein-ratio">~2.0g / kg</div>
+        </div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="profile-card">
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-sliders"></i> Dados Pessoais & Objetivos</div>
+        
+        <div class="form-group">
+          <label class="form-label" for="pf-name">Nome Completo</label>
+          <input class="form-input" id="pf-name" type="text" placeholder="Seu nome" oninput="updateProfilePreview()" />
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="pf-age">Idade (anos)</label>
+            <input class="form-input" id="pf-age" type="number" min="10" max="100" placeholder="ex: 25" oninput="updateProfilePreview()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-gender">Sexo</label>
+            <select class="form-select" id="pf-gender" onchange="updateProfilePreview()">
+              <option value="masculino">Masculino</option>
+              <option value="feminino">Feminino</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="pf-height">Altura (cm)</label>
+            <input class="form-input" id="pf-height" type="number" min="100" max="230" placeholder="ex: 175" oninput="updateProfilePreview()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-weight">Peso (kg)</label>
+            <input class="form-input" id="pf-weight" type="number" step="0.1" min="30" max="250" placeholder="ex: 75" oninput="updateProfilePreview()" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pf-goal">Objetivo Principal</label>
+          <select class="form-select" id="pf-goal" onchange="updateProfilePreview()">
+            <option value="Hipertrofia">Ganho de Massa (Hipertrofia)</option>
+            <option value="Perda de Gordura">Emagrecimento / Queima de Gordura</option>
+            <option value="Definição">Definição Muscular</option>
+            <option value="Força">Ganho de Força Bruta</option>
+            <option value="Saúde & Condicionamento">Saúde & Condicionamento Geral</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pf-level">Nível de Treino</label>
+          <select class="form-select" id="pf-level" onchange="updateProfilePreview()">
+            <option value="Iniciante">Iniciante (menos de 6 meses)</option>
+            <option value="Intermediário">Intermediário (6 meses a 2 anos)</option>
+            <option value="Avançado">Avançado (mais de 2 anos)</option>
+          </select>
+        </div>
+
+        <button class="btn-save" style="margin-top:10px;" onclick="saveProfile()"><i class="fa-solid fa-floppy-disk"></i> Salvar Perfil</button>
+      </div>
+    </div>
+
   </div><!-- /app-shell -->
 
   <!-- ── Bottom Navigation ──────────────────────────────── -->
@@ -253,6 +349,10 @@
       <span class="nav-icon"><i class="fa-solid fa-comment-dots"></i></span>
       <div class="badge show" id="chat-badge"></div>
       <span class="nav-label">FitBot</span>
+    </button>
+    <button class="nav-btn" id="nav-perfil" onclick="switchScreen('perfil')" aria-label="Perfil">
+      <span class="nav-icon"><i class="fa-solid fa-user"></i></span>
+      <span class="nav-label">Perfil</span>
     </button>
   </nav>
 
@@ -416,16 +516,125 @@
     ];
 
     // ════════════════════════════════════════════════════════
-    //  STATE
+    //  STATE & PROFILE
     // ════════════════════════════════════════════════════════
+    const PK = 'fitsaude_profile_v1';
+    const DEFAULT_PROFILE = {
+      name: 'Aluno FitSaúde',
+      age: 25,
+      gender: 'masculino',
+      height: 175,
+      weight: 75,
+      goal: 'Hipertrofia',
+      level: 'Intermediário'
+    };
+
+    let userProfile = loadProfile();
     let currentGender = loadGender();
     let schedule = loadSched();
     let done = loadDone();
     let activeDay = getTodayIdx();
     let currentScreen = 'treinos';
 
+    function loadProfile() {
+      try {
+        const r = localStorage.getItem(PK);
+        return r ? { ...DEFAULT_PROFILE, ...JSON.parse(r) } : { ...DEFAULT_PROFILE };
+      } catch {
+        return { ...DEFAULT_PROFILE };
+      }
+    }
+
+    function saveProfileData(p) {
+      userProfile = p;
+      localStorage.setItem(PK, JSON.stringify(userProfile));
+    }
+
+    function calcIMC(weight, heightCm) {
+      if (!weight || !heightCm) return { imc: '—', label: 'Indefinido', badgeClass: 'badge-imc-normal' };
+      const hM = heightCm / 100;
+      const imc = (weight / (hM * hM)).toFixed(1);
+      let label = 'Peso Ideal';
+      let badgeClass = 'badge-imc-normal';
+      if (imc < 18.5) { label = 'Abaixo do Peso'; badgeClass = 'badge-imc-warn'; }
+      else if (imc < 25) { label = 'Peso Ideal'; badgeClass = 'badge-imc-normal'; }
+      else if (imc < 30) { label = 'Sobrepeso'; badgeClass = 'badge-imc-warn'; }
+      else { label = 'Obesidade'; badgeClass = 'badge-imc-alert'; }
+      return { imc, label, badgeClass };
+    }
+
+    function calcProtein(weight, goal) {
+      if (!weight) return { total: '—', ratio: '—' };
+      let multiplier = 2.0;
+      if (goal === 'Hipertrofia' || goal === 'Definição' || goal === 'Força') multiplier = 2.0;
+      else if (goal === 'Perda de Gordura') multiplier = 2.2;
+      else multiplier = 1.6;
+      const total = Math.round(weight * multiplier);
+      return { total: total + 'g', ratio: `~${multiplier}g / kg` };
+    }
+
+    function renderProfileForm() {
+      const p = userProfile;
+      const fName = document.getElementById('pf-name');
+      if (!fName) return;
+      fName.value = p.name || '';
+      document.getElementById('pf-age').value = p.age || '';
+      document.getElementById('pf-gender').value = p.gender || 'masculino';
+      document.getElementById('pf-height').value = p.height || '';
+      document.getElementById('pf-weight').value = p.weight || '';
+      document.getElementById('pf-goal').value = p.goal || 'Hipertrofia';
+      document.getElementById('pf-level').value = p.level || 'Intermediário';
+      updateProfilePreview();
+    }
+
+    function updateProfilePreview() {
+      const name = document.getElementById('pf-name').value.trim() || 'Aluno FitSaúde';
+      const goal = document.getElementById('pf-goal').value;
+      const level = document.getElementById('pf-level').value;
+      const height = parseFloat(document.getElementById('pf-height').value) || 0;
+      const weight = parseFloat(document.getElementById('pf-weight').value) || 0;
+
+      document.getElementById('p-display-name').textContent = name;
+      document.getElementById('p-display-goal').innerHTML = `<i class="fa-solid fa-bullseye"></i> ${goal}`;
+      document.getElementById('p-display-level').textContent = level;
+
+      const imcData = calcIMC(weight, height);
+      document.getElementById('p-imc-val').textContent = imcData.imc;
+      const imcBadge = document.getElementById('p-imc-badge');
+      imcBadge.textContent = imcData.label;
+      imcBadge.className = `profile-stat-badge ${imcData.badgeClass}`;
+
+      const protData = calcProtein(weight, goal);
+      document.getElementById('p-protein-val').textContent = protData.total;
+      document.getElementById('p-protein-ratio').textContent = protData.ratio;
+    }
+
+    function saveProfile() {
+      const name = document.getElementById('pf-name').value.trim() || 'Aluno';
+      const age = parseInt(document.getElementById('pf-age').value) || 25;
+      const gender = document.getElementById('pf-gender').value;
+      const height = parseFloat(document.getElementById('pf-height').value) || 175;
+      const weight = parseFloat(document.getElementById('pf-weight').value) || 75;
+      const goal = document.getElementById('pf-goal').value;
+      const level = document.getElementById('pf-level').value;
+
+      saveProfileData({ name, age, gender, height, weight, goal, level });
+
+      if (gender === 'masculino' || gender === 'feminino') {
+        if (currentGender !== gender) {
+          setGender(gender);
+        }
+      }
+
+      const dayGreeting = document.getElementById('day-greeting');
+      if (dayGreeting) dayGreeting.innerHTML = getGreeting();
+
+      toast('<i class="fa-solid fa-user-check"></i>', 'Perfil atualizado!');
+      confetti();
+    }
+
     function loadGender() {
-      return localStorage.getItem(GK) || 'masculino';
+      return localStorage.getItem(GK) || userProfile.gender || 'masculino';
     }
 
     function saveGender(g) {
@@ -471,9 +680,11 @@
 
     function getGreeting() {
       const h = new Date().getHours();
-      if (h < 12) return 'Bom dia! <i class="fa-solid fa-sun"></i>';
-      if (h < 18) return 'Boa tarde! <i class="fa-solid fa-cloud-sun"></i>';
-      return 'Boa noite! <i class="fa-solid fa-moon"></i>';
+      const firstName = userProfile?.name ? userProfile.name.split(' ')[0] : '';
+      const namePart = firstName ? `, ${firstName}` : '';
+      if (h < 12) return `Bom dia${namePart}! <i class="fa-solid fa-sun"></i>`;
+      if (h < 18) return `Boa tarde${namePart}! <i class="fa-solid fa-cloud-sun"></i>`;
+      return `Boa noite${namePart}! <i class="fa-solid fa-moon"></i>`;
     }
 
     // ════════════════════════════════════════════════════════
@@ -767,9 +978,16 @@
         treinos: 'Fit<span>Saúde</span>',
         planilhas: 'Planilhas <span>Treinos</span>',
         resumo: 'Resumo <span>Semanal</span>',
-        chat: 'FitBot <span>IA</span>'
+        chat: 'FitBot <span>IA</span>',
+        perfil: 'Perfil <span>Usuário</span>'
       };
-      const icons = { treinos: '<i class="fa-solid fa-dumbbell"></i>', planilhas: '<i class="fa-solid fa-table-list"></i>', resumo: '<i class="fa-solid fa-chart-pie"></i>', chat: '<i class="fa-solid fa-robot"></i>' };
+      const icons = {
+        treinos: '<i class="fa-solid fa-dumbbell"></i>',
+        planilhas: '<i class="fa-solid fa-table-list"></i>',
+        resumo: '<i class="fa-solid fa-chart-pie"></i>',
+        chat: '<i class="fa-solid fa-robot"></i>',
+        perfil: '<i class="fa-solid fa-user"></i>'
+      };
       document.getElementById('header-title').innerHTML = titles[name] || 'Fit<span>Saúde</span>';
       document.getElementById('header-icon').innerHTML = icons[name] || '<i class="fa-solid fa-dumbbell"></i>';
       document.getElementById('header-action-btn').style.display = name === 'treinos' ? '' : 'none';
@@ -781,6 +999,8 @@
       } else if (name === 'chat') {
         document.getElementById('chat-badge').classList.remove('show');
         setTimeout(() => scrollChat(), 100);
+      } else if (name === 'perfil') {
+        renderProfileForm();
       }
     }
 
@@ -1213,12 +1433,28 @@ REGRAS OBRIGATÓRIAS:
       return `🤔 **Dúvida recebida!**\n\nEstou pronto para te ajudar com treinos, nutrição, execução de exercícios ou descanso!\n\nVocê também pode explorar os botões rápidos abaixo ou pedir para eu montar uma rotina personalizada! 💪`;
     }
 
+    function getDynamicSystemPrompt() {
+      const p = userProfile || DEFAULT_PROFILE;
+      return `${SYSTEM_TRAINING_PROMPT}
+
+DADOS ATUAIS DO ALUNO:
+- Nome: ${p.name || 'Aluno'}
+- Idade: ${p.age || 'Não informada'} anos
+- Sexo: ${p.gender || 'masculino'}
+- Altura: ${p.height || '175'} cm
+- Peso: ${p.weight || '75'} kg
+- Objetivo: ${p.goal || 'Hipertrofia'}
+- Nível de treino: ${p.level || 'Intermediário'}
+
+IMPORTANTE: Use sempre o nome do aluno (${p.name || 'Aluno'}) e considere as suas características físicas, objetivo e nível de treino em todas as suas respostas.`;
+    }
+
     async function fetchGroqAIResponse(userText) {
       chatHistory.push({ role: 'user', content: userText });
       if (chatHistory.length > 10) chatHistory = chatHistory.slice(-10);
 
       const messagesPayload = [
-        { role: 'system', content: SYSTEM_TRAINING_PROMPT },
+        { role: 'system', content: getDynamicSystemPrompt() },
         ...chatHistory
       ];
 
