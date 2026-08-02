@@ -1,0 +1,22 @@
+{
+  "name": "FitSaúde – Treinos & Saúde",
+  "short_name": "FitSaúde",
+  "description": "App de acompanhamento de treinos, saúde, assistente IA e estatísticas esportivas.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#060608",
+  "theme_color": "#060608",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/chest.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/chest.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

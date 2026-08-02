@@ -1,0 +1,447 @@
+/* ─── FITSAÚDE COMPONENTS ────────────────────────────────────── */
+
+/* Active Workout Timer Bar */
+.active-timer-bar {
+  background: linear-gradient(135deg, rgba(220, 20, 60, 0.2), rgba(14, 14, 18, 0.85));
+  border: 1px solid var(--border-red);
+  border-radius: var(--r-lg);
+  padding: 14px 18px;
+  margin: 0 18px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--sh-red);
+}
+
+.timer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timer-icon-pulse {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  animation: timerPulse 1.5s infinite;
+}
+
+.timer-clock {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.timer-label {
+  font-size: 0.68rem;
+  color: var(--txt2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.btn-timer-act {
+  padding: 8px 14px;
+  border-radius: var(--r-sm);
+  border: none;
+  font-weight: 800;
+  font-size: 0.78rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: var(--ease);
+}
+
+.btn-timer-start {
+  background: var(--green);
+  color: #000;
+  box-shadow: 0 3px 12px rgba(34, 211, 160, 0.3);
+}
+
+.btn-timer-stop {
+  background: var(--red);
+  color: #fff;
+  box-shadow: var(--sh-red);
+}
+
+/* Rest Timer Widget */
+.rest-timer-box {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  margin: 0 18px 16px;
+}
+
+.rest-timer-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--txt3);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rest-buttons-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+}
+
+.btn-rest-preset {
+  flex: 1;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  color: var(--txt);
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.btn-rest-preset:hover, .btn-rest-preset.active {
+  background: rgba(167, 139, 250, 0.2);
+  border-color: #a78bfa;
+  color: #a78bfa;
+}
+
+.rest-countdown-display {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #a78bfa;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Search and Filter Bar */
+.search-filter-wrap {
+  padding: 0 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-input-box {
+  position: relative;
+}
+
+.search-input-box i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--txt3);
+  font-size: 0.9rem;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 14px 10px 38px;
+  color: var(--txt);
+  font-size: 0.85rem;
+  font-family: 'Space Grotesk', sans-serif;
+  outline: none;
+  transition: var(--ease);
+}
+
+.search-input:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 12px var(--red-glow);
+}
+
+.muscle-filter-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-chip {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--txt2);
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--ease);
+}
+
+.filter-chip.active {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(220, 20, 60, 0.4);
+}
+
+/* Streak Counter Card */
+.streak-card {
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.12), rgba(14, 14, 18, 0.6));
+  border: 1px solid rgba(255, 209, 102, 0.3);
+  border-radius: var(--r-xl);
+  padding: 16px 18px;
+  margin: 0 18px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.streak-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.streak-flame {
+  font-size: 2.2rem;
+  color: #ffd166;
+  filter: drop-shadow(0 0 8px rgba(255, 209, 102, 0.6));
+}
+
+.streak-val {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.streak-sub {
+  font-size: 0.72rem;
+  color: var(--txt2);
+}
+
+/* Calendar Grid */
+.calendar-wrap {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 16px;
+  margin: 0 18px 20px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.cal-day-head {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--txt3);
+  text-transform: uppercase;
+}
+
+.cal-day-cell {
+  aspect-ratio: 1;
+  border-radius: var(--r-sm);
+  background: var(--bg4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--txt2);
+  position: relative;
+}
+
+.cal-day-cell.trained {
+  background: rgba(34, 211, 160, 0.2);
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-weight: 900;
+}
+
+.cal-day-cell.today {
+  border: 2px solid var(--red);
+}
+
+/* Achievements Grid */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 0 18px 20px;
+}
+
+.achievement-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.45;
+  transition: var(--ease);
+}
+
+.achievement-card.unlocked {
+  opacity: 1;
+  border-color: rgba(255, 209, 102, 0.35);
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.08), var(--bg3));
+}
+
+.achieve-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.achieve-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.achieve-desc {
+  font-size: 0.65rem;
+  color: var(--txt2);
+  margin-top: 2px;
+}
+
+/* Goals Progress Card */
+.goals-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 16px;
+  margin: 0 18px 20px;
+}
+
+.goal-item {
+  margin-bottom: 12px;
+}
+
+.goal-item:last-child {
+  margin-bottom: 0;
+}
+
+.goal-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.goal-bar-track {
+  height: 8px;
+  background: var(--bg4);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.goal-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), var(--red-light));
+  border-radius: 100px;
+  transition: width 0.4s ease;
+}
+
+/* Backup Actions */
+.backup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-backup {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  color: var(--txt);
+  padding: 10px;
+  border-radius: var(--r-sm);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--ease);
+}
+
+.btn-backup:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--bg-hover);
+}
+
+/* AI Feedback Buttons */
+.ai-actions-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.btn-ai-sub {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--txt2);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.btn-ai-sub:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--txt2);
+}
+
+.empty-state i {
+  font-size: 2.5rem;
+  color: var(--txt3);
+  margin-bottom: 12px;
+}
+
+.empty-state h3 {
+  font-size: 1rem;
+  color: var(--txt);
+  margin-bottom: 6px;
+}
+
+.empty-state p {
+  font-size: 0.8rem;
+}
