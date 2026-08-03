@@ -250,7 +250,7 @@
         <div class="profile-user-info">
           <h2 id="p-display-name">Aluno FitSaúde</h2>
           <div class="profile-user-sub">
-            <span id="p-display-goal"><i class="fa-solid fa-bullseye"></i> Hipertrofia</span> • 
+            <span id="p-display-goal"><i class="fa-solid fa-bullseye"></i> Hipertrofia</span> •
             <span id="p-display-level">Intermediário</span>
           </div>
         </div>
@@ -266,14 +266,17 @@
         <div class="profile-stat-box">
           <div class="profile-stat-title"><i class="fa-solid fa-drumstick-bite"></i> Meta Proteica</div>
           <div class="profile-stat-val" id="p-protein-val">150g</div>
-          <div class="profile-stat-badge" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);" id="p-protein-ratio">~2.0g / kg</div>
+          <div class="profile-stat-badge"
+            style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);"
+            id="p-protein-ratio">~2.0g / kg</div>
         </div>
       </div>
 
       <!-- Form Card -->
       <div class="profile-card">
-        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-sliders"></i> Dados Pessoais & Objetivos</div>
-        
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-sliders"></i> Dados
+          Pessoais & Objetivos</div>
+
         <div class="form-group">
           <label class="form-label" for="pf-name">Nome Completo</label>
           <input class="form-input" id="pf-name" type="text" placeholder="Seu nome" oninput="updateProfilePreview()" />
@@ -282,7 +285,8 @@
         <div class="form-grid-2">
           <div class="form-group">
             <label class="form-label" for="pf-age">Idade (anos)</label>
-            <input class="form-input" id="pf-age" type="number" min="10" max="100" placeholder="ex: 25" oninput="updateProfilePreview()" />
+            <input class="form-input" id="pf-age" type="number" min="10" max="100" placeholder="ex: 25"
+              oninput="updateProfilePreview()" />
           </div>
           <div class="form-group">
             <label class="form-label" for="pf-gender">Sexo</label>
@@ -297,11 +301,13 @@
         <div class="form-grid-2">
           <div class="form-group">
             <label class="form-label" for="pf-height">Altura (cm)</label>
-            <input class="form-input" id="pf-height" type="number" min="100" max="230" placeholder="ex: 175" oninput="updateProfilePreview()" />
+            <input class="form-input" id="pf-height" type="number" min="100" max="230" placeholder="ex: 175"
+              oninput="updateProfilePreview()" />
           </div>
           <div class="form-group">
             <label class="form-label" for="pf-weight">Peso (kg)</label>
-            <input class="form-input" id="pf-weight" type="number" step="0.1" min="30" max="250" placeholder="ex: 75" oninput="updateProfilePreview()" />
+            <input class="form-input" id="pf-weight" type="number" step="0.1" min="30" max="250" placeholder="ex: 75"
+              oninput="updateProfilePreview()" />
           </div>
         </div>
 
@@ -325,7 +331,8 @@
           </select>
         </div>
 
-        <button class="btn-save" style="margin-top:10px;" onclick="saveProfile()"><i class="fa-solid fa-floppy-disk"></i> Salvar Perfil</button>
+        <button class="btn-save" style="margin-top:10px;" onclick="saveProfile()"><i
+            class="fa-solid fa-floppy-disk"></i> Salvar Perfil</button>
       </div>
     </div>
 
