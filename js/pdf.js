@@ -34,7 +34,7 @@ function renderPlanilhas() {
 
 function downloadPDF(genderType) {
   if (typeof jspdf === 'undefined') {
-    alert('Biblioteca jsPDF ainda não foi carregada!');
+    toast('<i class="fa-solid fa-triangle-exclamation"></i>', 'Biblioteca jsPDF ainda carregando...');
     return;
   }
 

@@ -84,7 +84,7 @@ function importBackupJSON(file) {
       toast('<i class="fa-solid fa-file-import"></i>', 'Dados restaurados!');
       setTimeout(() => window.location.reload(), 1000);
     } catch (err) {
-      alert('Arquivo de backup inválido!');
+      toast('<i class="fa-solid fa-triangle-exclamation"></i>', 'Arquivo de backup inválido!');
     }
   };
   reader.readAsText(file);

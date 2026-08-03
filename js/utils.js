@@ -1,6 +1,6 @@
 /* ─── FITSAÚDE UTILS MODULE ──────────────────────────────────── */
 
-/* Toast notification */
+/* Toast notification com suporte à vibração */
 function toast(icon, msg) {
   const t = document.getElementById('toast');
   if (!t) return;
@@ -8,7 +8,42 @@ function toast(icon, msg) {
   document.getElementById('toast-msg').textContent = msg;
   t.classList.add('show');
   clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 2400);
+  t._t = setTimeout(() => t.classList.remove('show'), 2600);
+  
+  if ('vibrate' in navigator) {
+    try { navigator.vibrate([30, 20, 30]); } catch(e){}
+  }
+}
+
+/* Native Web Share API */
+function shareAppProgress(title = 'FitSaúde – Treino', text = 'Acompanhe meu progresso nos treinos!') {
+  if (navigator.share) {
+    navigator.share({ title, text, url: window.location.href })
+      .then(() => toast('<i class="fa-solid fa-share-nodes"></i>', 'Compartilhado com sucesso!'))
+      .catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(`${title} - ${text} (${window.location.href})`);
+    toast('<i class="fa-solid fa-copy"></i>', 'Link copiado para a área de transferência!');
+  }
+}
+
+/* Web Notifications API */
+function requestWorkoutNotification() {
+  if (!('Notification' in window)) {
+    toast('<i class="fa-solid fa-bell-slash"></i>', 'Notificações não suportadas neste navegador.');
+    return;
+  }
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') {
+      toast('<i class="fa-solid fa-bell"></i>', 'Lembrete de treino ativado!');
+      new Notification('FitSaúde 🏋️', {
+        body: 'Hora do treino! Mantenha a consistência hoje 💪',
+        icon: 'images/icon-192.png'
+      });
+    } else {
+      toast('<i class="fa-solid fa-triangle-exclamation"></i>', 'Permissão de notificação negada.');
+    }
+  });
 }
 
 /* Confetti animation */

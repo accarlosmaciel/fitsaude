@@ -22,7 +22,7 @@ function toggleFavoriteEx(exId, event) {
 function duplicateCurrentWorkoutDay() {
   const d = schedule[activeDay];
   if (!d || d.rest || !d.exercises.length) {
-    alert('Não há exercícios para duplicar neste dia!');
+    toast('<i class="fa-solid fa-circle-info"></i>', 'Nenhum exercício para duplicar hoje!');
     return;
   }
 
