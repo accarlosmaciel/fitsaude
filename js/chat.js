@@ -115,19 +115,42 @@ function addMsg(role, text) {
     ${role === 'bot' ? `
       <div class="ai-actions-bar">
         <button class="btn-ai-sub" onclick="copyBotMessage('${cleanTextEscaped}')"><i class="fa-solid fa-copy"></i> Copiar</button>
-        <button class="btn-ai-sub" onclick="toast('<i class=\\'fa-solid fa-thumbs-up\\'></i>', 'Obrigado pelo feedback!')"><i class="fa-solid fa-thumbs-up"></i></button>
-        <button class="btn-ai-sub" onclick="toast('<i class=\\'fa-solid fa-thumbs-down\\'></i>', 'Anotado para melhorias!')"><i class="fa-solid fa-thumbs-down"></i></button>
+        <button class="btn-ai-sub" onclick="toast('<i class=\\'fa-solid fa-thumbs-up\\'></i>', 'Obrigado pelo feedback!')"><i class="fa-solid fa-thumbs-up"></i> 👍</button>
+        <button class="btn-ai-sub" onclick="toast('<i class=\\'fa-solid fa-thumbs-down\\'></i>', 'Anotado para melhorias!')"><i class="fa-solid fa-thumbs-down"></i> 👎</button>
+        <button class="btn-ai-sub" onclick="regenerateLastMessage()"><i class="fa-solid fa-rotate-right"></i> Regenerar</button>
       </div>
     ` : ''}
     <div class="msg-time">${getTime()}</div>
   `;
   msgs.appendChild(div);
   scrollChat();
+  saveChatHistoryLocal();
 }
+
+let lastUserQuery = '';
 
 function copyBotMessage(text) {
   navigator.clipboard.writeText(text);
   toast('<i class="fa-solid fa-copy"></i>', 'Resposta copiada!');
+}
+
+function regenerateLastMessage() {
+  if (!lastUserQuery) {
+    toast('<i class="fa-solid fa-circle-info"></i>', 'Nenhuma mensagem anterior para regenerar.');
+    return;
+  }
+  const input = document.getElementById('chat-input');
+  if (input) {
+    input.value = lastUserQuery;
+    sendMessage();
+  }
+}
+
+function saveChatHistoryLocal() {
+  try {
+    const msgs = document.getElementById('chat-messages');
+    if (msgs) localStorage.setItem('fitsaude_chat_logs', msgs.innerHTML);
+  } catch(e){}
 }
 
 function scrollChat() {
@@ -140,6 +163,7 @@ async function sendMessage() {
   if (!input) return;
   const text = input.value.trim();
   if (!text || isBotTyping) return;
+  lastUserQuery = text;
   input.value = '';
   input.style.height = '';
   addMsg('user', text);
