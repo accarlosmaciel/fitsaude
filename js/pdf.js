@@ -4,21 +4,29 @@ function renderPlanilhas() {
   const container = document.getElementById('sheets-grid');
   if (!container || typeof PLANILHAS_DATA === 'undefined') return;
 
-  container.innerHTML = PLANILHAS_DATA.map(p => `
+  container.innerHTML = PLANILHAS_DATA.map((plan, idx) => `
     <div class="sheet-card">
       <div class="sheet-card-header">
-        <div class="sheet-card-icon">${p.icon}</div>
+        <div class="sheet-card-icon">${plan.icon}</div>
         <div>
-          <div class="sheet-card-title">${p.title}</div>
-          <div class="sheet-card-sub">${p.gender}</div>
+          <div class="sheet-card-title">${plan.title}</div>
+          <div class="sheet-card-subtitle">Público: ${plan.gender}</div>
         </div>
       </div>
-      <p class="sheet-card-desc">${p.desc}</p>
+      <div class="sheet-card-desc">${plan.desc}</div>
       <div class="sheet-card-tags">
-        ${p.tags.map(t => `<span class="sheet-tag">${t}</span>`).join('')}
+        ${plan.tags.map(t => `<span class="sheet-tag">${t}</span>`).join('')}
       </div>
       <div class="sheet-card-actions">
-        <button class="btn-sheet-download" onclick="downloadPDF('${p.gender.toLowerCase()}')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+        <button class="btn-sheet-download" onclick="downloadPDF('${plan.gender.toLowerCase()}')">
+          <i class="fa-solid fa-file-pdf"></i> Baixar PDF
+        </button>
+        <button class="btn-sheet-download" onclick="downloadPlanilha(${idx})" style="background:rgba(255,255,255,0.08);color:#fff;box-shadow:none;">
+          <i class="fa-solid fa-file-csv"></i> Baixar CSV
+        </button>
+        <button class="btn-sheet-apply" onclick="applyPlanilha(${idx})">
+          <i class="fa-solid fa-bolt"></i> Aplicar no App
+        </button>
       </div>
     </div>
   `).join('');

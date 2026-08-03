@@ -35,7 +35,6 @@
     <header class="app-header" id="app-header">
       <div class="app-header-icon" id="header-icon"><i class="fa-solid fa-dumbbell"></i></div>
       <div class="app-header-title" id="header-title">Fit<span>Saúde</span></div>
-      <button class="app-header-action" id="header-action-btn" onclick="openAddModal()">+ Exercício</button>
     </header>
 
     <!-- ══ SCREEN: TREINOS ═════════════════════════════════ -->
@@ -91,55 +90,13 @@
     <!-- ══ SCREEN: PLANILHAS ═════════════════════════════════ -->
     <div class="screen" id="screen-planilhas">
       <div class="hero-strip">
-        <div class="hero-greeting">Material para Alunos <i class="fa-solid fa-clipboard-list"></i></div>
+        <div class="hero-greeting">Material Recente <i class="fa-solid fa-clipboard-list"></i></div>
         <h1 class="hero-title">Planilhas <span>de Treino</span></h1>
       </div>
 
-      <div class="section-label"><i class="fa-solid fa-download"></i> Baixar / Aplicar Planilhas</div>
+      <div class="section-label"><i class="fa-solid fa-star"></i> Planilhas Mais Recentes</div>
       <div class="sheets-grid" id="sheets-grid">
         <!-- Rendered dynamically by JS -->
-      </div>
-
-      <div class="section-label" style="margin-top:16px;"><i class="fa-solid fa-file-pdf"></i> Planilhas em PDF</div>
-      <div class="pdf-cards-grid">
-
-        <div class="pdf-card">
-          <div class="pdf-card-icon" style="background:rgba(220,20,60,0.12);color:#f43f5e;">
-            <i class="fa-solid fa-mars"></i>
-          </div>
-          <div class="pdf-card-info">
-            <div class="pdf-card-title">Treino Masculino</div>
-            <div class="pdf-card-sub">Hipertrofia ABC • 5 dias/semana</div>
-            <div class="pdf-card-tags">
-              <span class="pdf-tag">Intermediário</span>
-              <span class="pdf-tag">Hipertrofia</span>
-              <span class="pdf-tag">Força</span>
-            </div>
-          </div>
-          <button class="btn-pdf-download" onclick="downloadPDF('masculino')">
-            <i class="fa-solid fa-file-arrow-down"></i> Baixar PDF
-          </button>
-        </div>
-
-        <div class="pdf-card">
-          <div class="pdf-card-icon" style="background:rgba(167,139,250,0.12);color:#a78bfa;">
-            <i class="fa-solid fa-venus"></i>
-          </div>
-          <div class="pdf-card-info">
-            <div class="pdf-card-title">Treino Feminino</div>
-            <div class="pdf-card-sub">Glúteos & Definição • 5 dias/semana</div>
-            <div class="pdf-card-tags">
-              <span class="pdf-tag">Glúteos</span>
-              <span class="pdf-tag">Definição</span>
-              <span class="pdf-tag">Core</span>
-            </div>
-          </div>
-          <button class="btn-pdf-download" onclick="downloadPDF('feminino')"
-            style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">
-            <i class="fa-solid fa-file-arrow-down"></i> Baixar PDF
-          </button>
-        </div>
-
       </div>
     </div>
 
@@ -997,7 +954,8 @@
       };
       document.getElementById('header-title').innerHTML = titles[name] || 'Fit<span>Saúde</span>';
       document.getElementById('header-icon').innerHTML = icons[name] || '<i class="fa-solid fa-dumbbell"></i>';
-      document.getElementById('header-action-btn').style.display = name === 'treinos' ? '' : 'none';
+      const headerBtn = document.getElementById('header-action-btn');
+      if (headerBtn) headerBtn.style.display = name === 'treinos' ? '' : 'none';
 
       if (name === 'planilhas') {
         renderPlanilhas();
@@ -1032,98 +990,6 @@
         desc: 'Plano especializado de 5 dias com alta ênfase em Glúteos (Máximo/Médio), Coxas, Postura e Core.',
         tags: ['Definição', 'Glúteos & Coxas', '5 Dias/Semana'],
         schedule: DEFAULT_FEMININO
-      },
-      {
-        id: 'plan_iniciante_fullbody',
-        title: 'Planilha Iniciante Full Body 3x',
-        gender: 'Unissex',
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        desc: 'Rotina de 3 dias alternados para quem está começando na academia ou busca condicionamento geral rápido.',
-        tags: ['Iniciante', '3 Dias/Semana', 'Full Body'],
-        schedule: [
-          {
-            day: 'Segunda', short: 'SEG', icon: '<i class="fa-solid fa-dumbbell"></i>', name: 'Full Body A', color: '#dc143c', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/fullbody.png',
-            exercises: [
-              { id: 'ini_1', name: 'Leg Press 45°', muscle: 'Quadríceps', sets: 3, reps: '12', weight: '60 kg' },
-              { id: 'ini_2', name: 'Puxada Aberta no Pulley', muscle: 'Costas', sets: 3, reps: '12', weight: '25 kg' },
-              { id: 'ini_3', name: 'Supino Reto na Máquina', muscle: 'Peitoral', sets: 3, reps: '12', weight: '20 kg' },
-              { id: 'ini_4', name: 'Desenvolvimento com Halteres', muscle: 'Ombros', sets: 3, reps: '12', weight: '6 kg' },
-              { id: 'ini_5', name: 'Prancha Isométrica', muscle: 'Core', sets: 3, reps: '30 seg', weight: 'Corpo' }
-            ]
-          },
-          { day: 'Terça', short: 'TER', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
-          {
-            day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-bolt"></i>', name: 'Full Body B', color: '#4cc9f0', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/legs.png',
-            exercises: [
-              { id: 'ini_6', name: 'Agachamento Sumô com Halter', muscle: 'Pernas/Glúteo', sets: 3, reps: '12', weight: '12 kg' },
-              { id: 'ini_7', name: 'Remada Baixa Triângulo', muscle: 'Costas', sets: 3, reps: '12', weight: '30 kg' },
-              { id: 'ini_8', name: 'Flexão no Banco', muscle: 'Peito/Tríceps', sets: 3, reps: '10', weight: 'Corpo' },
-              { id: 'ini_9', name: 'Rosca Direta com Halteres', muscle: 'Bíceps', sets: 3, reps: '12', weight: '6 kg' },
-              { id: 'ini_10', name: 'Abdominal Infra', muscle: 'Abdômen', sets: 3, reps: '15', weight: 'Corpo' }
-            ]
-          },
-          { day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
-          {
-            day: 'Sexta', short: 'SEX', icon: '<i class="fa-solid fa-fire"></i>', name: 'Full Body C', color: '#ffd166', dur: '50 min', lvl: 'Iniciante', rest: false, image: 'images/shoulders.png',
-            exercises: [
-              { id: 'ini_11', name: 'Stiff com Halteres', muscle: 'Posterior/Glúteo', sets: 3, reps: '12', weight: '10 kg' },
-              { id: 'ini_12', name: 'Elevação Lateral', muscle: 'Ombros', sets: 3, reps: '12', weight: '4 kg' },
-              { id: 'ini_13', name: 'Tríceps Corda', muscle: 'Tríceps', sets: 3, reps: '12', weight: '15 kg' },
-              { id: 'ini_14', name: 'Cadeira Extensora', muscle: 'Quadríceps', sets: 3, reps: '12', weight: '30 kg' },
-              { id: 'ini_15', name: 'Caminhada Esteira', muscle: 'Cardio', sets: 1, reps: '20 min', weight: 'Cardio' }
-            ]
-          },
-          { day: 'Sábado', short: 'SÁB', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
-          { day: 'Domingo', short: 'DOM', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] }
-        ]
-      },
-      {
-        id: 'plan_fatburn_hiit',
-        title: 'Planilha Perda de Gordura & HIIT',
-        gender: 'Unissex',
-        icon: '<i class="fa-solid fa-fire"></i>',
-        desc: 'Combinação metabólica de alta intensidade para acelerar o gasto calórico e preservar massa magra.',
-        tags: ['Emagrecimento', 'Metabólico', '4 Dias/Semana'],
-        schedule: [
-          {
-            day: 'Segunda', short: 'SEG', icon: '<i class="fa-solid fa-fire"></i>', name: 'Superiores & HIIT', color: '#ef476f', dur: '55 min', lvl: 'Alta', rest: false, image: 'images/chest.png',
-            exercises: [
-              { id: 'fb_1', name: 'Supino Reto + Flexão', muscle: 'Peitoral (Bi-set)', sets: 4, reps: '10 + 10', weight: '40 kg' },
-              { id: 'fb_2', name: 'Remada Curvada com Halteres', muscle: 'Costas', sets: 4, reps: '12', weight: '16 kg' },
-              { id: 'fb_3', name: 'Desenvolvimento c/ Halteres', muscle: 'Ombros', sets: 3, reps: '12', weight: '10 kg' },
-              { id: 'fb_4', name: 'HIIT Esteira (Tiro 30s / 30s descanso)', muscle: 'Cardio', sets: 10, reps: '10 min', weight: 'Corrida' }
-            ]
-          },
-          {
-            day: 'Terça', short: 'TER', icon: '<i class="fa-solid fa-shoe-prints"></i>', name: 'Inferiores & Core', color: '#4cc9f0', dur: '60 min', lvl: 'Alta', rest: false, image: 'images/legs.png',
-            exercises: [
-              { id: 'fb_5', name: 'Agachamento Livre', muscle: 'Quadríceps', sets: 4, reps: '10', weight: '50 kg' },
-              { id: 'fb_6', name: 'Leg Press 45°', muscle: 'Coxas', sets: 4, reps: '12', weight: '120 kg' },
-              { id: 'fb_7', name: 'Passada com Halteres', muscle: 'Glúteos/Coxas', sets: 3, reps: '12 cada', weight: '10 kg' },
-              { id: 'fb_8', name: 'Prancha + Mountain Climbers', muscle: 'Core', sets: 4, reps: '45 seg', weight: 'Corpo' }
-            ]
-          },
-          { day: 'Quarta', short: 'QUA', icon: '<i class="fa-solid fa-bed"></i>', name: 'Descanso Ativo', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
-          {
-            day: 'Quinta', short: 'QUI', icon: '<i class="fa-solid fa-bolt"></i>', name: 'Full Body Metabólico', color: '#a78bfa', dur: '55 min', lvl: 'Alta', rest: false, image: 'images/fullbody.png',
-            exercises: [
-              { id: 'fb_9', name: 'Levantamento Terra com Halteres', muscle: 'Posterior/Costas', sets: 4, reps: '10', weight: '18 kg' },
-              { id: 'fb_10', name: 'Puxada Pulley', muscle: 'Costas', sets: 4, reps: '12', weight: '40 kg' },
-              { id: 'fb_11', name: 'Burpees em Circuito', muscle: 'Full Body', sets: 4, reps: '12', weight: 'Corpo' },
-              { id: 'fb_12', name: 'Abdominal infra', muscle: 'Core', sets: 4, reps: '20', weight: 'Corpo' }
-            ]
-          },
-          {
-            day: 'Sexta', short: 'SEX', icon: '<i class="fa-solid fa-person-running"></i>', name: 'Cardio Burn & Core', color: '#ffd166', dur: '45 min', lvl: 'Média', rest: false, image: 'images/shoulders.png',
-            exercises: [
-              { id: 'fb_13', name: 'Bike Spinning / Esteira', muscle: 'Cardio Contínuo', sets: 1, reps: '30 min', weight: 'Moderado' },
-              { id: 'fb_14', name: 'Prancha Lateral', muscle: 'Core', sets: 3, reps: '40 seg cada', weight: 'Corpo' },
-              { id: 'fb_15', name: 'Abdominal Russo', muscle: 'Cintura', sets: 3, reps: '20', weight: '5 kg' }
-            ]
-          },
-          { day: 'Sábado', short: 'SÁB', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] },
-          { day: 'Domingo', short: 'DOM', icon: '<i class="fa-solid fa-spa"></i>', name: 'Descanso', color: '#22d3a0', dur: '—', lvl: '—', rest: true, image: 'images/rest.png', exercises: [] }
-        ]
       }
     ];
 
@@ -1144,10 +1010,12 @@
             ${plan.tags.map(t => `<span class="sheet-tag">${t}</span>`).join('')}
           </div>
           <div class="sheet-card-actions">
-            <button class="btn-sheet-download" onclick="downloadPlanilha(${idx})">
-              <i class="fa-solid fa-download"></i> Baixar CSV
+            <button class="btn-sheet-download" onclick="downloadPDF('${plan.gender.toLowerCase()}')">
+              <i class="fa-solid fa-file-pdf"></i> Baixar PDF
             </button>
-
+            <button class="btn-sheet-download" onclick="downloadPlanilha(${idx})" style="background:rgba(255,255,255,0.08);color:#fff;box-shadow:none;">
+              <i class="fa-solid fa-file-csv"></i> Baixar CSV
+            </button>
             <button class="btn-sheet-apply" onclick="applyPlanilha(${idx})">
               <i class="fa-solid fa-bolt"></i> Aplicar no App
             </button>
