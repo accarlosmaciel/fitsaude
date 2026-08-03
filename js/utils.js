@@ -9,9 +9,9 @@ function toast(icon, msg) {
   t.classList.add('show');
   clearTimeout(t._t);
   t._t = setTimeout(() => t.classList.remove('show'), 2600);
-  
+
   if ('vibrate' in navigator) {
-    try { navigator.vibrate([30, 20, 30]); } catch(e){}
+    try { navigator.vibrate([30, 20, 30]); } catch (e) { }
   }
 }
 
@@ -20,7 +20,7 @@ function shareAppProgress(title = 'FitSaúde – Treino', text = 'Acompanhe meu 
   if (navigator.share) {
     navigator.share({ title, text, url: window.location.href })
       .then(() => toast('<i class="fa-solid fa-share-nodes"></i>', 'Compartilhado com sucesso!'))
-      .catch(() => {});
+      .catch(() => { });
   } else {
     navigator.clipboard?.writeText(`${title} - ${text} (${window.location.href})`);
     toast('<i class="fa-solid fa-copy"></i>', 'Link copiado para a área de transferência!');
@@ -71,7 +71,7 @@ function playTimerEndSound() {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) return;
     const ctx = new AudioContext();
-    
+
     // Play 3 cheerful beep notes
     const playNote = (freq, startTime, duration) => {
       const osc = ctx.createOscillator();
