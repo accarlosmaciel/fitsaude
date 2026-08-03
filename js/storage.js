@@ -89,3 +89,14 @@ function importBackupJSON(file) {
   };
   reader.readAsText(file);
 }
+
+function importData() {
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.json,application/json';
+  inp.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) importBackupJSON(file);
+  };
+  inp.click();
+}

@@ -291,6 +291,59 @@
         <button class="btn-save" style="margin-top:10px;" onclick="saveProfile()"><i
             class="fa-solid fa-floppy-disk"></i> Salvar Perfil</button>
       </div>
+
+      <!-- App Personalização & Temas Card -->
+      <div class="profile-card" style="margin-top:16px;">
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-palette"></i> Aparência & Temas</div>
+
+        <div class="form-group">
+          <label class="form-label">Modo do Tema</label>
+          <div class="rest-buttons-row" style="margin-top:6px;">
+            <button class="btn-rest-preset" onclick="setTheme('dark')"><i class="fa-solid fa-moon"></i> Dark</button>
+            <button class="btn-rest-preset" onclick="setTheme('light')"><i class="fa-solid fa-sun"></i> Light</button>
+            <button class="btn-rest-preset" onclick="setTheme('auto')"><i class="fa-solid fa-circle-half-stroke"></i> Automático</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Cor Principal</label>
+          <div class="rest-buttons-row" style="margin-top:6px;">
+            <button class="btn-rest-preset" style="background:#dc143c;color:#fff;" onclick="setColor('red')">Vermelho</button>
+            <button class="btn-rest-preset" style="background:#8b5cf6;color:#fff;" onclick="setColor('purple')">Roxo</button>
+            <button class="btn-rest-preset" style="background:#3b82f6;color:#fff;" onclick="setColor('blue')">Azul</button>
+            <button class="btn-rest-preset" style="background:#10b981;color:#fff;" onclick="setColor('green')">Verde</button>
+            <button class="btn-rest-preset" style="background:#f97316;color:#fff;" onclick="setColor('orange')">Laranja</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tamanho da Fonte</label>
+          <div class="rest-buttons-row" style="margin-top:6px;">
+            <button class="btn-rest-preset" onclick="setFontSize('small')">Pequeno</button>
+            <button class="btn-rest-preset" onclick="setFontSize('normal')">Normal</button>
+            <button class="btn-rest-preset" onclick="setFontSize('large')">Grande</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button class="btn-reset" style="margin-top:4px;" onclick="toggleHighContrast()"><i class="fa-solid fa-eye"></i> Alternar Alto Contraste</button>
+        </div>
+      </div>
+
+      <!-- Backup & Web Features Card -->
+      <div class="profile-card" style="margin-top:16px;">
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-floppy-disk"></i> Backup & Recursos PWA</div>
+
+        <div class="form-grid-2">
+          <button class="btn-save" style="background:var(--bg4);color:var(--txt);" onclick="exportData()"><i class="fa-solid fa-file-export"></i> Exportar JSON</button>
+          <button class="btn-save" style="background:var(--bg4);color:var(--txt);" onclick="importData()"><i class="fa-solid fa-file-import"></i> Importar JSON</button>
+        </div>
+
+        <div class="form-grid-2" style="margin-top:10px;">
+          <button class="btn-reset" onclick="requestWorkoutNotification()"><i class="fa-solid fa-bell"></i> Lembretes</button>
+          <button class="btn-reset" onclick="shareAppProgress()"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
+        </div>
+      </div>
     </div>
 
   </div><!-- /app-shell -->

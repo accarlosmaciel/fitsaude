@@ -144,3 +144,63 @@ function saveProfile() {
   toast('<i class="fa-solid fa-user-check"></i>', 'Perfil atualizado!');
   confetti();
 }
+
+/* ── Theme, Color & Customization ── */
+function applySettings() {
+  const theme = localStorage.getItem('fitsaude_theme') || 'dark';
+  const color = localStorage.getItem('fitsaude_color') || 'red';
+  const fontSize = localStorage.getItem('fitsaude_fontsize') || 'normal';
+  const highContrast = localStorage.getItem('fitsaude_contrast') === 'true';
+
+  document.body.classList.remove('theme-light');
+  if (theme === 'light') {
+    document.body.classList.add('theme-light');
+  } else if (theme === 'auto') {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.body.classList.add('theme-light');
+    }
+  }
+
+  if (color === 'red') {
+    document.body.removeAttribute('data-color');
+  } else {
+    document.body.setAttribute('data-color', color);
+  }
+
+  if (fontSize === 'small') document.documentElement.style.fontSize = '14px';
+  else if (fontSize === 'large') document.documentElement.style.fontSize = '18px';
+  else document.documentElement.style.fontSize = '16px';
+
+  document.body.classList.toggle('high-contrast', highContrast);
+}
+
+function setTheme(t) {
+  localStorage.setItem('fitsaude_theme', t);
+  applySettings();
+  toast('<i class="fa-solid fa-palette"></i>', `Tema alterado (${t})!`);
+}
+
+function setColor(c) {
+  localStorage.setItem('fitsaude_color', c);
+  applySettings();
+  toast('<i class="fa-solid fa-droplet"></i>', 'Cor do app alterada!');
+}
+
+function setFontSize(sz) {
+  localStorage.setItem('fitsaude_fontsize', sz);
+  applySettings();
+  toast('<i class="fa-solid fa-text-height"></i>', 'Tamanho da fonte alterado!');
+}
+
+function toggleHighContrast() {
+  const cur = localStorage.getItem('fitsaude_contrast') === 'true';
+  localStorage.setItem('fitsaude_contrast', !cur);
+  applySettings();
+  toast('<i class="fa-solid fa-eye"></i>', !cur ? 'Alto contraste ativado!' : 'Alto contraste desativado!');
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', applySettings);
+} else {
+  applySettings();
+}
