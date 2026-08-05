@@ -532,66 +532,86 @@
     const DK = 'fitsaude_done_v9';
     const GK = 'fitsaude_gender_v9';
 
-    // GIF database - URLs de animações 3D de exercícios
+    // GIF database - URLs de animações 3D de exercícios (Masculino e Feminino)
     const EXERCISE_GIFS = {
-      // Peito
-      'Supino Reto com Barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
-      'Supino Inclinado com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Dumbbell-Press.gif',
-      'Crucifixo na Polia': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Crossover.gif',
-      // Tríceps
-      'Tríceps Corda': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pushdown.gif',
-      'Tríceps Testa': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/skull-crusher.gif',
-      // Pernas
-      'Agachamento Livre': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/BARBELL-SQUAT.gif',
-      'Leg Press 45°': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
-      'Stiff com Barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Stiff-Leg-Deadlift.gif',
-      'Cadeira Extensora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/LEG-EXTENSION.gif',
-      'Cadeira Flexora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Curl.gif',
-      'Panturrilha em Pé': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Calf-Raise.gif',
-      // Costas
-      'Puxada Aberta no Pulley': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif',
-      'Remada Curvada com Barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
-      'Remada Unilateral (Serrote)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Row.gif',
-      // Bíceps
-      'Rosca Direta com Barra W': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Curl.gif',
-      'Rosca Martelo com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif',
-      // Ombros
-      'Desenvolvimento com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shoulder-Press.gif',
-      'Elevação Lateral na Polia': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Lateral-Raise.gif',
-      'Elevação Lateral': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif',
-      'Elevação Frontal': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Front-Raise.gif',
-      // Abdômen / Core
-      'Abdominal infra Paralelas': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
-      'Prancha Isométrica': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
-      'Prancha Dinâmica': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
-      'Abdominal Infra na Prancha': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
-      'Mountain Climbers': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Mountain-climber.gif',
-      'Abdominal Oblíquio Russo': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Russian-Twist.gif',
-      // Full Body
-      'Levantamento Terra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
-      'Barra Fixa': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif',
-      'Flexão de Braço': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
-      'Agachamento Búlgaro': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Bulgarian-Split-Squat.gif',
-      'Burpees': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Burpee.gif',
-      // Feminino
-      'Elevação Pélvica com Barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Hip-Thrust.gif',
-      'Stiff com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Stiff-Leg-Deadlift.gif',
-      'Glúteo na Polia (Coice)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Kickback.gif',
-      'Cadeira Abdutora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hip-Abduction-Machine.gif',
-      'Rosca Direta com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Curl.gif',
-      'Agachamento Sumô com Halter': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Sumo-Squat.gif',
-      'Leg Press Horizontal': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
-      'Passada/Afundo com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunges.gif',
-      'Panturrilha no Leg Press': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Calf-Press-On-Leg-Press.gif',
-      'Cardio Esteira Inclinada': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Treadmill-Walking.gif',
-      'Elevação Pélvica Unilateral': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Single-Leg-Hip-Thrust.gif',
-      'Remada Baixa Triângulo': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif',
-      'Flexão de Braço no Banco': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
-      'Polichinelos / Corda': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Jumping-Jack.gif',
+      // Peito & Tríceps
+      'supino reto com barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
+      'supino inclinado com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Dumbbell-Press.gif',
+      'crucifixo na polia': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Crossover.gif',
+      'triceps corda': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pushdown.gif',
+      'triceps testa': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/skull-crusher.gif',
+
+      // Pernas & Quadríceps
+      'agachamento livre': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/BARBELL-SQUAT.gif',
+      'leg press 45': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
+      'leg press 45°': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
+      'stiff com barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Stiff-Leg-Deadlift.gif',
+      'cadeira extensora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/LEG-EXTENSION.gif',
+      'cadeira flexora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Curl.gif',
+      'panturrilha em pe': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Calf-Raise.gif',
+
+      // Costas & Bíceps
+      'puxada aberta no pulley': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif',
+      'remada curvada com barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
+      'remada unilateral (serrote)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Row.gif',
+      'rosca direta com barra w': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Curl.gif',
+      'rosca martelo com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif',
+
+      // Ombros & Core
+      'desenvolvimento com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shoulder-Press.gif',
+      'elevacao lateral na polia': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Lateral-Raise.gif',
+      'elevacao lateral': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif',
+      'elevacao frontal': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Front-Raise.gif',
+      'abdominal infra paralelas': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
+      'prancha isometrica': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
+      'prancha dinamica': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
+      'abdominal infra na prancha': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
+      'mountain climbers': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Mountain-climber.gif',
+      'abdominal obliquio russo': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Russian-Twist.gif',
+
+      // Full Body & Outros
+      'levantamento terra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
+      'barra fixa': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif',
+      'flexao de braco': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
+      'agachamento bulgaro': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Bulgarian-Split-Squat.gif',
+      'burpees': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Burpee.gif',
+
+      // Exercícios Feminino / Específicos adicionais solicitados
+      'elevacao pelvica com barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Hip-Thrust.gif',
+      'stiff com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Stiff-Leg-Deadlift.gif',
+      'gluteo na polia (coice)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Kickback.gif',
+      'cadeira abdutora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hip-Abduction-Machine.gif',
+      'rosca direta com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Curl.gif',
+      'agachamento sumo com halter': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Sumo-Squat.gif',
+      'leg press horizontal': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
+      'passada/afundo com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunges.gif',
+      'panturrilha no leg press': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Calf-Press-On-Leg-Press.gif',
+      'cardio esteira inclinada': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Treadmill-Walking.gif',
+      'elevacao pelvica unilateral': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Single-Leg-Hip-Thrust.gif',
+      'remada baixa triangulo': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif',
+      'flexao de braco no banco': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
+      'polichinelos / corda': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Jumping-Jack.gif'
     };
 
+    function normalizeExName(str) {
+      return (str || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
     function getExGif(name) {
-      return EXERCISE_GIFS[name] || '';
+      const norm = normalizeExName(name);
+      if (EXERCISE_GIFS[norm]) return EXERCISE_GIFS[norm];
+
+      // Busca por correspondência parcial de chave
+      for (const key in EXERCISE_GIFS) {
+        if (norm.includes(key) || key.includes(norm)) {
+          return EXERCISE_GIFS[key];
+        }
+      }
+      return '';
     }
 
     const DEFAULT_MASCULINO = [
