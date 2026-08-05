@@ -1691,6 +1691,436 @@ IMPORTANTE: Use sempre o nome do aluno (${p.name || 'Aluno'}) e considere as sua
     }
 
     // ════════════════════════════════════════════════════════
+    //  WORKOUT PLAYER LOGIC
+    // ════════════════════════════════════════════════════════
+    let wpActive = false;
+    let wpExercises = [];
+    let wpCurrentIdx = 0;
+    let wpCurrentSet = 0;
+    let wpRestSeconds = 60;
+    let wpRestTimer = null;
+    let wpRestRemaining = 0;
+    let wpGlobalTimer = null;
+    let wpGlobalSeconds = 0;
+    let wpDayData = null;
+
+    function openWorkoutPlayer() {
+      const d = schedule[activeDay];
+      if (!d || d.rest || !d.exercises.length) return;
+
+      wpDayData = d;
+      wpExercises = d.exercises;
+      wpCurrentIdx = 0;
+      wpCurrentSet = 0;
+      wpGlobalSeconds = 0;
+      wpActive = true;
+
+      document.getElementById('workout-player').classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // Start global timer
+      clearInterval(wpGlobalTimer);
+      wpGlobalTimer = setInterval(() => {
+        wpGlobalSeconds++;
+        document.getElementById('wp-timer').textContent = formatWpTime(wpGlobalSeconds);
+      }, 1000);
+
+      wpRenderExercise();
+    }
+
+    function closeWorkoutPlayer() {
+      wpActive = false;
+      document.body.style.overflow = '';
+      clearInterval(wpGlobalTimer);
+      clearInterval(wpRestTimer);
+
+      const overlay = document.getElementById('wp-rest-overlay');
+      if (overlay) overlay.classList.remove('active');
+
+      // Restore original player HTML if it was replaced by complete screen
+      const player = document.getElementById('workout-player');
+      if (!document.getElementById('wp-gif')) {
+        player.innerHTML = `
+          <div class="wp-header">
+            <button class="wp-header-back" onclick="closeWorkoutPlayer()" aria-label="Voltar"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="wp-header-center">
+              <div class="wp-header-progress" id="wp-progress">1/5</div>
+              <div class="wp-header-group" id="wp-group"></div>
+            </div>
+            <div class="wp-header-timer" id="wp-timer">00:00</div>
+          </div>
+          <div class="wp-gif-container">
+            <img id="wp-gif" src="" alt="Exercício" />
+            <div class="wp-gif-loader" id="wp-gif-loader"><div class="spinner"></div></div>
+            <div class="wp-gif-actions">
+              <button class="wp-gif-action-btn" onclick="reloadGif()" title="Recarregar"><i class="fa-solid fa-rotate"></i></button>
+              <button class="wp-gif-action-btn" onclick="openExInfo()" title="Informações"><i class="fa-solid fa-info"></i></button>
+            </div>
+          </div>
+          <div class="wp-exercise-info">
+            <div class="wp-exercise-name" id="wp-ex-name"></div>
+            <div class="wp-exercise-weight" id="wp-ex-weight">
+              <i class="fa-solid fa-weight-hanging"></i> Peso recomendado: <strong id="wp-ex-weight-val"></strong>
+            </div>
+          </div>
+          <div class="wp-metrics-row">
+            <div class="wp-metric-item reps">
+              <div class="wp-metric-circle">
+                <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-reps" cx="38" cy="38" r="34" id="wp-reps-ring"/></svg>
+                <span class="wp-metric-value" id="wp-reps-val"></span>
+              </div>
+              <span class="wp-metric-label">Repetições<br>necessárias</span>
+            </div>
+            <div class="wp-metric-item rest">
+              <div class="wp-metric-circle">
+                <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-rest" cx="38" cy="38" r="34" id="wp-rest-ring"/></svg>
+                <span class="wp-metric-value" id="wp-rest-val"></span>
+              </div>
+              <span class="wp-metric-label">Descanso</span>
+            </div>
+            <div class="wp-metric-item sets">
+              <div class="wp-metric-circle">
+                <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-sets" cx="38" cy="38" r="34" id="wp-sets-ring"/></svg>
+                <span class="wp-metric-value" id="wp-sets-val"></span>
+              </div>
+              <span class="wp-metric-label">Séries<br>feitas</span>
+            </div>
+          </div>
+          <div class="wp-actions">
+            <button class="wp-btn-complete primary" id="wp-btn-action" onclick="wpCompleteSet()">
+              <i class="fa-solid fa-check"></i> Concluir Série
+            </button>
+          </div>
+          <div class="wp-nav-row">
+            <button class="wp-nav-btn" id="wp-btn-prev" onclick="wpPrevExercise()"><i class="fa-solid fa-chevron-left"></i> Anterior</button>
+            <button class="wp-nav-btn" id="wp-btn-next" onclick="wpNextExercise()">Próximo <i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        `;
+      }
+
+      player.classList.remove('active');
+      renderWorkout();
+      updateStats();
+      renderSummary();
+    }
+
+    function formatWpTime(totalSec) {
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function formatRestTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return m > 0 ? `${m}:${String(s).padStart(2, '0')}` : `0:${String(s).padStart(2, '0')}`;
+    }
+
+    function wpRenderExercise() {
+      if (!wpActive || wpCurrentIdx >= wpExercises.length) return;
+
+      const ex = wpExercises[wpCurrentIdx];
+      const total = wpExercises.length;
+      const groupName = wpDayData ? wpDayData.name.split(' ')[0] : '';
+
+      // Header
+      document.getElementById('wp-progress').textContent = `${wpCurrentIdx + 1}/${total} ${groupName}`;
+      document.getElementById('wp-group').textContent = wpDayData ? wpDayData.name : '';
+
+      // GIF
+      const gifUrl = getExGif(ex.name);
+      const gifImg = document.getElementById('wp-gif');
+      const gifLoader = document.getElementById('wp-gif-loader');
+
+      if (gifUrl) {
+        gifLoader.classList.add('show');
+        gifImg.classList.add('loading');
+        gifImg.onload = () => {
+          gifLoader.classList.remove('show');
+          gifImg.classList.remove('loading');
+        };
+        gifImg.onerror = () => {
+          gifLoader.classList.remove('show');
+          gifImg.classList.remove('loading');
+          gifImg.src = '';
+        };
+        gifImg.src = gifUrl;
+      } else {
+        gifImg.src = '';
+        gifLoader.classList.remove('show');
+      }
+
+      // Exercise info
+      document.getElementById('wp-ex-name').textContent = ex.name;
+      document.getElementById('wp-ex-weight-val').textContent = ex.weight || '—';
+
+      // Metrics
+      document.getElementById('wp-reps-val').textContent = ex.reps;
+      document.getElementById('wp-rest-val').textContent = formatRestTime(wpRestSeconds);
+      document.getElementById('wp-sets-val').textContent = `${wpCurrentSet}/${ex.sets}`;
+
+      // SVG rings
+      const circumference = 2 * Math.PI * 34;
+      // Reps ring - always full
+      const repsRing = document.getElementById('wp-reps-ring');
+      repsRing.style.strokeDasharray = circumference;
+      repsRing.style.strokeDashoffset = 0;
+
+      // Rest ring
+      const restRing = document.getElementById('wp-rest-ring');
+      restRing.style.strokeDasharray = circumference;
+      restRing.style.strokeDashoffset = circumference;
+
+      // Sets ring
+      const setsRing = document.getElementById('wp-sets-ring');
+      setsRing.style.strokeDasharray = circumference;
+      const setsPct = ex.sets > 0 ? wpCurrentSet / ex.sets : 0;
+      setsRing.style.strokeDashoffset = circumference * (1 - setsPct);
+
+      // Button state
+      updateWpActionButton(ex);
+
+      // Nav buttons
+      document.getElementById('wp-btn-prev').disabled = wpCurrentIdx === 0;
+      document.getElementById('wp-btn-next').disabled = wpCurrentIdx >= total - 1;
+    }
+
+    function updateWpActionButton(ex) {
+      const btn = document.getElementById('wp-btn-action');
+      if (wpCurrentSet >= ex.sets) {
+        btn.className = 'wp-btn-complete completed';
+        btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Exercício Concluído';
+        btn.onclick = () => wpNextExercise();
+      } else {
+        btn.className = 'wp-btn-complete primary';
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Concluir Série';
+        btn.onclick = () => wpCompleteSet();
+      }
+    }
+
+    function wpCompleteSet() {
+      if (!wpActive || wpCurrentIdx >= wpExercises.length) return;
+
+      const ex = wpExercises[wpCurrentIdx];
+      if (wpCurrentSet >= ex.sets) return;
+
+      wpCurrentSet++;
+
+      // Show animation
+      const anim = document.getElementById('wp-complete-anim');
+      const animText = document.getElementById('wp-complete-text');
+
+      if (wpCurrentSet >= ex.sets) {
+        // Exercise complete
+        animText.textContent = 'Exercício Concluído! 🎉';
+        done.add(ex.id);
+        saveDone();
+      } else {
+        animText.textContent = `Série ${wpCurrentSet}/${ex.sets} ✅`;
+      }
+
+      anim.classList.add('show');
+      setTimeout(() => anim.classList.remove('show'), 1500);
+
+      wpRenderExercise();
+
+      // Start rest timer if not last set
+      if (wpCurrentSet < ex.sets) {
+        wpStartRestTimer();
+      }
+    }
+
+    function wpStartRestTimer() {
+      wpRestRemaining = wpRestSeconds;
+      const overlay = document.getElementById('wp-rest-overlay');
+      overlay.classList.add('active');
+
+      const circumference = 2 * Math.PI * 82;
+      const progressCircle = document.getElementById('wp-rest-progress');
+      progressCircle.style.strokeDasharray = circumference;
+      progressCircle.style.strokeDashoffset = 0;
+
+      updateRestPresetButtons();
+
+      clearInterval(wpRestTimer);
+      wpRestTimer = setInterval(() => {
+        wpRestRemaining--;
+        document.getElementById('wp-rest-time').textContent = formatRestTime(wpRestRemaining);
+
+        // Update circular progress
+        const pct = 1 - (wpRestRemaining / wpRestSeconds);
+        progressCircle.style.strokeDashoffset = circumference * pct;
+
+        if (wpRestRemaining <= 0) {
+          wpSkipRest();
+        }
+      }, 1000);
+
+      document.getElementById('wp-rest-time').textContent = formatRestTime(wpRestRemaining);
+    }
+
+    function wpSkipRest() {
+      clearInterval(wpRestTimer);
+      document.getElementById('wp-rest-overlay').classList.remove('active');
+    }
+
+    function wpSetRestTime(seconds) {
+      wpRestSeconds = seconds;
+      wpRestRemaining = seconds;
+      document.getElementById('wp-rest-time').textContent = formatRestTime(seconds);
+
+      // Reset progress circle
+      const circumference = 2 * Math.PI * 82;
+      const progressCircle = document.getElementById('wp-rest-progress');
+      progressCircle.style.strokeDasharray = circumference;
+      progressCircle.style.strokeDashoffset = 0;
+
+      updateRestPresetButtons();
+
+      // Restart timer
+      clearInterval(wpRestTimer);
+      wpRestTimer = setInterval(() => {
+        wpRestRemaining--;
+        document.getElementById('wp-rest-time').textContent = formatRestTime(wpRestRemaining);
+        const pct = 1 - (wpRestRemaining / wpRestSeconds);
+        progressCircle.style.strokeDashoffset = circumference * pct;
+        if (wpRestRemaining <= 0) wpSkipRest();
+      }, 1000);
+
+      // Update main display too
+      document.getElementById('wp-rest-val').textContent = formatRestTime(wpRestSeconds);
+    }
+
+    function updateRestPresetButtons() {
+      document.querySelectorAll('.wp-rest-preset-btn').forEach(btn => {
+        const val = parseInt(btn.textContent) || 0;
+        let secs = 0;
+        if (btn.textContent.includes(':')) {
+          const parts = btn.textContent.split(':');
+          secs = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+        } else {
+          secs = parseInt(btn.textContent.replace('s', ''));
+        }
+        btn.classList.toggle('active', secs === wpRestSeconds);
+      });
+    }
+
+    function wpNextExercise() {
+      if (wpCurrentIdx < wpExercises.length - 1) {
+        wpCurrentIdx++;
+        wpCurrentSet = 0;
+        clearInterval(wpRestTimer);
+        document.getElementById('wp-rest-overlay').classList.remove('active');
+        wpRenderExercise();
+      } else {
+        // Workout complete!
+        wpShowWorkoutComplete();
+      }
+    }
+
+    function wpPrevExercise() {
+      if (wpCurrentIdx > 0) {
+        wpCurrentIdx--;
+        wpCurrentSet = 0;
+        clearInterval(wpRestTimer);
+        document.getElementById('wp-rest-overlay').classList.remove('active');
+        wpRenderExercise();
+      }
+    }
+
+    function wpShowWorkoutComplete() {
+      const player = document.getElementById('workout-player');
+      const totalTime = formatWpTime(wpGlobalSeconds);
+      const totalEx = wpExercises.length;
+      const completedEx = wpExercises.filter(e => done.has(e.id)).length;
+
+      clearInterval(wpGlobalTimer);
+
+      player.innerHTML = `
+        <div class="wp-header">
+          <button class="wp-header-back" onclick="closeWorkoutPlayer()" aria-label="Voltar">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="wp-header-center">
+            <div class="wp-header-progress">Treino Finalizado!</div>
+          </div>
+          <div class="wp-header-timer">${totalTime}</div>
+        </div>
+        <div class="wp-workout-complete">
+          <div class="wp-workout-complete-icon"><i class="fa-solid fa-trophy"></i></div>
+          <h2>Parabéns! 🎉</h2>
+          <p>Você completou <strong>${completedEx}/${totalEx}</strong> exercícios em <strong>${totalTime}</strong>.</p>
+          <p>Continue assim, cada treino te deixa mais forte! 💪</p>
+          <button class="btn-start-workout" onclick="closeWorkoutPlayer()" style="background:linear-gradient(135deg,#22d3a0,#10b981);box-shadow:0 6px 28px rgba(34,211,160,0.3);">
+            <i class="fa-solid fa-house"></i> Voltar ao Início
+          </button>
+        </div>
+      `;
+      confetti();
+    }
+
+    function reloadGif() {
+      const img = document.getElementById('wp-gif');
+      if (img && img.src) {
+        const src = img.src.split('?')[0];
+        img.src = src + '?t=' + Date.now();
+      }
+    }
+
+    function openExInfo() {
+      if (!wpActive || wpCurrentIdx >= wpExercises.length) return;
+      const ex = wpExercises[wpCurrentIdx];
+
+      document.getElementById('wp-info-title').textContent = ex.name;
+      document.getElementById('wp-info-content').innerHTML = `
+        <div class="wp-info-row">
+          <span class="wp-info-label">Grupo Muscular</span>
+          <span class="wp-info-val">${ex.muscle}</span>
+        </div>
+        <div class="wp-info-row">
+          <span class="wp-info-label">Séries</span>
+          <span class="wp-info-val">${ex.sets}</span>
+        </div>
+        <div class="wp-info-row">
+          <span class="wp-info-label">Repetições</span>
+          <span class="wp-info-val">${ex.reps}</span>
+        </div>
+        <div class="wp-info-row">
+          <span class="wp-info-label">Carga Sugerida</span>
+          <span class="wp-info-val">${ex.weight || '—'}</span>
+        </div>
+        <div class="wp-info-row">
+          <span class="wp-info-label">Tempo de Descanso</span>
+          <span class="wp-info-val">${formatRestTime(wpRestSeconds)}</span>
+        </div>
+        <div class="wp-info-row" style="border:none;">
+          <span class="wp-info-label">Progresso</span>
+          <span class="wp-info-val">${wpCurrentSet}/${ex.sets} séries feitas</span>
+        </div>
+      `;
+
+      document.getElementById('wp-info-backdrop').classList.add('show');
+      document.getElementById('wp-info-modal').classList.add('show');
+    }
+
+    function closeExInfo() {
+      document.getElementById('wp-info-backdrop').classList.remove('show');
+      document.getElementById('wp-info-modal').classList.remove('show');
+    }
+
+    // Keyboard shortcuts for workout player
+    document.addEventListener('keydown', (e) => {
+      if (!wpActive) return;
+      if (e.key === 'Escape') closeWorkoutPlayer();
+      if (e.key === 'ArrowRight') wpNextExercise();
+      if (e.key === 'ArrowLeft') wpPrevExercise();
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        wpCompleteSet();
+      }
+    });
+
+    // ════════════════════════════════════════════════════════
     //  INIT
     // ════════════════════════════════════════════════════════
     document.getElementById('day-greeting').innerHTML = getGreeting();
