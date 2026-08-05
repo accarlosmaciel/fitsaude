@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="css/pdf_cards.css" />
+  <link rel="stylesheet" href="css/workout_player.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -348,6 +349,116 @@
 
   </div><!-- /app-shell -->
 
+  <!-- ══ WORKOUT PLAYER (Fullscreen) ══════════════════════ -->
+  <div class="workout-player-screen" id="workout-player">
+    <!-- Header -->
+    <div class="wp-header">
+      <button class="wp-header-back" onclick="closeWorkoutPlayer()" aria-label="Voltar">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="wp-header-center">
+        <div class="wp-header-progress" id="wp-progress">1/5 Peito</div>
+        <div class="wp-header-group" id="wp-group">Peito & Tríceps</div>
+      </div>
+      <div class="wp-header-timer" id="wp-timer">00:00</div>
+    </div>
+
+    <!-- GIF Container -->
+    <div class="wp-gif-container">
+      <img id="wp-gif" src="" alt="Exercício" />
+      <div class="wp-gif-loader" id="wp-gif-loader">
+        <div class="spinner"></div>
+      </div>
+      <div class="wp-gif-actions">
+        <button class="wp-gif-action-btn" onclick="reloadGif()" title="Recarregar"><i class="fa-solid fa-rotate"></i></button>
+        <button class="wp-gif-action-btn" onclick="openExInfo()" title="Informações"><i class="fa-solid fa-info"></i></button>
+      </div>
+    </div>
+
+    <!-- Exercise Info -->
+    <div class="wp-exercise-info">
+      <div class="wp-exercise-name" id="wp-ex-name">Supino Reto</div>
+      <div class="wp-exercise-weight" id="wp-ex-weight">
+        <i class="fa-solid fa-weight-hanging"></i> Peso recomendado: <strong id="wp-ex-weight-val">60 kg</strong>
+      </div>
+    </div>
+
+    <!-- Metrics Row -->
+    <div class="wp-metrics-row">
+      <div class="wp-metric-item reps">
+        <div class="wp-metric-circle">
+          <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-reps" cx="38" cy="38" r="34" id="wp-reps-ring"/></svg>
+          <span class="wp-metric-value" id="wp-reps-val">12</span>
+        </div>
+        <span class="wp-metric-label">Repetições<br>necessárias</span>
+      </div>
+      <div class="wp-metric-item rest">
+        <div class="wp-metric-circle">
+          <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-rest" cx="38" cy="38" r="34" id="wp-rest-ring"/></svg>
+          <span class="wp-metric-value" id="wp-rest-val">1:00</span>
+        </div>
+        <span class="wp-metric-label">Descanso</span>
+      </div>
+      <div class="wp-metric-item sets">
+        <div class="wp-metric-circle">
+          <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-sets" cx="38" cy="38" r="34" id="wp-sets-ring"/></svg>
+          <span class="wp-metric-value" id="wp-sets-val">1/4</span>
+        </div>
+        <span class="wp-metric-label">Séries<br>feitas</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="wp-actions">
+      <button class="wp-btn-complete primary" id="wp-btn-action" onclick="wpCompleteSet()">
+        <i class="fa-solid fa-check"></i> Concluir Série
+      </button>
+    </div>
+
+    <!-- Navigation -->
+    <div class="wp-nav-row">
+      <button class="wp-nav-btn" id="wp-btn-prev" onclick="wpPrevExercise()">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="wp-nav-btn" id="wp-btn-next" onclick="wpNextExercise()">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Rest Timer Overlay -->
+  <div class="wp-rest-overlay" id="wp-rest-overlay">
+    <div class="wp-rest-title">⏱️ DESCANSO</div>
+    <div class="wp-rest-circle-wrap pulse">
+      <svg viewBox="0 0 180 180"><circle class="track" cx="90" cy="90" r="82"/><circle class="progress" cx="90" cy="90" r="82" id="wp-rest-progress"/></svg>
+      <span class="wp-rest-time" id="wp-rest-time">1:00</span>
+    </div>
+    <div class="wp-rest-subtitle">Respire fundo e se prepare para a próxima série</div>
+    <div class="wp-rest-presets">
+      <button class="wp-rest-preset-btn" onclick="wpSetRestTime(30)">30s</button>
+      <button class="wp-rest-preset-btn active" onclick="wpSetRestTime(60)">1:00</button>
+      <button class="wp-rest-preset-btn" onclick="wpSetRestTime(90)">1:30</button>
+      <button class="wp-rest-preset-btn" onclick="wpSetRestTime(120)">2:00</button>
+    </div>
+    <button class="wp-rest-skip-btn" onclick="wpSkipRest()">
+      <i class="fa-solid fa-forward"></i> Pular Descanso
+    </button>
+  </div>
+
+  <!-- Info Modal -->
+  <div class="wp-info-modal-backdrop" id="wp-info-backdrop" onclick="closeExInfo()"></div>
+  <div class="wp-info-modal" id="wp-info-modal">
+    <div class="wp-info-handle"></div>
+    <div class="wp-info-title" id="wp-info-title">Informações</div>
+    <div id="wp-info-content"></div>
+  </div>
+
+  <!-- Complete Animation -->
+  <div class="wp-complete-anim" id="wp-complete-anim">
+    <div class="wp-complete-icon"><i class="fa-solid fa-check"></i></div>
+    <div class="wp-complete-text" id="wp-complete-text">Série Concluída!</div>
+  </div>
+
   <!-- ── Bottom Navigation ──────────────────────────────── -->
   <nav class="bottom-nav" role="navigation" aria-label="Navegação principal">
     <button class="nav-btn active" id="nav-treinos" onclick="switchScreen('treinos')" aria-label="Treinos">
@@ -420,6 +531,68 @@
     const SK_FEM = 'fitsaude_sched_fem_v9';
     const DK = 'fitsaude_done_v9';
     const GK = 'fitsaude_gender_v9';
+
+    // GIF database - URLs de animações 3D de exercícios
+    const EXERCISE_GIFS = {
+      // Peito
+      'Supino Reto com Barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
+      'Supino Inclinado com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Dumbbell-Press.gif',
+      'Crucifixo na Polia': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Crossover.gif',
+      // Tríceps
+      'Tríceps Corda': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pushdown.gif',
+      'Tríceps Testa': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/skull-crusher.gif',
+      // Pernas
+      'Agachamento Livre': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/BARBELL-SQUAT.gif',
+      'Leg Press 45°': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
+      'Stiff com Barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Stiff-Leg-Deadlift.gif',
+      'Cadeira Extensora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/LEG-EXTENSION.gif',
+      'Cadeira Flexora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Curl.gif',
+      'Panturrilha em Pé': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Calf-Raise.gif',
+      // Costas
+      'Puxada Aberta no Pulley': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif',
+      'Remada Curvada com Barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
+      'Remada Unilateral (Serrote)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Row.gif',
+      // Bíceps
+      'Rosca Direta com Barra W': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Curl.gif',
+      'Rosca Martelo com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif',
+      // Ombros
+      'Desenvolvimento com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shoulder-Press.gif',
+      'Elevação Lateral na Polia': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Lateral-Raise.gif',
+      'Elevação Lateral': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif',
+      'Elevação Frontal': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Front-Raise.gif',
+      // Abdômen / Core
+      'Abdominal infra Paralelas': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
+      'Prancha Isométrica': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
+      'Prancha Dinâmica': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
+      'Abdominal Infra na Prancha': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
+      'Mountain Climbers': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Mountain-climber.gif',
+      'Abdominal Oblíquio Russo': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Russian-Twist.gif',
+      // Full Body
+      'Levantamento Terra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
+      'Barra Fixa': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif',
+      'Flexão de Braço': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
+      'Agachamento Búlgaro': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Bulgarian-Split-Squat.gif',
+      'Burpees': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Burpee.gif',
+      // Feminino
+      'Elevação Pélvica com Barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Hip-Thrust.gif',
+      'Stiff com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Stiff-Leg-Deadlift.gif',
+      'Glúteo na Polia (Coice)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Kickback.gif',
+      'Cadeira Abdutora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hip-Abduction-Machine.gif',
+      'Rosca Direta com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Curl.gif',
+      'Agachamento Sumô com Halter': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Sumo-Squat.gif',
+      'Leg Press Horizontal': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
+      'Passada/Afundo com Halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunges.gif',
+      'Panturrilha no Leg Press': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Calf-Press-On-Leg-Press.gif',
+      'Cardio Esteira Inclinada': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Treadmill-Walking.gif',
+      'Elevação Pélvica Unilateral': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Single-Leg-Hip-Thrust.gif',
+      'Remada Baixa Triângulo': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif',
+      'Flexão de Braço no Banco': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
+      'Polichinelos / Corda': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Jumping-Jack.gif',
+    };
+
+    function getExGif(name) {
+      return EXERCISE_GIFS[name] || '';
+    }
 
     const DEFAULT_MASCULINO = [
       {
@@ -787,11 +960,22 @@
       <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
     </div>
 
-    <!-- Exercises -->
-    <div class="section-label"><i class="fa-solid fa-list-check"></i> Exercícios</div>
-    <div class="ex-list-wrap">
-      ${d.exercises.map((ex, i) => renderExItem(ex, i)).join('')}
+    <!-- Exercises (redesigned with GIF thumbnails) -->
+    <div class="workout-list-header">
+      <div class="workout-list-header-icon" style="background:${d.color}22;">
+        ${d.icon}
+      </div>
+      <div class="workout-list-header-info">
+        <h3>${d.name}</h3>
+        <span>${d.exercises.length} exercícios</span>
+      </div>
     </div>
+    <div class="ex-list-new">
+      ${d.exercises.map((ex, i) => renderExItemNew(ex, i)).join('')}
+    </div>
+    ${d.exercises.length > 0 ? `<button class="btn-start-workout" onclick="openWorkoutPlayer()">
+      <i class="fa-solid fa-play"></i> INÍCIO
+    </button>` : ''}
   `;
     }
 
@@ -817,6 +1001,27 @@
         </div>
       </div>
       <div class="ex-check-circle">${isDone ? '<i class="fa-solid fa-check"></i>' : ''}</div>
+    </div>
+  `;
+    }
+
+    /* ── New Exercise Item (with GIF thumbnail) ── */
+    function renderExItemNew(ex, i) {
+      const isDone = done.has(ex.id);
+      const gifUrl = getExGif(ex.name);
+      return `
+    <div class="ex-item-new ${isDone ? 'done' : ''}" id="ex-${ex.id}"
+         onclick="toggleEx('${ex.id}')" role="checkbox" aria-checked="${isDone}" tabindex="0">
+      <div class="ex-gif-thumb">
+        ${gifUrl ? `<img src="${gifUrl}" alt="${ex.name}" loading="lazy" />` : `<span class="ex-gif-placeholder"><i class="fa-solid fa-dumbbell"></i></span>`}
+      </div>
+      <div class="ex-item-new-body">
+        <div class="ex-item-new-name">${ex.name}</div>
+        <div class="ex-item-new-meta">${ex.sets} Séries × ${ex.reps} Rep.${ex.weight && ex.weight !== 'Corpo' ? ` × ${ex.weight}` : ''}</div>
+      </div>
+      <div class="ex-item-new-check">
+        ${isDone ? '<i class="fa-solid fa-check"></i>' : ''}
+      </div>
     </div>
   `;
     }
