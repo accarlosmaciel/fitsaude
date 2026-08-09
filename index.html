@@ -535,62 +535,80 @@
     // GIF database - URLs de animações 3D de exercícios (Masculino e Feminino)
     const EXERCISE_GIFS = {
       // Peito & Tríceps
-      'supino reto com barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
-      'supino inclinado com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Dumbbell-Press.gif',
-      'crucifixo na polia': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Crossover.gif',
-      'triceps corda': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pushdown.gif',
-      'triceps testa': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/skull-crusher.gif',
+      'supino reto com barra': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/barbell-bench-press.gif',
+      'supino inclinado com halteres': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-incline-bench-press.gif',
+      'crucifixo na polia': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-one-arm-decline-chest-fly.gif',
+      'triceps corda': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif',
+      'triceps testa': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/barbell-lying-triceps-extension-skull-crusher.gif',
+      'flexao de braco': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/incline-close-grip-push-up.gif',
+      'flexao de braco no banco': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/incline-push-up-depth-jump.gif',
 
-      // Pernas & Quadríceps
-      'agachamento livre': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/BARBELL-SQUAT.gif',
-      'leg press 45': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
-      'leg press 45°': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
-      'stiff com barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Stiff-Leg-Deadlift.gif',
-      'cadeira extensora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/LEG-EXTENSION.gif',
-      'cadeira flexora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Curl.gif',
-      'panturrilha em pe': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Calf-Raise.gif',
+      // Pernas, Quadríceps & Glúteos
+      'agachamento livre': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/barbell-full-squat-back-pov.gif',
+      'leg press 45': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/sled-45-degrees-one-leg-press.gif',
+      'leg press 45°': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/sled-45-degrees-one-leg-press.gif',
+      'stiff com barra': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/barbell-stiff-leg-good-morning.gif',
+      'stiff com halteres': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/dumbbell-stiff-leg-deadlift.gif',
+      'cadeira extensora': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/quads/lever-leg-extension.gif',
+      'cadeira flexora': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/hamstrings/cable-assisted-inverse-leg-curl.gif',
+      'panturrilha em pe': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/calves/barbell-standing-calf-raise.gif',
+      'punturrilha em pe': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/calves/barbell-standing-calf-raise.gif',
+      'panturrilha no leg press': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/calves/lever-calf-press.gif',
+      'agachamento bulgaro': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/quads/band-one-arm-single-leg-split-squat.gif',
+      'elevacao pelvica com barra': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/barbell-glute-bridge.gif',
+      'elevacao pelvica unilateral': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/glute-bridge-march.gif',
+      'gluteo na polia (coice)': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/adductors/cable-hip-adduction.gif',
+      'cadeira abdutora': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/abductors/lever-seated-hip-abduction.gif',
+      'agachamento sumo com halter': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/smith-sumo-squat.gif',
+      'leg press horizontal': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/lever-horizontal-one-leg-press.gif',
+      'passada/afundo com halteres': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/barbell-lunge.gif',
 
       // Costas & Bíceps
-      'puxada aberta no pulley': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif',
-      'remada curvada com barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
-      'remada unilateral (serrote)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Row.gif',
-      'rosca direta com barra w': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Curl.gif',
-      'rosca martelo com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif',
+      'puxada aberta no pulley': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/cable-pulldown-bicep-curl.gif',
+      'remada curvada com barra': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/barbell-bent-over-row.gif',
+      'remada unilateral (serrote)': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/barbell-one-arm-bent-over-row.gif',
+      'remada baixa triangulo': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/cable-low-seated-row.gif',
+      'rosca direta com barra w': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/barbell-curl.gif',
+      'rosca direta com halteres': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/dumbbell-biceps-curl-reverse.gif',
+      'rosca martelo com halteres': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/cable-hammer-curl-with-rope.gif',
+      'barra fixa': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/biceps-narrow-pull-ups.gif',
+      'levantamento terra': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/barbell-deadlift.gif',
 
       // Ombros & Core
-      'desenvolvimento com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shoulder-Press.gif',
-      'elevacao lateral na polia': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Lateral-Raise.gif',
-      'elevacao lateral': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif',
-      'elevacao frontal': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Front-Raise.gif',
-      'abdominal infra paralelas': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
-      'prancha isometrica': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
-      'prancha dinamica': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif',
-      'abdominal infra na prancha': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hanging-Leg-Raise.gif',
-      'mountain climbers': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Mountain-climber.gif',
-      'abdominal obliquio russo': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Russian-Twist.gif',
+      'desenvolvimento com halteres': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press-parallel-grip.gif',
+      'elevacao lateral na polia': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-one-arm-lateral-raise.gif',
+      'elevacao lateral': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif',
+      'elevacao frontal': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-front-raise.gif',
+      'abdominal infra paralelas': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/abs/hanging-leg-raise.gif',
+      'prancha isometrica': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/abs/front-plank-with-twist.gif',
+      'prancha dinamica': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/abs/front-plank-with-twist.gif',
+      'abdominal infra na prancha': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/abs/decline-crunch.gif',
+      'mountain climbers': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/cardio/mountain-climber.gif',
+      'abdominal obliquio russo': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/abs/assisted-motion-russian-twist.gif',
 
-      // Full Body & Outros
-      'levantamento terra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
-      'barra fixa': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif',
-      'flexao de braco': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
-      'agachamento bulgaro': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Bulgarian-Split-Squat.gif',
-      'burpees': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Burpee.gif',
+      // Cardio & Full Body
+      'burpees': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/cardio/burpee.gif',
+      'cardio esteira inclinada': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/cardio/walking-on-incline-treadmill.gif',
+      'polichinelos / corda': 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/cardio/burpee.gif'
+    };
 
-      // Exercícios Feminino / Específicos adicionais solicitados
-      'elevacao pelvica com barra': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Hip-Thrust.gif',
-      'stiff com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Stiff-Leg-Deadlift.gif',
-      'gluteo na polia (coice)': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Kickback.gif',
-      'cadeira abdutora': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hip-Abduction-Machine.gif',
-      'rosca direta com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Curl.gif',
-      'agachamento sumo com halter': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Sumo-Squat.gif',
-      'leg press horizontal': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
-      'passada/afundo com halteres': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunges.gif',
-      'panturrilha no leg press': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Calf-Press-On-Leg-Press.gif',
-      'cardio esteira inclinada': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Treadmill-Walking.gif',
-      'elevacao pelvica unilateral': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Single-Leg-Hip-Thrust.gif',
-      'remada baixa triangulo': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif',
-      'flexao de braco no banco': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
-      'polichinelos / corda': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Jumping-Jack.gif'
+    const EX_ALIASES = {
+      'punturrilha': 'panturrilha em pe',
+      'punturrilha em pe': 'panturrilha em pe',
+      'punturrilha em pe': 'panturrilha em pe',
+      'panturrilha': 'panturrilha em pe',
+      'stiff': 'stiff com barra',
+      'testa': 'triceps testa',
+      'coice': 'gluteo na polia (coice)',
+      'gluteo coice': 'gluteo na polia (coice)',
+      'afundo': 'passada/afundo com halteres',
+      'passada': 'passada/afundo com halteres',
+      'sumo': 'agachamento sumo com halter',
+      'bulgaro': 'agachamento bulgaro',
+      'esteira': 'cardio esteira inclinada',
+      'polichinelo': 'polichinelos / corda',
+      'polichinelos': 'polichinelos / corda',
+      'corda': 'triceps corda'
     };
 
     function normalizeExName(str) {
@@ -598,19 +616,41 @@
         .toLowerCase()
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
         .trim();
     }
 
     function getExGif(name) {
       const norm = normalizeExName(name);
+      if (!norm) return '';
       if (EXERCISE_GIFS[norm]) return EXERCISE_GIFS[norm];
+      if (EX_ALIASES[norm] && EXERCISE_GIFS[EX_ALIASES[norm]]) return EXERCISE_GIFS[EX_ALIASES[norm]];
 
-      // Busca por correspondência parcial de chave
+      for (const aliasKey in EX_ALIASES) {
+        if (norm.includes(aliasKey)) {
+          const target = EX_ALIASES[aliasKey];
+          if (EXERCISE_GIFS[target]) return EXERCISE_GIFS[target];
+        }
+      }
+
+      // Busca por correspondência de substring
       for (const key in EXERCISE_GIFS) {
-        if (norm.includes(key) || key.includes(norm)) {
+        const normKey = normalizeExName(key);
+        if (norm.includes(normKey) || normKey.includes(norm)) {
           return EXERCISE_GIFS[key];
         }
       }
+
+      // Palavras-chave individuais
+      const tokens = norm.split(' ').filter(t => t.length > 3);
+      for (const key in EXERCISE_GIFS) {
+        const normKey = normalizeExName(key);
+        if (tokens.some(t => normKey.includes(t))) {
+          return EXERCISE_GIFS[key];
+        }
+      }
+
       return '';
     }
 
@@ -1033,7 +1073,7 @@
     <div class="ex-item-new ${isDone ? 'done' : ''}" id="ex-${ex.id}"
          onclick="toggleEx('${ex.id}')" role="checkbox" aria-checked="${isDone}" tabindex="0">
       <div class="ex-gif-thumb">
-        ${gifUrl ? `<img src="${gifUrl}" alt="${ex.name}" loading="lazy" />` : `<span class="ex-gif-placeholder"><i class="fa-solid fa-dumbbell"></i></span>`}
+        ${gifUrl ? `<img src="${gifUrl}" alt="${ex.name}" loading="lazy" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';" /><span class="ex-gif-placeholder" style="display:none;"><i class="fa-solid fa-dumbbell"></i></span>` : `<span class="ex-gif-placeholder"><i class="fa-solid fa-dumbbell"></i></span>`}
       </div>
       <div class="ex-item-new-body">
         <div class="ex-item-new-name">${ex.name}</div>
@@ -2146,6 +2186,13 @@ IMPORTANTE: Use sempre o nome do aluno (${p.name || 'Aluno'}) e considere as sua
     document.getElementById('day-greeting').innerHTML = getGreeting();
     render();
     renderPlanilhas();
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(err => console.log('SW reg error:', err));
+      });
+    }
 
     // Initial bot message
     setTimeout(() => {
