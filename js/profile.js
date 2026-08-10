@@ -141,7 +141,6 @@ function saveProfile() {
   const dayGreeting = document.getElementById('day-greeting');
   if (dayGreeting && typeof getGreeting === 'function') dayGreeting.innerHTML = getGreeting();
 
-  toast('<i class="fa-solid fa-user-check"></i>', 'Perfil atualizado!', 2000);
   confetti();
 }
 
