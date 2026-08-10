@@ -2084,13 +2084,13 @@ body[data-color="orange"] {
   }
 }
 
-/* ─── Cronômetro de Cardio ───────────────────────────────────── */
+/* ─── Cronômetro de Cardio (Versão Compacta) ──────────────────── */
 .cardio-card {
   background: var(--bg2);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: 20px;
-  margin-top: 16px;
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  margin-top: 20px;
   margin-bottom: 20px;
   box-shadow: var(--sh);
   transition: border-color 0.3s ease;
@@ -2104,16 +2104,16 @@ body[data-color="orange"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .cardio-title {
-  font-size: 1.05rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--txt);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .cardio-title i {
@@ -2121,10 +2121,10 @@ body[data-color="orange"] {
 }
 
 .cardio-badge {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
+  padding: 3px 8px;
+  border-radius: 12px;
   background: rgba(220, 20, 60, 0.12);
   color: var(--red-light);
   border: 1px solid rgba(220, 20, 60, 0.25);
@@ -2139,35 +2139,35 @@ body[data-color="orange"] {
 
 @keyframes pulseGreen {
   0% { box-shadow: 0 0 0 0 rgba(34, 211, 160, 0.4); }
-  70% { box-shadow: 0 0 0 8px rgba(34, 211, 160, 0); }
+  70% { box-shadow: 0 0 0 6px rgba(34, 211, 160, 0); }
   100% { box-shadow: 0 0 0 0 rgba(34, 211, 160, 0); }
 }
 
 .cardio-meta-label {
-  font-size: 0.8rem;
+  font-size: 0.73rem;
   font-weight: 600;
   color: var(--txt2);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
 .cardio-chips {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 6px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
 }
 
 .cardio-chip {
   flex: 1;
-  min-width: 70px;
-  padding: 8px 12px;
+  min-width: 55px;
+  padding: 5px 8px;
   border-radius: var(--r-sm);
   background: var(--bg3);
   border: 1px solid var(--border);
   color: var(--txt2);
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -2183,89 +2183,89 @@ body[data-color="orange"] {
   background: var(--red);
   color: #fff;
   border-color: var(--red);
-  box-shadow: 0 4px 12px var(--red-glow);
+  box-shadow: 0 2px 8px var(--red-glow);
 }
 
 .cardio-timer-body {
   text-align: center;
   background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  padding: 16px;
-  margin-bottom: 14px;
+  border-radius: var(--r-sm);
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .cardio-time-label {
-  font-size: 0.72rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: var(--txt3);
-  letter-spacing: 1px;
-  margin-bottom: 4px;
+  letter-spacing: 0.8px;
+  margin-bottom: 2px;
 }
 
 .cardio-clock {
   font-family: 'Outfit', 'Space Grotesk', sans-serif;
-  font-size: 2.4rem;
+  font-size: 1.65rem;
   font-weight: 800;
   color: var(--txt);
   letter-spacing: 1px;
 }
 
 .cardio-remaining {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--txt2);
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .cardio-progress-track {
-  height: 8px;
+  height: 6px;
   background: var(--bg3);
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   border: 1px solid var(--border);
 }
 
 .cardio-progress-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--red), var(--red-light));
-  border-radius: 4px;
+  border-radius: 3px;
   transition: width 0.3s ease;
 }
 
 .cardio-pct-text {
-  font-size: 0.76rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--txt2);
   text-align: right;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .cardio-controls {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .btn-cardio {
   flex: 1;
-  padding: 12px 16px;
-  border-radius: var(--r-md);
-  font-size: 0.9rem;
+  padding: 8px 12px;
+  border-radius: var(--r-sm);
+  font-size: 0.82rem;
   font-weight: 700;
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   transition: all 0.2s ease;
 }
 
 .btn-cardio-start {
   background: var(--red);
   color: #fff;
-  box-shadow: 0 4px 14px var(--red-glow);
+  box-shadow: 0 3px 10px var(--red-glow);
 }
 
 .btn-cardio-start:hover {
@@ -2276,7 +2276,7 @@ body[data-color="orange"] {
 .btn-cardio-pause {
   background: #f59e0b;
   color: #fff;
-  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
 }
 
 .btn-cardio-pause:hover {
@@ -2286,7 +2286,7 @@ body[data-color="orange"] {
 .btn-cardio-resume {
   background: #10b981;
   color: #fff;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
 }
 
 .btn-cardio-resume:hover {
