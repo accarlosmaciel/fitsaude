@@ -2304,3 +2304,239 @@ body[data-color="orange"] {
   color: #ef4444;
   border-color: rgba(239, 68, 68, 0.3);
 }
+
+/* ─── Meta de Hidratação 💧 ──────────────────────────────────── */
+.hydration-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--sh);
+  transition: border-color 0.3s ease;
+}
+
+.hydration-card:hover {
+  border-color: rgba(56, 189, 248, 0.25);
+}
+
+.hydration-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.hydration-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--txt);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hydration-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 12px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.hydration-badge.goal-reached {
+  background: rgba(34, 211, 160, 0.15);
+  color: #22d3a0;
+  border-color: rgba(34, 211, 160, 0.35);
+  animation: pulseGreen 1.5s infinite;
+}
+
+.hydration-meta-label {
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: var(--txt2);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.hydration-chips {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.water-chip {
+  flex: 1;
+  min-width: 42px;
+  padding: 5px 6px;
+  border-radius: var(--r-sm);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--txt2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.water-chip:hover {
+  background: var(--bg4);
+  color: var(--txt);
+}
+
+.water-chip.active {
+  background: #0284c7;
+  color: #fff;
+  border-color: #38bdf8;
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.35);
+}
+
+.hydration-body {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+
+.water-intake-val {
+  font-family: 'Outfit', 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+.water-target-sub {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--txt2);
+  margin-left: 6px;
+}
+
+.hydration-pct {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--txt);
+}
+
+.water-progress-track {
+  height: 8px;
+  background: var(--bg3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+
+.water-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.water-quick-add {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.btn-water-add {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-water-add:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-water-reset {
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  background: var(--bg3);
+  color: var(--txt2);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-water-reset:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.water-reminders-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 8px 12px;
+}
+
+.reminder-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--txt2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reminder-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-select-sm {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  border-radius: var(--r-sm);
+  background: var(--bg2);
+  color: var(--txt);
+  border: 1px solid var(--border);
+}
+
+.btn-toggle-reminder {
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+  background: var(--bg4);
+  color: var(--txt2);
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-toggle-reminder.active {
+  background: rgba(34, 211, 160, 0.15);
+  color: #22d3a0;
+  border-color: rgba(34, 211, 160, 0.35);
+}

@@ -204,3 +204,170 @@ if (document.readyState === 'loading') {
 } else {
   applySettings();
 }
+
+/* ── Meta de Hidratação 💧 ── */
+const HK_GOAL = 'fitsaude_water_goal_v1';
+const HK_INTAKE = 'fitsaude_water_intake_v1';
+const HK_DATE = 'fitsaude_water_date_v1';
+const HK_REMINDER = 'fitsaude_water_reminder_v1';
+const HK_FREQ = 'fitsaude_water_freq_v1';
+
+let waterGoalMl = 3000;
+let waterIntakeMl = 0;
+let waterReminderActive = false;
+let waterReminderFreqHours = 2;
+let waterReminderTimer = null;
+let waterGoalCelebratedToday = false;
+
+function initHydration() {
+  const savedGoal = localStorage.getItem(HK_GOAL);
+  if (savedGoal) waterGoalMl = parseInt(savedGoal);
+
+  const savedDate = localStorage.getItem(HK_DATE);
+  const todayStr = new Date().toDateString();
+
+  if (savedDate === todayStr) {
+    const savedIntake = localStorage.getItem(HK_INTAKE);
+    if (savedIntake) waterIntakeMl = parseInt(savedIntake);
+  } else {
+    waterIntakeMl = 0;
+    localStorage.setItem(HK_DATE, todayStr);
+    localStorage.setItem(HK_INTAKE, '0');
+  }
+
+  waterReminderActive = localStorage.getItem(HK_REMINDER) === 'true';
+  waterReminderFreqHours = parseInt(localStorage.getItem(HK_FREQ)) || 2;
+
+  updateHydrationUI();
+  if (waterReminderActive) startWaterReminderTimer();
+}
+
+function setWaterGoal(ml) {
+  waterGoalMl = ml;
+  localStorage.setItem(HK_GOAL, String(ml));
+  updateHydrationUI();
+  toast('<i class="fa-solid fa-droplet" style="color:#38bdf8;"></i>', `Meta de água alterada para ${(ml/1000).toFixed(1)} L!`);
+}
+
+function addWaterIntake(ml) {
+  waterIntakeMl += ml;
+  const todayStr = new Date().toDateString();
+  localStorage.setItem(HK_DATE, todayStr);
+  localStorage.setItem(HK_INTAKE, String(waterIntakeMl));
+
+  updateHydrationUI();
+
+  if (waterIntakeMl >= waterGoalMl && !waterGoalCelebratedToday) {
+    waterGoalCelebratedToday = true;
+    toast('<i class="fa-solid fa-trophy"></i>', 'Parabéns! Você atingiu sua meta de água hoje! 💧🎉', 2500);
+    if (typeof confetti === 'function') confetti();
+  } else {
+    toast('<i class="fa-solid fa-glass-water" style="color:#38bdf8;"></i>', `+${ml >= 1000 ? (ml/1000)+'L' : ml+'ml'} de água registrado!`);
+  }
+}
+
+function resetWaterIntake() {
+  if (waterIntakeMl > 0 && !confirm('Deseja resetar o consumo de água de hoje?')) return;
+  waterIntakeMl = 0;
+  waterGoalCelebratedToday = false;
+  const todayStr = new Date().toDateString();
+  localStorage.setItem(HK_DATE, todayStr);
+  localStorage.setItem(HK_INTAKE, '0');
+  updateHydrationUI();
+  toast('<i class="fa-solid fa-rotate-right"></i>', 'Consumo de água resetado.');
+}
+
+function updateWaterReminderFreq(val) {
+  waterReminderFreqHours = parseInt(val) || 2;
+  localStorage.setItem(HK_FREQ, String(waterReminderFreqHours));
+  if (waterReminderActive) {
+    startWaterReminderTimer();
+    toast('<i class="fa-solid fa-bell"></i>', `Lembretes ajustados para cada ${waterReminderFreqHours}h`);
+  }
+}
+
+function toggleWaterReminders() {
+  waterReminderActive = !waterReminderActive;
+  localStorage.setItem(HK_REMINDER, String(waterReminderActive));
+
+  if (waterReminderActive) {
+    if ('Notification' in window && Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+    startWaterReminderTimer();
+    toast('<i class="fa-solid fa-bell"></i>', `Lembretes de água ativados (a cada ${waterReminderFreqHours}h)!`);
+  } else {
+    stopWaterReminderTimer();
+    toast('<i class="fa-solid fa-bell-slash"></i>', 'Lembretes de água desativados.');
+  }
+  updateHydrationUI();
+}
+
+function startWaterReminderTimer() {
+  stopWaterReminderTimer();
+  const ms = waterReminderFreqHours * 3600 * 1000;
+  waterReminderTimer = setInterval(() => {
+    if (waterIntakeMl < waterGoalMl) {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('FitSaúde 💧 Hora de Beber Água!', {
+          body: `Você consumiu ${(waterIntakeMl/1000).toFixed(1)}L de ${(waterGoalMl/1000).toFixed(1)}L hoje. Beba um copo de água!`,
+          icon: 'https://cdn-icons-png.flaticon.com/512/3105/3105807.png'
+        });
+      }
+      toast('<i class="fa-solid fa-droplet" style="color:#38bdf8;"></i>', '💧 Lembrete: Hora de beber água para bater sua meta!');
+    }
+  }, ms);
+}
+
+function stopWaterReminderTimer() {
+  if (waterReminderTimer) clearInterval(waterReminderTimer);
+  waterReminderTimer = null;
+}
+
+function updateHydrationUI() {
+  const intakeValEl = document.getElementById('water-intake-val');
+  const targetSubEl = document.getElementById('water-target-sub');
+  const pctValEl = document.getElementById('water-pct-val');
+  const fillEl = document.getElementById('water-progress-fill');
+  const badgeEl = document.getElementById('hydration-badge');
+  const btnReminderEl = document.getElementById('btn-toggle-reminder');
+  const freqSelectEl = document.getElementById('water-reminder-freq');
+
+  if (!intakeValEl) return;
+
+  const intakeL = (waterIntakeMl / 1000).toFixed(1);
+  const goalL = (waterGoalMl / 1000).toFixed(1);
+  const pct = Math.min(100, Math.round((waterIntakeMl / waterGoalMl) * 100));
+
+  intakeValEl.textContent = `${intakeL} L`;
+  targetSubEl.textContent = `/ ${goalL} L hoje`;
+  pctValEl.textContent = `${pct}%`;
+  if (fillEl) fillEl.style.width = `${pct}%`;
+
+  document.querySelectorAll('.water-chip').forEach(chip => {
+    const goalLiters = parseInt(chip.getAttribute('data-l'));
+    chip.classList.toggle('active', goalLiters === Math.round(waterGoalMl / 1000));
+  });
+
+  if (badgeEl) {
+    if (waterIntakeMl >= waterGoalMl) {
+      badgeEl.textContent = 'Meta Concluída! 💧🎉';
+      badgeEl.className = 'hydration-badge goal-reached';
+    } else {
+      badgeEl.textContent = `Meta: ${goalL} L`;
+      badgeEl.className = 'hydration-badge';
+    }
+  }
+
+  if (btnReminderEl) {
+    if (waterReminderActive) {
+      btnReminderEl.innerHTML = '<i class="fa-solid fa-bell"></i> Ativo';
+      btnReminderEl.className = 'btn-toggle-reminder active';
+    } else {
+      btnReminderEl.innerHTML = '<i class="fa-solid fa-bell-slash"></i> Ativar';
+      btnReminderEl.className = 'btn-toggle-reminder';
+    }
+  }
+
+  if (freqSelectEl) freqSelectEl.value = String(waterReminderFreqHours);
+}
