@@ -1,14 +1,14 @@
 /* ─── FITSAÚDE UTILS MODULE ──────────────────────────────────── */
 
 /* Toast notification com suporte à vibração */
-function toast(icon, msg) {
+function toast(icon, msg, duration = 2000) {
   const t = document.getElementById('toast');
   if (!t) return;
   document.getElementById('toast-icon').innerHTML = icon;
   document.getElementById('toast-msg').textContent = msg;
   t.classList.add('show');
   clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 2600);
+  t._t = setTimeout(() => t.classList.remove('show'), duration);
 
   if ('vibrate' in navigator) {
     try { navigator.vibrate([30, 20, 30]); } catch (e) { }

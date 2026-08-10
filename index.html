@@ -879,7 +879,7 @@
       const dayGreeting = document.getElementById('day-greeting');
       if (dayGreeting) dayGreeting.innerHTML = getGreeting();
 
-      toast('<i class="fa-solid fa-user-check"></i>', 'Perfil atualizado!');
+      toast('<i class="fa-solid fa-user-check"></i>', 'Perfil atualizado!', 2000);
       confetti();
     }
 
@@ -1561,13 +1561,13 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     /* ── Toast ── */
-    function toast(icon, msg) {
+    function toast(icon, msg, duration = 2000) {
       const t = document.getElementById('toast');
       document.getElementById('toast-icon').innerHTML = icon;
       document.getElementById('toast-msg').textContent = msg;
       t.classList.add('show');
       clearTimeout(t._t);
-      t._t = setTimeout(() => t.classList.remove('show'), 2400);
+      t._t = setTimeout(() => t.classList.remove('show'), duration);
     }
 
     /* ── Confetti ── */
