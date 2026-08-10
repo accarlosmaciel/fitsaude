@@ -1,7 +1,7 @@
 /* ─── FITSAÚDE UTILS MODULE ──────────────────────────────────── */
 
 /* Toast notification com suporte à vibração */
-function toast(icon, msg, duration = 2000) {
+function toast(icon, msg, duration = 1000) {
   const t = document.getElementById('toast');
   if (!t) return;
   document.getElementById('toast-icon').innerHTML = icon;
