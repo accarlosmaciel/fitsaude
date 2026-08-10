@@ -274,69 +274,6 @@
         </div>
       </div>
 
-      <!-- ── Meta de Hidratação 💧 ──────────────────────────── -->
-      <div class="hydration-card">
-        <div class="hydration-header">
-          <div class="hydration-title">
-            <i class="fa-solid fa-droplet" style="color:#38bdf8;"></i> Meta de Hidratação
-          </div>
-          <div class="hydration-badge" id="hydration-badge">Meta: 3.0 L</div>
-        </div>
-
-        <div class="hydration-meta-label">Selecione sua meta diária:</div>
-        <div class="hydration-chips">
-          <button class="water-chip" data-l="1" onclick="setWaterGoal(1000)">1 L</button>
-          <button class="water-chip" data-l="2" onclick="setWaterGoal(2000)">2 L</button>
-          <button class="water-chip active" data-l="3" onclick="setWaterGoal(3000)">3 L</button>
-          <button class="water-chip" data-l="4" onclick="setWaterGoal(4000)">4 L</button>
-          <button class="water-chip" data-l="5" onclick="setWaterGoal(5000)">5 L</button>
-          <button class="water-chip" data-l="6" onclick="setWaterGoal(6000)">6 L</button>
-        </div>
-
-        <div class="hydration-body">
-          <div class="hydration-display">
-            <span class="water-intake-val" id="water-intake-val">0.0 L</span>
-            <span class="water-target-sub" id="water-target-sub">/ 3.0 L hoje</span>
-          </div>
-          <div class="hydration-pct" id="water-pct-val">0%</div>
-        </div>
-
-        <div class="water-progress-track">
-          <div class="water-progress-fill" id="water-progress-fill" style="width: 0%;"></div>
-        </div>
-
-        <div class="water-quick-add">
-          <button class="btn-water-add" onclick="addWaterIntake(250)">
-            <i class="fa-solid fa-glass-water"></i> +250 ml
-          </button>
-          <button class="btn-water-add" onclick="addWaterIntake(500)">
-            <i class="fa-solid fa-bottle-water"></i> +500 ml
-          </button>
-          <button class="btn-water-add" onclick="addWaterIntake(1000)">
-            <i class="fa-solid fa-faucet-drip"></i> +1 L
-          </button>
-          <button class="btn-water-reset" onclick="resetWaterIntake()" title="Resetar consumo de hoje">
-            <i class="fa-solid fa-rotate-right"></i>
-          </button>
-        </div>
-
-        <div class="water-reminders-box">
-          <div class="reminder-label">
-            <i class="fa-solid fa-bell" style="color:#38bdf8;"></i> Lembretes de Água
-          </div>
-          <div class="reminder-controls">
-            <select class="form-select form-select-sm" id="water-reminder-freq" onchange="updateWaterReminderFreq(this.value)">
-              <option value="1">A cada 1h</option>
-              <option value="2" selected>A cada 2h</option>
-              <option value="3">A cada 3h</option>
-            </select>
-            <button class="btn-toggle-reminder" id="btn-toggle-reminder" onclick="toggleWaterReminders()">
-              <i class="fa-solid fa-bell-slash"></i> Ativar
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- Form Card -->
       <div class="profile-card">
         <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-sliders"></i> Dados
@@ -398,6 +335,69 @@
 
         <button class="btn-save" style="margin-top:10px;" onclick="saveProfile()"><i
             class="fa-solid fa-floppy-disk"></i> Salvar Perfil</button>
+      </div>
+
+      <!-- ── Meta de Hidratação 💧 ──────────────────────────── -->
+      <div class="hydration-card">
+        <div class="hydration-header">
+          <div class="hydration-title">
+            <i class="fa-solid fa-droplet" style="color:#38bdf8;"></i> Meta de Hidratação
+          </div>
+          <div class="hydration-badge" id="hydration-badge">Meta: 3.0 L</div>
+        </div>
+
+        <div class="hydration-meta-label">Selecione sua meta diária:</div>
+        <div class="hydration-chips">
+          <button class="water-chip" data-l="1" onclick="setWaterGoal(1000)">1 L</button>
+          <button class="water-chip" data-l="2" onclick="setWaterGoal(2000)">2 L</button>
+          <button class="water-chip active" data-l="3" onclick="setWaterGoal(3000)">3 L</button>
+          <button class="water-chip" data-l="4" onclick="setWaterGoal(4000)">4 L</button>
+          <button class="water-chip" data-l="5" onclick="setWaterGoal(5000)">5 L</button>
+          <button class="water-chip" data-l="6" onclick="setWaterGoal(6000)">6 L</button>
+        </div>
+
+        <div class="hydration-body">
+          <div class="hydration-display">
+            <span class="water-intake-val" id="water-intake-val">0.0 L</span>
+            <span class="water-target-sub" id="water-target-sub">/ 3.0 L hoje</span>
+          </div>
+          <div class="hydration-pct" id="water-pct-val">0%</div>
+        </div>
+
+        <div class="water-progress-track">
+          <div class="water-progress-fill" id="water-progress-fill" style="width: 0%;"></div>
+        </div>
+
+        <div class="water-quick-add">
+          <button class="btn-water-add" onclick="addWaterIntake(250)">
+            <i class="fa-solid fa-glass-water"></i> +250 ml
+          </button>
+          <button class="btn-water-add" onclick="addWaterIntake(500)">
+            <i class="fa-solid fa-bottle-water"></i> +500 ml
+          </button>
+          <button class="btn-water-add" onclick="addWaterIntake(1000)">
+            <i class="fa-solid fa-faucet-drip"></i> +1 L
+          </button>
+          <button class="btn-water-reset" onclick="resetWaterIntake()" title="Resetar consumo de hoje">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+
+        <div class="water-reminders-box">
+          <div class="reminder-label">
+            <i class="fa-solid fa-bell" style="color:#38bdf8;"></i> Lembretes de Água
+          </div>
+          <div class="reminder-controls">
+            <select class="form-select form-select-sm" id="water-reminder-freq" onchange="updateWaterReminderFreq(this.value)">
+              <option value="1">A cada 1h</option>
+              <option value="2" selected>A cada 2h</option>
+              <option value="3">A cada 3h</option>
+            </select>
+            <button class="btn-toggle-reminder" id="btn-toggle-reminder" onclick="toggleWaterReminders()">
+              <i class="fa-solid fa-bell-slash"></i> Ativar
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- App Personalização & Temas Card -->
