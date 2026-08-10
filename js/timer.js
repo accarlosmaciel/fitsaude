@@ -99,3 +99,155 @@ function startRestTimer(seconds) {
     }
   }, 1000);
 }
+
+/* ── Cardio Timer com Meta ── */
+let cardioTargetSeconds = 3600;
+let cardioSecondsElapsed = 0;
+let cardioTimerInterval = null;
+let cardioState = 'stopped';
+let cardioGoalReached = false;
+
+function selectCardioGoal(sec) {
+  if (cardioState === 'running' || cardioState === 'paused') {
+    if (!confirm('Deseja alterar a meta do treino de cardio em andamento?')) return;
+  }
+  cardioTargetSeconds = sec;
+  cardioGoalReached = cardioSecondsElapsed >= cardioTargetSeconds;
+
+  document.querySelectorAll('.cardio-chip').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.getAttribute('data-sec')) === sec);
+  });
+
+  updateCardioUI();
+}
+
+function startCardioTimer() {
+  if (cardioState === 'running') return;
+  cardioState = 'running';
+  cardioSecondsElapsed = 0;
+  cardioGoalReached = false;
+
+  cardioTimerInterval = setInterval(() => {
+    cardioSecondsElapsed++;
+    updateCardioUI();
+  }, 1000);
+
+  updateCardioControlsUI();
+  toast('<i class="fa-solid fa-heart-pulse"></i>', 'Cardio iniciado!');
+}
+
+function pauseCardioTimer() {
+  if (cardioState !== 'running') return;
+  cardioState = 'paused';
+  clearInterval(cardioTimerInterval);
+  cardioTimerInterval = null;
+
+  updateCardioControlsUI();
+  toast('<i class="fa-solid fa-pause"></i>', 'Cardio pausado');
+}
+
+function resumeCardioTimer() {
+  if (cardioState !== 'paused') return;
+  cardioState = 'running';
+
+  cardioTimerInterval = setInterval(() => {
+    cardioSecondsElapsed++;
+    updateCardioUI();
+  }, 1000);
+
+  updateCardioControlsUI();
+  toast('<i class="fa-solid fa-play"></i>', 'Cardio retomado!');
+}
+
+function stopCardioTimer() {
+  if (cardioState === 'stopped') return;
+
+  const mins = Math.max(1, Math.round(cardioSecondsElapsed / 60));
+  clearInterval(cardioTimerInterval);
+  cardioTimerInterval = null;
+  cardioState = 'stopped';
+  cardioSecondsElapsed = 0;
+  cardioGoalReached = false;
+
+  updateCardioControlsUI();
+  updateCardioUI();
+
+  toast('<i class="fa-solid fa-flag-checkered"></i>', `Cardio finalizado (${mins} min)!`);
+  if (typeof confetti === 'function') confetti();
+}
+
+function updateCardioControlsUI() {
+  const btnStart = document.getElementById('cardio-btn-start');
+  const btnPause = document.getElementById('cardio-btn-pause');
+  const btnResume = document.getElementById('cardio-btn-resume');
+  const btnStop = document.getElementById('cardio-btn-stop');
+
+  if (!btnStart) return;
+
+  if (cardioState === 'stopped') {
+    btnStart.style.display = 'inline-flex';
+    btnPause.style.display = 'none';
+    btnResume.style.display = 'none';
+    btnStop.style.display = 'none';
+  } else if (cardioState === 'running') {
+    btnStart.style.display = 'none';
+    btnPause.style.display = 'inline-flex';
+    btnResume.style.display = 'none';
+    btnStop.style.display = 'inline-flex';
+  } else if (cardioState === 'paused') {
+    btnStart.style.display = 'none';
+    btnPause.style.display = 'none';
+    btnResume.style.display = 'inline-flex';
+    btnStop.style.display = 'inline-flex';
+  }
+}
+
+function formatTimeHMS(totalSec) {
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  const pad = num => String(num).padStart(2, '0');
+  return h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+}
+
+function updateCardioUI() {
+  const clockEl = document.getElementById('cardio-clock');
+  const remEl = document.getElementById('cardio-remaining');
+  const fillEl = document.getElementById('cardio-progress-fill');
+  const pctEl = document.getElementById('cardio-pct-text');
+  const badgeEl = document.getElementById('cardio-status-badge');
+
+  if (!clockEl) return;
+
+  clockEl.textContent = formatTimeHMS(cardioSecondsElapsed);
+
+  const remSec = Math.max(0, cardioTargetSeconds - cardioSecondsElapsed);
+  const pct = Math.min(100, Math.round((cardioSecondsElapsed / cardioTargetSeconds) * 100));
+
+  if (fillEl) fillEl.style.width = pct + '%';
+
+  if (cardioSecondsElapsed >= cardioTargetSeconds) {
+    if (!cardioGoalReached) {
+      cardioGoalReached = true;
+      if (typeof confetti === 'function') confetti();
+      toast('<i class="fa-solid fa-trophy"></i>', 'Meta de Cardio Concluída! 🎉');
+    }
+    const extraSec = cardioSecondsElapsed - cardioTargetSeconds;
+    remEl.textContent = extraSec > 0 ? `Meta concluída! Extra: +${formatTimeHMS(extraSec)}` : 'Meta concluída! 🎉';
+    remEl.style.color = '#22d3a0';
+    if (pctEl) pctEl.textContent = '100% Concluído (Meta Atingida! 🎉)';
+    if (badgeEl) {
+      badgeEl.textContent = 'Meta Concluída! 🎉';
+      badgeEl.className = 'cardio-badge goal-reached';
+    }
+  } else {
+    remEl.textContent = `Falta: ${formatTimeHMS(remSec)}`;
+    remEl.style.color = 'var(--txt2)';
+    if (pctEl) pctEl.textContent = `${pct}% concluído`;
+    if (badgeEl) {
+      const targetMins = Math.round(cardioTargetSeconds / 60);
+      badgeEl.textContent = targetMins >= 60 ? `Meta: ${(targetMins/60).toFixed(1).replace('.0','')}h` : `Meta: ${targetMins}m`;
+      badgeEl.className = 'cardio-badge';
+    }
+  }
+}

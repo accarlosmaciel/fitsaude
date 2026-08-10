@@ -79,6 +79,50 @@
         </div>
       </div>
 
+      <!-- ── Cronômetro de Cardio com Meta ────────────────── -->
+      <div class="cardio-card">
+        <div class="cardio-header">
+          <div class="cardio-title">
+            <i class="fa-solid fa-heart-pulse"></i> Cronômetro de Cardio
+          </div>
+          <div class="cardio-badge" id="cardio-status-badge">Meta: 1h00</div>
+        </div>
+
+        <div class="cardio-meta-label">Selecione sua meta:</div>
+        <div class="cardio-chips">
+          <button class="cardio-chip" data-sec="2700" onclick="selectCardioGoal(2700)">45 min</button>
+          <button class="cardio-chip active" data-sec="3600" onclick="selectCardioGoal(3600)">1 hora</button>
+          <button class="cardio-chip" data-sec="5400" onclick="selectCardioGoal(5400)">1h30</button>
+          <button class="cardio-chip" data-sec="7200" onclick="selectCardioGoal(7200)">2 horas</button>
+        </div>
+
+        <div class="cardio-timer-body">
+          <div class="cardio-time-label">TEMPO DECORRIDO</div>
+          <div class="cardio-clock" id="cardio-clock">00:00:00</div>
+          <div class="cardio-remaining" id="cardio-remaining">Falta: 01:00:00</div>
+        </div>
+
+        <div class="cardio-progress-track">
+          <div class="cardio-progress-fill" id="cardio-progress-fill" style="width: 0%;"></div>
+        </div>
+        <div class="cardio-pct-text" id="cardio-pct-text">0% concluído</div>
+
+        <div class="cardio-controls">
+          <button class="btn-cardio btn-cardio-start" id="cardio-btn-start" onclick="startCardioTimer()">
+            <i class="fa-solid fa-play"></i> Iniciar
+          </button>
+          <button class="btn-cardio btn-cardio-pause" id="cardio-btn-pause" onclick="pauseCardioTimer()" style="display:none;">
+            <i class="fa-solid fa-pause"></i> Pausar
+          </button>
+          <button class="btn-cardio btn-cardio-resume" id="cardio-btn-resume" onclick="resumeCardioTimer()" style="display:none;">
+            <i class="fa-solid fa-play"></i> Continuar
+          </button>
+          <button class="btn-cardio btn-cardio-stop" id="cardio-btn-stop" onclick="stopCardioTimer()" style="display:none;">
+            <i class="fa-solid fa-square"></i> Finalizar
+          </button>
+        </div>
+      </div>
+
       <!-- Day selector -->
       <div class="section-label"><i class="fa-solid fa-calendar-days"></i> Dias da Semana</div>
       <div class="day-scroll" id="day-scroll"></div>
