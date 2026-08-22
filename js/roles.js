@@ -73,6 +73,13 @@ function initRolesSystem() {
   setUserRole(currentUserRole, true);
 }
 
+// Auto-run on DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initRolesSystem);
+} else {
+  initRolesSystem();
+}
+
 // ─── URL Hash Routing ─────────────────────────────────────────
 function handleHashRouting() {
   const hash = window.location.hash.replace('#/', '').replace('#', '');
