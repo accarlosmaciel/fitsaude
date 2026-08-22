@@ -279,15 +279,35 @@ function switchRoleScreen(screenId) {
   if (headerIcon && icons[screenId]) headerIcon.innerHTML = icons[screenId];
 
   // Call relevant screen renderers
+  if (screenId === 'treinos' && typeof render === 'function') render();
   if (screenId === 'planilhas' && typeof renderPlanilhas === 'function') renderPlanilhas();
   if (screenId === 'resumo' && typeof renderSummary === 'function') renderSummary();
+  if (screenId === 'chat') {
+    const badge = document.getElementById('chat-badge');
+    if (badge) badge.classList.remove('show');
+    if (typeof scrollChat === 'function') setTimeout(scrollChat, 100);
+  }
+  if (screenId === 'perfil' && typeof renderProfileForm === 'function') renderProfileForm();
   if (screenId === 'admin-dashboard') renderAdminDashboard();
   if (screenId === 'admin-alunos') renderAdminAlunos();
   if (screenId === 'admin-assinaturas') renderAdminAssinaturas();
   if (screenId === 'admin-config') renderAdminConfig();
 
+  const headerBtn = document.getElementById('header-action-btn');
+  if (headerBtn) headerBtn.style.display = (screenId === 'treinos' || screenId === 'admin-treinos') ? '' : 'none';
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Global window exposure
+window.setUserRole = setUserRole;
+window.switchRoleScreen = switchRoleScreen;
+window.switchScreen = switchRoleScreen;
+window.startOnboardingFunnel = startOnboardingFunnel;
+window.openAuthModal = openAuthModal;
+window.closeAuthModal = closeAuthModal;
+window.openStudentDetail = openStudentDetail;
+window.closeStudentDetailModal = closeStudentDetailModal;
 
 // ══════════════════════════════════════════════════════════════════
 //  FLUXO DO VISITANTE (ONBOARDING FUNNEL STEP-BY-STEP)
