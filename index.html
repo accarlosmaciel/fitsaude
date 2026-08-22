@@ -12,6 +12,7 @@
   <meta name="description"
     content="App FitSaúde - Treinos da semana, acompanhamento de exercícios e assistente IA para tirar dúvidas de saúde e academia." />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/roles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="css/pdf_cards.css" />
   <link rel="stylesheet" href="css/workout_player.css" />
@@ -31,6 +32,25 @@
 
   <!-- ── App Shell ──────────────────────────────────────── -->
   <div class="app-shell">
+
+    <!-- ── Top Role Bar & Switcher ────────────────────────── -->
+    <div class="role-top-bar" id="role-top-bar">
+      <div class="role-badge-current role-badge-visitante" id="current-role-badge">
+        <i class="fa-solid fa-eye"></i> Visitante
+      </div>
+      <div class="role-quick-select">
+        <span style="font-size:11px;color:var(--txt2);font-weight:600;margin-right:2px;">Perfil:</span>
+        <button class="role-switch-btn active" data-role="visitante" onclick="setUserRole('visitante')">
+          <i class="fa-solid fa-eye"></i> Visitante
+        </button>
+        <button class="role-switch-btn" data-role="atleta" onclick="setUserRole('atleta')">
+          <i class="fa-solid fa-dumbbell"></i> Atleta
+        </button>
+        <button class="role-switch-btn" data-role="admin" onclick="setUserRole('admin')">
+          <i class="fa-solid fa-crown"></i> Admin
+        </button>
+      </div>
+    </div>
 
     <!-- App Header -->
     <header class="app-header" id="app-header">
@@ -452,6 +472,419 @@
           <button class="btn-reset" onclick="shareAppProgress()"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
         </div>
       </div>
+
+      <!-- Minha Conta & Segurança Card -->
+      <div class="profile-card" style="margin-top:16px;">
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-user-shield"></i> Minha Conta & Acesso</div>
+        <div class="form-grid-2">
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('atleta-assinatura')">
+            <i class="fa-solid fa-credit-card"></i> Assinatura
+          </button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('atleta-seguranca')">
+            <i class="fa-solid fa-lock"></i> Segurança
+          </button>
+        </div>
+        <button class="btn-reset" style="margin-top:12px;background:rgba(220,20,60,0.1);color:var(--red-light);border-color:var(--border-red);" onclick="handleLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: VISITANTE LANDING (CONHECER FITSAÚDE) ═══ -->
+    <div class="screen" id="screen-visitante-landing">
+      <div class="visitor-hero">
+        <div class="visitor-tag"><i class="fa-solid fa-bolt"></i> Sistema Inteligente de Treinos</div>
+        <h1 class="visitor-title">Transforme Seu Corpo com o <span>FitSaúde</span></h1>
+        <p class="visitor-subtitle">Treinos com animações 3D interativas, assistente com Inteligência Artificial Groq Llama 3.3 e controle completo da sua evolução.</p>
+        
+        <div class="visitor-cta-row">
+          <button class="btn-visitor-primary" onclick="openCheckoutModal('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
+            <i class="fa-solid fa-sparkles"></i> Assinar Plano
+          </button>
+          <button class="btn-visitor-secondary" onclick="openAuthModal('register')">
+            <i class="fa-solid fa-user-plus"></i> Criar Conta
+          </button>
+          <button class="btn-visitor-secondary" onclick="openAuthModal('login')">
+            <i class="fa-solid fa-right-to-bracket"></i> Fazer Login
+          </button>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-box">
+            <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="feature-title">FitBot IA</div>
+            <div class="feature-desc">Tire dúvidas de treinos, séries e dieta 24h com IA Llama 3.3.</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon"><i class="fa-solid fa-play"></i></div>
+            <div class="feature-title">Execução 3D</div>
+            <div class="feature-desc">Veja a postura correta de cada exercício com player de séries e descanso.</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="feature-title">Planilhas & PDF</div>
+            <div class="feature-desc">Baixe e imprima fichas completas Masc e Fem personalizadas.</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="feature-title">Métricas Reais</div>
+            <div class="feature-desc">Acompanhe IMC, meta proteica, hidratação e volume semanal.</div>
+          </div>
+        </div>
+
+        <!-- Banner Planos -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-xl);padding:18px;text-align:left;margin-top:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:700;color:var(--red-light);text-transform:uppercase;">Oferta Especial</span>
+            <span style="font-size:11px;background:rgba(34,211,160,0.15);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:700;">40% OFF</span>
+          </div>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:var(--txt);margin-bottom:4px;">Acesso Ilimitado a partir de R$ 29,90/mês</h3>
+          <p style="font-size:12px;color:var(--txt2);margin-bottom:14px;">Sem fidelidade obrigatória. Treine no seu ritmo com suporte integral.</p>
+          <button class="btn-plan-select primary" onclick="switchRoleScreen('visitante-planos')">
+            <i class="fa-solid fa-tags"></i> Ver Todos os Planos
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: VISITANTE PLANOS ═════════════════════════ -->
+    <div class="screen" id="screen-visitante-planos">
+      <div class="hero-strip">
+        <div class="hero-greeting">Escolha o seu plano <i class="fa-solid fa-shield-heart"></i></div>
+        <h1 class="hero-title">Planos <span>FitSaúde</span></h1>
+      </div>
+
+      <div class="plans-container">
+        <!-- Plano Mensal -->
+        <div class="plan-card">
+          <div class="plan-name">Plano Mensal</div>
+          <div class="plan-desc">Ideal para quem quer flexibilidade total mês a mês.</div>
+          <div class="plan-price-row">
+            <span class="plan-currency">R$</span>
+            <span class="plan-price">49,90</span>
+            <span class="plan-period">/mês</span>
+          </div>
+          <ul class="plan-features-list">
+            <li><i class="fa-solid fa-circle-check"></i> Acesso a todos os treinos semanais</li>
+            <li><i class="fa-solid fa-circle-check"></i> Player de execução com GIFs 3D</li>
+            <li><i class="fa-solid fa-circle-check"></i> FitBot IA (Até 50 perguntas/mês)</li>
+            <li><i class="fa-solid fa-circle-check"></i> Exportação de PDF das fichas</li>
+          </ul>
+          <button class="btn-plan-select secondary" onclick="openCheckoutModal('Mensal', 'R$ 49,90/mês')">
+            <i class="fa-solid fa-bolt"></i> Assinar Mensal
+          </button>
+        </div>
+
+        <!-- Plano Trimestral -->
+        <div class="plan-card">
+          <div class="plan-name">Plano Trimestral</div>
+          <div class="plan-desc">O melhor equilíbrio para quem busca resultados sólidos.</div>
+          <div class="plan-price-row">
+            <span class="plan-currency">R$</span>
+            <span class="plan-price">39,90</span>
+            <span class="plan-period">/mês (R$ 119,70/tri)</span>
+          </div>
+          <ul class="plan-features-list">
+            <li><i class="fa-solid fa-circle-check"></i> Tudo do plano mensal</li>
+            <li><i class="fa-solid fa-circle-check"></i> Economia de 20% no valor mensal</li>
+            <li><i class="fa-solid fa-circle-check"></i> FitBot IA Ilimitado</li>
+            <li><i class="fa-solid fa-circle-check"></i> Cálculo de calorias e macros</li>
+          </ul>
+          <button class="btn-plan-select secondary" onclick="openCheckoutModal('Trimestral', 'R$ 39,90/mês (R$ 119,70/tri)')">
+            <i class="fa-solid fa-bolt"></i> Assinar Trimestral
+          </button>
+        </div>
+
+        <!-- Plano Anual VIP -->
+        <div class="plan-card popular">
+          <div class="plan-badge-popular">Mais Popular • 40% OFF</div>
+          <div class="plan-name">Plano Anual VIP</div>
+          <div class="plan-desc">A transformação completa com o menor custo e benefícios VIP exclusivos.</div>
+          <div class="plan-price-row">
+            <span class="plan-currency">R$</span>
+            <span class="plan-price">29,90</span>
+            <span class="plan-period">/mês (R$ 358,80/ano)</span>
+          </div>
+          <ul class="plan-features-list">
+            <li><i class="fa-solid fa-circle-check"></i> Acesso total a treinos Masc & Fem</li>
+            <li><i class="fa-solid fa-circle-check"></i> Player 3D com cronômetro de descanso</li>
+            <li><i class="fa-solid fa-circle-check"></i> FitBot IA Groq Llama 3.3 Ilimitado</li>
+            <li><i class="fa-solid fa-circle-check"></i> Exportação ilimitada de PDFs</li>
+            <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário</li>
+          </ul>
+          <button class="btn-plan-select primary" onclick="openCheckoutModal('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
+            <i class="fa-solid fa-crown"></i> Assinar Anual VIP
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: ATLETA ASSINATURA ════════════════════════ -->
+    <div class="screen" id="screen-atleta-assinatura">
+      <div class="hero-strip">
+        <div class="hero-greeting">Gestão de Plano <i class="fa-solid fa-credit-card"></i></div>
+        <h1 class="hero-title">Sua <span>Assinatura</span></h1>
+      </div>
+
+      <div class="subscription-status-card">
+        <div class="sub-status-header">
+          <span style="font-size:12px;color:var(--txt2);font-weight:700;text-transform:uppercase;">Plano Vigente</span>
+          <span class="sub-badge-active"><i class="fa-solid fa-circle-check"></i> Ativo</span>
+        </div>
+        <div class="sub-plan-title">Plano Anual VIP</div>
+        <p style="font-size:13px;color:var(--txt2);">Acesso total liberado a treinos, fichas, PDF e IA FitBot.</p>
+
+        <div class="sub-detail-grid">
+          <div class="sub-detail-item">
+            <span class="sub-detail-label">Próxima Renovação</span>
+            <span class="sub-detail-val">15/01/2027</span>
+          </div>
+          <div class="sub-detail-item">
+            <span class="sub-detail-label">Valor Mensal</span>
+            <span class="sub-detail-val">R$ 29,90</span>
+          </div>
+          <div class="sub-detail-item">
+            <span class="sub-detail-label">Forma de Pgto</span>
+            <span class="sub-detail-val"><i class="fa-solid fa-credit-card"></i> •••• 4242</span>
+          </div>
+          <div class="sub-detail-item">
+            <span class="sub-detail-label">Status</span>
+            <span class="sub-detail-val" style="color:var(--green);">Em dia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Faturas</div>
+        <div class="admin-student-card" style="margin-bottom:8px;">
+          <div class="admin-student-info">
+            <div class="admin-student-avatar" style="color:var(--green);"><i class="fa-solid fa-check"></i></div>
+            <div>
+              <div class="admin-student-name">Anual VIP (12x)</div>
+              <div class="admin-student-meta">15/01/2026 • R$ 358,80</div>
+            </div>
+          </div>
+          <span class="student-status-badge active">Paga</span>
+        </div>
+        <button class="btn-save" style="margin-top:10px;background:var(--bg3);border:1px solid var(--border);" onclick="openCheckoutModal('Anual VIP', 'R$ 29,90/mês')">
+          <i class="fa-solid fa-arrows-rotate"></i> Alterar Plano ou Forma de Pagamento
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: ATLETA SEGURANÇA ═════════════════════════ -->
+    <div class="screen" id="screen-atleta-seguranca">
+      <div class="hero-strip">
+        <div class="hero-greeting">Privacidade & Acesso <i class="fa-solid fa-lock"></i></div>
+        <h1 class="hero-title">Segurança & <span>Conta</span></h1>
+      </div>
+
+      <div class="profile-card">
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-key"></i> Alterar Senha</div>
+        <div class="form-group">
+          <label class="form-label">Senha Atual</label>
+          <input class="form-input" type="password" placeholder="••••••••" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nova Senha</label>
+          <input class="form-input" type="password" placeholder="Mínimo 6 caracteres" />
+        </div>
+        <button class="btn-save" onclick="handleChangePassword()"><i class="fa-solid fa-shield-halved"></i> Atualizar Senha</button>
+      </div>
+
+      <div class="profile-card" style="margin-top:14px;">
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-mobile-screen-button"></i> Sessões & Dispositivos</div>
+        <div class="admin-student-card" style="margin-bottom:8px;">
+          <div class="admin-student-info">
+            <div class="admin-student-avatar"><i class="fa-solid fa-mobile"></i></div>
+            <div>
+              <div class="admin-student-name">Este Dispositivo (Atual)</div>
+              <div class="admin-student-meta">Navegador Web • Ativo agora</div>
+            </div>
+          </div>
+          <span class="student-status-badge active">Conectado</span>
+        </div>
+        <button class="btn-reset" style="margin-top:12px;background:rgba(220,20,60,0.12);color:var(--red-light);border-color:var(--border-red);" onclick="handleLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Encerrar Sessão (Sair)
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: ADMIN DASHBOARD ══════════════════════════ -->
+    <div class="screen" id="screen-admin-dashboard">
+      <div class="hero-strip">
+        <div class="admin-badge-header"><i class="fa-solid fa-crown"></i> Painel do Dono</div>
+        <h1 class="hero-title">Dashboard <span>Geral</span></h1>
+      </div>
+
+      <!-- KPIs Grid -->
+      <div class="admin-kpi-grid">
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-icon"><i class="fa-solid fa-users"></i></div>
+          <div class="admin-kpi-val" id="admin-kpi-total">5</div>
+          <div class="admin-kpi-label">Total de Alunos</div>
+          <div class="admin-kpi-trend"><i class="fa-solid fa-arrow-up"></i> +12% este mês</div>
+        </div>
+
+        <div class="admin-kpi-card green">
+          <div class="admin-kpi-icon" style="color:var(--green);"><i class="fa-solid fa-sack-dollar"></i></div>
+          <div class="admin-kpi-val" id="admin-kpi-mrr">R$ 5.920</div>
+          <div class="admin-kpi-label">Faturamento MRR</div>
+          <div class="admin-kpi-trend"><i class="fa-solid fa-arrow-up"></i> +8.5%</div>
+        </div>
+
+        <div class="admin-kpi-card blue">
+          <div class="admin-kpi-icon" style="color:var(--blue);"><i class="fa-solid fa-dumbbell"></i></div>
+          <div class="admin-kpi-val">42</div>
+          <div class="admin-kpi-label">Treinos Hoje</div>
+          <div class="admin-kpi-trend"><i class="fa-solid fa-fire"></i> Pico: 18h-20h</div>
+        </div>
+
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+          <div class="admin-kpi-val">94%</div>
+          <div class="admin-kpi-label">Retenção de Alunos</div>
+          <div class="admin-kpi-trend"><i class="fa-solid fa-check"></i> Excelente</div>
+        </div>
+      </div>
+
+      <!-- Ações Rápidas -->
+      <div class="profile-card">
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-bolt"></i> Ações Rápidas</div>
+        <div class="form-grid-2">
+          <button class="btn-save" onclick="openAddStudentModal()"><i class="fa-solid fa-user-plus"></i> Novo Aluno</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="exportAdminReport('pdf')"><i class="fa-solid fa-file-pdf"></i> Baixar Relatório</button>
+        </div>
+        <div class="form-grid-2" style="margin-top:10px;">
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('admin-assinaturas')"><i class="fa-solid fa-credit-card"></i> Assinaturas</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('admin-config')"><i class="fa-solid fa-gear"></i> Configurações</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: ADMIN ALUNOS ═════════════════════════════ -->
+    <div class="screen" id="screen-admin-alunos">
+      <div class="hero-strip">
+        <div class="hero-greeting">Gestão da Academia <i class="fa-solid fa-users"></i></div>
+        <h1 class="hero-title">Lista de <span>Alunos</span></h1>
+      </div>
+
+      <div class="admin-search-bar">
+        <input class="admin-search-input" type="text" placeholder="Buscar por nome, e-mail ou plano..." oninput="renderAdminAlunos(this.value)" />
+        <button class="btn-save" style="width:auto;padding:10px 16px;" onclick="openAddStudentModal()"><i class="fa-solid fa-plus"></i></button>
+      </div>
+
+      <div id="admin-alunos-list">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: ADMIN TREINOS ════════════════════════════ -->
+    <div class="screen" id="screen-admin-treinos">
+      <div class="hero-strip">
+        <div class="hero-greeting">Catálogo Geral <i class="fa-solid fa-dumbbell"></i></div>
+        <h1 class="hero-title">Treinos da <span>Academia</span></h1>
+      </div>
+
+      <div class="profile-card">
+        <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-layer-group"></i> Fichas Padrão Ativas</div>
+        <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">As fichas padrão Masculina e Feminina estão sincronizadas com o banco de animações 3D.</p>
+        
+        <div class="form-grid-2">
+          <button class="btn-save" onclick="setGender('masculino');switchRoleScreen('treinos');"><i class="fa-solid fa-mars"></i> Ver Ficha Masc</button>
+          <button class="btn-save" onclick="setGender('feminino');switchRoleScreen('treinos');"><i class="fa-solid fa-venus"></i> Ver Ficha Fem</button>
+        </div>
+      </div>
+
+      <div class="profile-card" style="margin-top:14px;">
+        <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-plus-circle"></i> Adicionar Exercício Global</div>
+        <button class="btn-save" onclick="openModal()"><i class="fa-solid fa-plus"></i> Cadastrar Novo Exercício</button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: ADMIN PLANILHAS ══════════════════════════ -->
+    <div class="screen" id="screen-admin-planilhas">
+      <div class="hero-strip">
+        <div class="hero-greeting">Relatórios & Impressão <i class="fa-solid fa-file-pdf"></i></div>
+        <h1 class="hero-title">Planilhas & <span>Relatórios</span></h1>
+      </div>
+
+      <div class="profile-card">
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-file-invoice"></i> Emissão de Relatórios</div>
+        <div class="pdf-card-preview">
+          <div class="pdf-card-icon"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="pdf-card-info">
+            <div class="pdf-card-title">Relatório Geral de Alunos</div>
+            <div class="pdf-card-desc">Lista completa de matriculados, status e planos vigentes em formato PDF.</div>
+          </div>
+        </div>
+        <button class="btn-save" style="margin-top:12px;" onclick="exportAdminReport('pdf')"><i class="fa-solid fa-download"></i> Baixar Relatório PDF</button>
+      </div>
+
+      <div class="profile-card" style="margin-top:14px;">
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-table"></i> Fichas de Treino em Lote</div>
+        <div class="form-grid-2">
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="downloadSinglePdf('masculino')"><i class="fa-solid fa-print"></i> PDF Treino Masc</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="downloadSinglePdf('feminino')"><i class="fa-solid fa-print"></i> PDF Treino Fem</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: ADMIN ASSINATURAS ════════════════════════ -->
+    <div class="screen" id="screen-admin-assinaturas">
+      <div class="hero-strip">
+        <div class="hero-greeting">Controle Financeiro <i class="fa-solid fa-credit-card"></i></div>
+        <h1 class="hero-title">Gestão de <span>Assinaturas</span></h1>
+      </div>
+
+      <div class="admin-kpi-grid">
+        <div class="admin-kpi-card green">
+          <div class="admin-kpi-val">R$ 5.920</div>
+          <div class="admin-kpi-label">Receita Prevista</div>
+        </div>
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-val">100%</div>
+          <div class="admin-kpi-label">Adimplência</div>
+        </div>
+      </div>
+
+      <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-receipt"></i> Faturas & Pagamentos Recentes</div>
+      <div id="admin-assinaturas-list">
+        <!-- Renderizado via JS -->
+      </div>
+    </div>
+
+    <!-- ══ SCREEN: ADMIN CONFIGURAÇÕES ══════════════════════ -->
+    <div class="screen" id="screen-admin-config">
+      <div class="hero-strip">
+        <div class="hero-greeting">Ajustes do Sistema <i class="fa-solid fa-gear"></i></div>
+        <h1 class="hero-title">Configurações <span>Gerais</span></h1>
+      </div>
+
+      <div class="profile-card">
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-building"></i> Dados da Academia</div>
+        <div class="form-group">
+          <label class="form-label" for="cfg-gym-name">Nome da Academia / Estabelecimento</label>
+          <input class="form-input" id="cfg-gym-name" type="text" value="FitSaúde Club & Training" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cfg-gym-phone">WhatsApp de Suporte</label>
+          <input class="form-input" id="cfg-gym-phone" type="text" value="(11) 98888-7777" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cfg-groq-model">Modelo de IA (Groq Cloud)</label>
+          <input class="form-input" id="cfg-groq-model" type="text" value="Llama 3.3 70B Versatile" />
+        </div>
+        <button class="btn-save" onclick="saveAdminConfig()"><i class="fa-solid fa-floppy-disk"></i> Salvar Configurações</button>
+      </div>
+
+      <div class="profile-card" style="margin-top:14px;">
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-database"></i> Backup & Restauração</div>
+        <div class="form-grid-2">
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="exportData()"><i class="fa-solid fa-file-export"></i> Backup Total</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="importData()"><i class="fa-solid fa-file-import"></i> Restaurar</button>
+        </div>
+      </div>
     </div>
 
   </div><!-- /app-shell -->
@@ -567,25 +1000,25 @@
   </div>
 
   <!-- ── Bottom Navigation ──────────────────────────────── -->
-  <nav class="bottom-nav" role="navigation" aria-label="Navegação principal">
-    <button class="nav-btn active" id="nav-treinos" onclick="switchScreen('treinos')" aria-label="Treinos">
+  <nav class="bottom-nav" id="main-bottom-nav" role="navigation" aria-label="Navegação principal">
+    <button class="nav-btn active" id="nav-treinos" onclick="switchRoleScreen('treinos')" aria-label="Treinos">
       <span class="nav-icon"><i class="fa-solid fa-dumbbell"></i></span>
       <span class="nav-label">Treinos</span>
     </button>
-    <button class="nav-btn" id="nav-planilhas" onclick="switchScreen('planilhas')" aria-label="Planilhas">
+    <button class="nav-btn" id="nav-planilhas" onclick="switchRoleScreen('planilhas')" aria-label="Planilhas">
       <span class="nav-icon"><i class="fa-solid fa-table-list"></i></span>
       <span class="nav-label">Planilhas</span>
     </button>
-    <button class="nav-btn" id="nav-resumo" onclick="switchScreen('resumo')" aria-label="Resumo">
+    <button class="nav-btn" id="nav-resumo" onclick="switchRoleScreen('resumo')" aria-label="Resumo">
       <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
       <span class="nav-label">Resumo</span>
     </button>
-    <button class="nav-btn" id="nav-chat" onclick="switchScreen('chat')" aria-label="Chat">
+    <button class="nav-btn" id="nav-chat" onclick="switchRoleScreen('chat')" aria-label="Chat">
       <span class="nav-icon"><i class="fa-solid fa-comment-dots"></i></span>
       <div class="badge show" id="chat-badge"></div>
       <span class="nav-label">FitBot</span>
     </button>
-    <button class="nav-btn" id="nav-perfil" onclick="switchScreen('perfil')" aria-label="Perfil">
+    <button class="nav-btn" id="nav-perfil" onclick="switchRoleScreen('perfil')" aria-label="Perfil">
       <span class="nav-icon"><i class="fa-solid fa-user"></i></span>
       <span class="nav-label">Perfil</span>
     </button>
@@ -630,6 +1063,142 @@
     </div>
   </div>
 
+  <!-- ── Modal: Autenticação (Login / Cadastro / Recuperação) ── -->
+  <div class="auth-modal-backdrop" id="auth-modal-backdrop">
+    <div class="auth-modal-box">
+      <button class="auth-modal-close" onclick="closeAuthModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="auth-tab-login" onclick="switchAuthTab('login')">Fazer Login</button>
+        <button class="auth-tab-btn" id="auth-tab-register" onclick="switchAuthTab('register')">Criar Conta</button>
+      </div>
+
+      <!-- Form Login -->
+      <form class="auth-tab-content" id="auth-form-login" onsubmit="handleLoginSubmit(event)">
+        <h3 class="auth-modal-title">Bem-vindo(a)!</h3>
+        <p class="auth-modal-subtitle">Acesse sua conta para continuar seus treinos.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="auth-login-email">Seu E-mail</label>
+          <input class="form-input" id="auth-login-email" type="email" placeholder="ex: seuemail@fitsaude.com" value="atleta@fitsaude.com" required />
+        </div>
+
+        <div class="form-group">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <label class="form-label" for="auth-login-pass">Senha</label>
+            <a href="javascript:void(0)" onclick="handleForgotPassword()" style="font-size:11px;color:var(--red-light);text-decoration:none;">Esqueceu?</a>
+          </div>
+          <input class="form-input" id="auth-login-pass" type="password" placeholder="••••••••" value="123456" required />
+        </div>
+
+        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-right-to-bracket"></i> Entrar no FitSaúde</button>
+
+        <div class="auth-quick-demos">
+          <div class="auth-quick-demos-title">Acesso Rápido de Demonstração</div>
+          <div class="demo-login-grid">
+            <button type="button" class="btn-demo-login" onclick="setUserRole('atleta');closeAuthModal();">
+              <i class="fa-solid fa-dumbbell" style="color:var(--green);"></i> Como Atleta
+            </button>
+            <button type="button" class="btn-demo-login" onclick="setUserRole('admin');closeAuthModal();">
+              <i class="fa-solid fa-crown" style="color:var(--red-light);"></i> Como Dono/Admin
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Form Cadastro -->
+      <form class="auth-tab-content" id="auth-form-register" style="display:none;" onsubmit="handleRegisterSubmit(event)">
+        <h3 class="auth-modal-title">Crie sua Conta</h3>
+        <p class="auth-modal-subtitle">Cadastre-se para iniciar seus treinos personalizados.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="auth-reg-name">Nome Completo</label>
+          <input class="form-input" id="auth-reg-name" type="text" placeholder="ex: Carlos Maciel" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="auth-reg-email">E-mail</label>
+          <input class="form-input" id="auth-reg-email" type="email" placeholder="ex: carlos@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="auth-reg-pass">Criar Senha</label>
+          <input class="form-input" id="auth-reg-pass" type="password" placeholder="Mínimo 6 dígitos" required />
+        </div>
+
+        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-user-check"></i> Concluir Cadastro</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Modal: Checkout / Assinatura de Plano ─────────────── -->
+  <div class="auth-modal-backdrop" id="checkout-modal-backdrop">
+    <div class="auth-modal-box">
+      <button class="auth-modal-close" onclick="closeCheckoutModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+
+      <h3 class="auth-modal-title"><i class="fa-solid fa-credit-card" style="color:var(--red-light);"></i> Assinar Plano</h3>
+      <p class="auth-modal-subtitle">Liberação imediata de todos os recursos FitSaúde.</p>
+
+      <div class="checkout-plan-summary">
+        <div class="checkout-plan-info">
+          <h4 id="checkout-plan-name">Plano Anual VIP</h4>
+          <p>Cobrança segura e renovação automática</p>
+        </div>
+        <div class="checkout-plan-val" id="checkout-plan-price">R$ 29,90/mês</div>
+      </div>
+
+      <div class="payment-method-selector">
+        <button class="payment-method-btn active" id="pay-method-pix" onclick="setPaymentMethod('pix')">
+          <i class="fa-brands fa-pix" style="font-size:20px;color:var(--green);"></i>
+          <span>Pagar via PIX</span>
+        </button>
+        <button class="payment-method-btn" id="pay-method-card" onclick="setPaymentMethod('card')">
+          <i class="fa-solid fa-credit-card" style="font-size:20px;color:var(--blue);"></i>
+          <span>Cartão de Crédito</span>
+        </button>
+      </div>
+
+      <!-- PIX View -->
+      <div id="checkout-pix-view">
+        <div class="pix-box">
+          <div style="font-size:12px;color:var(--txt2);margin-bottom:8px;">Escaneie o QR Code abaixo pelo app do seu banco:</div>
+          <div class="pix-qr-img">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=00020126580014br.gov.bcb.pix0136fitsaude-treinos-assinatura-20265204000053039865802BR5916FITSAUDE6009SAOPAULO62070503***6304A1B2" alt="QR Code PIX FitSaúde" width="130" height="130" />
+          </div>
+          <div style="font-size:11px;color:var(--green);font-weight:700;"><i class="fa-solid fa-bolt"></i> Aprovação Instantânea</div>
+        </div>
+
+        <div class="pix-code-field">
+          <input class="form-input" type="text" value="00020126580014br.gov.bcb.pix0136fitsaude..." readonly style="font-size:11px;" />
+          <button class="btn-save" style="width:auto;padding:8px 14px;" onclick="copyPixCode()"><i class="fa-solid fa-copy"></i></button>
+        </div>
+      </div>
+
+      <!-- Card View -->
+      <div id="checkout-card-view" style="display:none;">
+        <div class="form-group">
+          <label class="form-label">Número do Cartão</label>
+          <input class="form-input" type="text" placeholder="0000 0000 0000 0000" value="4532 8901 2345 4242" />
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Validade</label>
+            <input class="form-input" type="text" placeholder="MM/AA" value="12/29" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">CVV</label>
+            <input class="form-input" type="password" placeholder="123" value="888" />
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-save" style="margin-top:16px;" onclick="confirmSubscriptionPayment()">
+        <i class="fa-solid fa-circle-check"></i> Confirmar & Ativar Acesso Atleta
+      </button>
+    </div>
+  </div>
+
+  <script src="js/roles.js"></script>
   <script>
     // ════════════════════════════════════════════════════════
     //  DATA (Masculino & Feminino)
@@ -2617,6 +3186,9 @@ IMPORTANTE: Use sempre o nome do aluno (${p.name || 'Aluno'}) e considere as sua
     document.getElementById('day-greeting').innerHTML = getGreeting();
     render();
     renderPlanilhas();
+    if (typeof initRolesSystem === 'function') {
+      initRolesSystem();
+    }
 
     // Register Service Worker for PWA
     if ('serviceWorker' in navigator) {

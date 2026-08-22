@@ -79,3 +79,31 @@ O **FitSaúde** é dividido em 5 telas principais integradas em um App Shell com
   - Personaliza a saudação na tela inicial com o nome do aluno (ex: *"Bom dia, Carlos!"*).
   - Sincroniza dinamicamente o sexo informado com o modal de treino padrão (Masculino/Feminino).
   - Injeta os dados do aluno no prompt do **FitBot IA** para que a IA dê conselhos sob medida.
+
+---
+
+## 👥 6. Sistema Multiusuário (Visitante, Atleta, Administrador)
+
+### 👁️ Visitante (Acesso Inicial / Não Cadastrado)
+- **Conhecer o FitSaúde:** Apresentação da plataforma, vitrine de recursos (Player 3D, IA FitBot, Métricas).
+- **Ver os Planos:** Cards interativos dos planos Mensal (R$ 49,90), Trimestral (R$ 39,90) e Anual VIP (R$ 29,90).
+- **Criar Conta & Login:** Modais completos de autenticação com validação.
+- **Recuperar Senha:** Fluxo assistido de recuperação de acesso.
+- **Assinar um Plano:** Checkout instantâneo via PIX (QR Code e Copia e Cola) ou Cartão de Crédito com ativação automática.
+
+### ⚡ Atleta (Usuário com Assinatura Ativa)
+- **Treinos:** Acesso total às rotinas Masc & Fem, dias da semana e player de execução 3D.
+- **Planilhas:** Visualização e download de PDFs completos.
+- **Resumo:** Gráficos e progresso semanal.
+- **FitBot IA:** Assistente Groq Llama 3.3 com contexto de treino.
+- **Perfil:** IMC, hidratação diária, metas e temas visuais.
+- **Assinatura:** Visualização do plano ativo, validade, faturas e renovação.
+- **Segurança:** Troca de senha, sessões ativas e logout.
+
+### 👑 Administrador (Dono do FitSaúde)
+- **Dashboard:** KPIs executivos (Total de alunos, MRR faturamento, treinos hoje, retenção).
+- **Alunos:** Gestão completa com busca em tempo real, status ativo/pendente/bloqueado, cadastro e exclusão.
+- **Treinos:** Painel de controle de fichas e catálogo de exercícios da academia.
+- **Planilhas:** Emissão e download de relatórios administrativos gerais em PDF.
+- **Assinaturas:** Controle financeiro de todas as assinaturas e pagamentos da plataforma.
+- **Configurações:** Nome da academia, WhatsApp de suporte, modelo da IA e backup geral do banco.
