@@ -96,12 +96,17 @@ function handleHashRouting() {
     else switchRoleScreen('visitante-landing');
   } else if (section === 'atleta') {
     setUserRole('atleta', true);
-    if (sub) switchRoleScreen(sub === 'assinatura' ? 'atleta-assinatura' : (sub === 'seguranca' ? 'atleta-seguranca' : sub));
+    if (sub === 'assinatura') switchRoleScreen('atleta-assinatura');
+    else if (sub === 'seguranca') switchRoleScreen('atleta-seguranca');
+    else if (sub) switchRoleScreen(sub);
+    else switchRoleScreen('treinos');
   } else if (section === 'admin') {
     setUserRole('admin', true);
     if (sub === 'alunos' && param) {
       switchRoleScreen('admin-alunos');
       openStudentDetail(param);
+    } else if (sub === 'configuracoes' || sub === 'config') {
+      switchRoleScreen('admin-config');
     } else if (sub) {
       switchRoleScreen('admin-' + sub);
     } else {
@@ -537,11 +542,23 @@ function handleRegisterSubmit(e) {
   showToast(`🎉 Conta criada com sucesso!`);
 }
 
-function handleForgotPassword() {
-  const email = prompt('Digite seu e-mail cadastrado para recuperação:');
-  if (email) {
-    showToast(`📧 Link de recuperação enviado para ${email}!`);
+function handleForgotPasswordSubmit(e) {
+  if (e) e.preventDefault();
+  const emailInput = document.getElementById('auth-forgot-email');
+  const email = emailInput ? emailInput.value : '';
+  if (!email) {
+    showToast('Informe o seu e-mail!');
+    return;
   }
+  showToast(`📧 Link de recuperação enviado para ${email}!`);
+  if (emailInput) emailInput.value = '';
+  setTimeout(() => {
+    switchAuthTab('login');
+  }, 1200);
+}
+
+function handleForgotPassword() {
+  switchAuthTab('forgot');
 }
 
 // ─── Payment Method Selection in Onboarding ───────────────────
@@ -757,21 +774,37 @@ function deleteStudent(id) {
 }
 
 function openAddStudentModal() {
-  const name = prompt('Nome completo do aluno:');
-  if (!name) return;
-  const email = prompt('E-mail do aluno:', `${name.toLowerCase().replace(/\s+/g, '.')}@email.com`);
-  if (!email) return;
-  const plan = prompt('Plano (Mensal, Trimestral ou Anual VIP):', 'Anual VIP') || 'Anual VIP';
+  const modal = document.getElementById('add-student-modal-backdrop');
+  if (modal) modal.classList.add('show');
+}
+
+function closeAddStudentModal() {
+  const modal = document.getElementById('add-student-modal-backdrop');
+  if (modal) modal.classList.remove('show');
+}
+
+function handleAddStudentSubmit(e) {
+  if (e) e.preventDefault();
+  const name = document.getElementById('add-stu-name')?.value;
+  const email = document.getElementById('add-stu-email')?.value;
+  const phone = document.getElementById('add-stu-phone')?.value;
+  const plan = document.getElementById('add-stu-plan')?.value || 'Anual VIP';
+  const goal = document.getElementById('add-stu-goal')?.value || 'Hipertrofia';
+
+  if (!name || !email) {
+    showToast('Preencha os campos obrigatórios!');
+    return;
+  }
 
   const newStudent = {
     id: 'alu_' + Date.now(),
     name: name,
     email: email,
+    phone: phone || '(11) 98888-0000',
     plan: plan,
     status: 'active',
     joined: new Date().toLocaleDateString('pt-BR'),
-    phone: '(11) 98888-0000',
-    goal: 'Hipertrofia',
+    goal: goal,
     weight: 75,
     height: 175,
     workoutsDone: 0,
@@ -781,8 +814,11 @@ function openAddStudentModal() {
   const students = JSON.parse(localStorage.getItem(STUDENTS_DB_KEY) || '[]');
   students.unshift(newStudent);
   localStorage.setItem(STUDENTS_DB_KEY, JSON.stringify(students));
+  
+  closeAddStudentModal();
   renderAdminAlunos();
-  showToast(`✅ Aluno ${name} cadastrado!`);
+  renderAdminDashboard();
+  showToast(`✅ Aluno ${name} cadastrado com sucesso!`);
 }
 
 function renderAdminAssinaturas() {
@@ -868,15 +904,58 @@ function exportAdminReport(type = 'pdf') {
 
 // ─── Security & Account ───────────────────────────────────────
 function handleChangePassword() {
-  const newPass = prompt('Digite sua nova senha:');
-  if (newPass && newPass.length >= 6) {
-    showToast('🔒 Senha alterada com sucesso!');
-  } else if (newPass) {
-    showToast('A senha deve ter pelo menos 6 caracteres.');
+  const currPass = document.getElementById('sec-curr-pass')?.value;
+  const newPass = document.getElementById('sec-new-pass')?.value;
+  const confPass = document.getElementById('sec-conf-pass')?.value;
+
+  if (!currPass || !newPass || !confPass) {
+    showToast('Preencha todos os campos de senha!');
+    return;
   }
+
+  if (newPass.length < 6) {
+    showToast('A nova senha deve ter pelo menos 6 caracteres!');
+    return;
+  }
+
+  if (newPass !== confPass) {
+    showToast('As senhas não coincidem!');
+    return;
+  }
+
+  // Clear fields
+  if (document.getElementById('sec-curr-pass')) document.getElementById('sec-curr-pass').value = '';
+  if (document.getElementById('sec-new-pass')) document.getElementById('sec-new-pass').value = '';
+  if (document.getElementById('sec-conf-pass')) document.getElementById('sec-conf-pass').value = '';
+
+  showToast('🔒 Senha atualizada com sucesso!');
 }
 
 function handleLogout() {
   setUserRole('visitante');
   showToast('👋 Sessão encerrada.');
 }
+
+// Window Exposures
+window.openAddStudentModal = openAddStudentModal;
+window.closeAddStudentModal = closeAddStudentModal;
+window.handleAddStudentSubmit = handleAddStudentSubmit;
+window.handleForgotPasswordSubmit = handleForgotPasswordSubmit;
+window.handleChangePassword = handleChangePassword;
+window.handleLogout = handleLogout;
+window.switchAuthTab = switchAuthTab;
+window.handleLoginSubmit = handleLoginSubmit;
+window.handleRegisterSubmit = handleRegisterSubmit;
+window.saveAdminConfig = saveAdminConfig;
+window.exportAdminReport = exportAdminReport;
+window.sendPaymentReminderWhatsApp = sendPaymentReminderWhatsApp;
+window.toggleStudentStatus = toggleStudentStatus;
+window.deleteStudent = deleteStudent;
+window.renderAdminAlunos = renderAdminAlunos;
+window.setOnboardingPaymentMethod = setOnboardingPaymentMethod;
+window.copyPixCode = copyPixCode;
+window.confirmSimulatedPayment = confirmSimulatedPayment;
+window.enterWebAppAsAthlete = enterWebAppAsAthlete;
+window.handleOnboardingStep1Submit = handleOnboardingStep1Submit;
+window.setOnboardingStep = setOnboardingStep;
+window.closeOnboardingModal = closeOnboardingModal;

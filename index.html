@@ -682,15 +682,21 @@
 
       <div class="profile-card">
         <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-key"></i> Alterar Senha</div>
-        <div class="form-group">
-          <label class="form-label">Senha Atual</label>
-          <input class="form-input" type="password" placeholder="••••••••" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nova Senha</label>
-          <input class="form-input" type="password" placeholder="Mínimo 6 caracteres" />
-        </div>
-        <button class="btn-save" onclick="handleChangePassword()"><i class="fa-solid fa-shield-halved"></i> Atualizar Senha</button>
+        <form onsubmit="event.preventDefault();handleChangePassword();">
+          <div class="form-group">
+            <label class="form-label" for="sec-curr-pass">Senha Atual</label>
+            <input class="form-input" id="sec-curr-pass" type="password" placeholder="••••••••" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sec-new-pass">Nova Senha</label>
+            <input class="form-input" id="sec-new-pass" type="password" placeholder="Mínimo 6 caracteres" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sec-conf-pass">Confirmar Nova Senha</label>
+            <input class="form-input" id="sec-conf-pass" type="password" placeholder="Repita a nova senha" />
+          </div>
+          <button type="submit" class="btn-save"><i class="fa-solid fa-shield-halved"></i> Atualizar Senha</button>
+        </form>
       </div>
 
       <div class="profile-card" style="margin-top:14px;">
@@ -1072,6 +1078,7 @@
       <div class="auth-tabs">
         <button class="auth-tab-btn active" id="auth-tab-login" onclick="switchAuthTab('login')">Fazer Login</button>
         <button class="auth-tab-btn" id="auth-tab-register" onclick="switchAuthTab('register')">Criar Conta</button>
+        <button class="auth-tab-btn" id="auth-tab-forgot" onclick="switchAuthTab('forgot')">Recuperar</button>
       </div>
 
       <!-- Form Login -->
@@ -1087,7 +1094,7 @@
         <div class="form-group">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <label class="form-label" for="auth-login-pass">Senha</label>
-            <a href="javascript:void(0)" onclick="handleForgotPassword()" style="font-size:11px;color:var(--red-light);text-decoration:none;">Esqueceu?</a>
+            <a href="javascript:void(0)" onclick="switchAuthTab('forgot')" style="font-size:11px;color:var(--red-light);text-decoration:none;">Esqueceu a senha?</a>
           </div>
           <input class="form-input" id="auth-login-pass" type="password" placeholder="••••••••" value="123456" required />
         </div>
@@ -1128,6 +1135,20 @@
         </div>
 
         <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-user-check"></i> Concluir Cadastro</button>
+      </form>
+
+      <!-- Form Recuperar Senha -->
+      <form class="auth-tab-content" id="auth-form-forgot" style="display:none;" onsubmit="handleForgotPasswordSubmit(event)">
+        <h3 class="auth-modal-title">Recuperar Senha</h3>
+        <p class="auth-modal-subtitle">Digite seu e-mail cadastrado para enviarmos as instruções de redefinição.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="auth-forgot-email">Seu E-mail Cadastrado</label>
+          <input class="form-input" id="auth-forgot-email" type="email" placeholder="ex: seuemail@fitsaude.com" required />
+        </div>
+
+        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-envelope"></i> Enviar Link de Recuperação</button>
+        <button type="button" class="btn-reset" style="margin-top:8px;" onclick="switchAuthTab('login')">Voltar ao Login</button>
       </form>
     </div>
   </div>
@@ -1282,6 +1303,56 @@
       <div id="student-detail-content">
         <!-- Renderizado dinamicamente via JS -->
       </div>
+    </div>
+  </div>
+
+  <!-- ── Modal: Cadastrar Novo Aluno (/admin/alunos) ──────── -->
+  <div class="auth-modal-backdrop" id="add-student-modal-backdrop">
+    <div class="auth-modal-box">
+      <button class="auth-modal-close" onclick="closeAddStudentModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="auth-modal-title"><i class="fa-solid fa-user-plus" style="color:var(--red-light);"></i> Cadastrar Novo Aluno</h3>
+      <p class="auth-modal-subtitle">Adicione o aluno à base de dados do FitSaúde.</p>
+
+      <form onsubmit="handleAddStudentSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="add-stu-name">Nome Completo</label>
+          <input class="form-input" id="add-stu-name" type="text" placeholder="ex: Rodrigo Costa" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="add-stu-email">E-mail</label>
+          <input class="form-input" id="add-stu-email" type="email" placeholder="ex: rodrigo@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="add-stu-phone">WhatsApp / Telefone</label>
+          <input class="form-input" id="add-stu-phone" type="text" placeholder="ex: (11) 98765-4321" value="(11) 9" required />
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="add-stu-plan">Plano</label>
+            <select class="form-select" id="add-stu-plan">
+              <option value="Anual VIP" selected>Anual VIP (R$ 29,90/m)</option>
+              <option value="Trimestral">Trimestral (R$ 39,90/m)</option>
+              <option value="Mensal">Mensal (R$ 49,90/m)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="add-stu-goal">Objetivo</label>
+            <select class="form-select" id="add-stu-goal">
+              <option value="Hipertrofia" selected>Hipertrofia</option>
+              <option value="Emagrecimento">Emagrecimento</option>
+              <option value="Definição">Definição</option>
+              <option value="Força">Força</option>
+              <option value="Condicionamento">Condicionamento</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-check"></i> Cadastrar Aluno</button>
+        <button type="button" class="btn-reset" style="margin-top:8px;" onclick="closeAddStudentModal()">Cancelar</button>
+      </form>
     </div>
   </div>
 
