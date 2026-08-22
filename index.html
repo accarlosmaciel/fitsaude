@@ -498,7 +498,7 @@
         <p class="visitor-subtitle">Treinos com animações 3D interativas, assistente com Inteligência Artificial Groq Llama 3.3 e controle completo da sua evolução.</p>
         
         <div class="visitor-cta-row">
-          <button class="btn-visitor-primary" onclick="openCheckoutModal('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
+          <button class="btn-visitor-primary" onclick="startOnboardingFunnel('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
             <i class="fa-solid fa-sparkles"></i> Assinar Plano
           </button>
           <button class="btn-visitor-secondary" onclick="openAuthModal('register')">
@@ -570,7 +570,7 @@
             <li><i class="fa-solid fa-circle-check"></i> FitBot IA (Até 50 perguntas/mês)</li>
             <li><i class="fa-solid fa-circle-check"></i> Exportação de PDF das fichas</li>
           </ul>
-          <button class="btn-plan-select secondary" onclick="openCheckoutModal('Mensal', 'R$ 49,90/mês')">
+          <button class="btn-plan-select secondary" onclick="startOnboardingFunnel('Mensal', 'R$ 49,90/mês')">
             <i class="fa-solid fa-bolt"></i> Assinar Mensal
           </button>
         </div>
@@ -590,7 +590,7 @@
             <li><i class="fa-solid fa-circle-check"></i> FitBot IA Ilimitado</li>
             <li><i class="fa-solid fa-circle-check"></i> Cálculo de calorias e macros</li>
           </ul>
-          <button class="btn-plan-select secondary" onclick="openCheckoutModal('Trimestral', 'R$ 39,90/mês (R$ 119,70/tri)')">
+          <button class="btn-plan-select secondary" onclick="startOnboardingFunnel('Trimestral', 'R$ 39,90/mês (R$ 119,70/tri)')">
             <i class="fa-solid fa-bolt"></i> Assinar Trimestral
           </button>
         </div>
@@ -612,7 +612,7 @@
             <li><i class="fa-solid fa-circle-check"></i> Exportação ilimitada de PDFs</li>
             <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário</li>
           </ul>
-          <button class="btn-plan-select primary" onclick="openCheckoutModal('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
+          <button class="btn-plan-select primary" onclick="startOnboardingFunnel('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
             <i class="fa-solid fa-crown"></i> Assinar Anual VIP
           </button>
         </div>
@@ -1131,70 +1131,156 @@
     </div>
   </div>
 
-  <!-- ── Modal: Checkout / Assinatura de Plano ─────────────── -->
-  <div class="auth-modal-backdrop" id="checkout-modal-backdrop">
+  <!-- ── Modal: Funil de Onboarding Completo (Visitante → Atleta) ── -->
+  <div class="auth-modal-backdrop" id="onboarding-modal-backdrop">
     <div class="auth-modal-box">
-      <button class="auth-modal-close" onclick="closeCheckoutModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      <button class="auth-modal-close" onclick="closeOnboardingModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
 
-      <h3 class="auth-modal-title"><i class="fa-solid fa-credit-card" style="color:var(--red-light);"></i> Assinar Plano</h3>
-      <p class="auth-modal-subtitle">Liberação imediata de todos os recursos FitSaúde.</p>
-
-      <div class="checkout-plan-summary">
-        <div class="checkout-plan-info">
-          <h4 id="checkout-plan-name">Plano Anual VIP</h4>
-          <p>Cobrança segura e renovação automática</p>
+      <!-- Step Progress Indicator -->
+      <div class="onboarding-steps-bar">
+        <div class="step-node active" id="node-step-1">
+          <div class="step-circle">1</div>
+          <span class="step-title">Conta</span>
         </div>
-        <div class="checkout-plan-val" id="checkout-plan-price">R$ 29,90/mês</div>
-      </div>
-
-      <div class="payment-method-selector">
-        <button class="payment-method-btn active" id="pay-method-pix" onclick="setPaymentMethod('pix')">
-          <i class="fa-brands fa-pix" style="font-size:20px;color:var(--green);"></i>
-          <span>Pagar via PIX</span>
-        </button>
-        <button class="payment-method-btn" id="pay-method-card" onclick="setPaymentMethod('card')">
-          <i class="fa-solid fa-credit-card" style="font-size:20px;color:var(--blue);"></i>
-          <span>Cartão de Crédito</span>
-        </button>
-      </div>
-
-      <!-- PIX View -->
-      <div id="checkout-pix-view">
-        <div class="pix-box">
-          <div style="font-size:12px;color:var(--txt2);margin-bottom:8px;">Escaneie o QR Code abaixo pelo app do seu banco:</div>
-          <div class="pix-qr-img">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=00020126580014br.gov.bcb.pix0136fitsaude-treinos-assinatura-20265204000053039865802BR5916FITSAUDE6009SAOPAULO62070503***6304A1B2" alt="QR Code PIX FitSaúde" width="130" height="130" />
-          </div>
-          <div style="font-size:11px;color:var(--green);font-weight:700;"><i class="fa-solid fa-bolt"></i> Aprovação Instantânea</div>
+        <div class="step-node" id="node-step-2">
+          <div class="step-circle">2</div>
+          <span class="step-title">Assinatura</span>
         </div>
-
-        <div class="pix-code-field">
-          <input class="form-input" type="text" value="00020126580014br.gov.bcb.pix0136fitsaude..." readonly style="font-size:11px;" />
-          <button class="btn-save" style="width:auto;padding:8px 14px;" onclick="copyPixCode()"><i class="fa-solid fa-copy"></i></button>
+        <div class="step-node" id="node-step-3">
+          <div class="step-circle">3</div>
+          <span class="step-title">Acesso</span>
         </div>
       </div>
 
-      <!-- Card View -->
-      <div id="checkout-card-view" style="display:none;">
-        <div class="form-group">
-          <label class="form-label">Número do Cartão</label>
-          <input class="form-input" type="text" placeholder="0000 0000 0000 0000" value="4532 8901 2345 4242" />
+      <!-- ── PASSO 1: CRIAR CONTA ───────────────────────────── -->
+      <div id="ob-step-1">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <span class="role-badge-current role-badge-visitante" id="ob-selected-plan-badge">Plano Anual VIP</span>
+          <span style="font-weight:800;color:var(--red-light);" id="ob-selected-plan-price">R$ 29,90/mês</span>
         </div>
-        <div class="form-grid-2">
+        <h3 class="auth-modal-title">Crie sua Conta FitSaúde</h3>
+        <p class="auth-modal-subtitle">Preencha seus dados para configurar seus treinos.</p>
+
+        <form onsubmit="handleOnboardingStep1Submit(event)">
           <div class="form-group">
-            <label class="form-label">Validade</label>
-            <input class="form-input" type="text" placeholder="MM/AA" value="12/29" />
+            <label class="form-label" for="ob-name">Nome Completo</label>
+            <input class="form-input" id="ob-name" type="text" placeholder="ex: Carlos Maciel" value="Carlos Maciel" required />
           </div>
+
           <div class="form-group">
-            <label class="form-label">CVV</label>
-            <input class="form-input" type="password" placeholder="123" value="888" />
+            <label class="form-label" for="ob-email">Seu Melhor E-mail</label>
+            <input class="form-input" id="ob-email" type="email" placeholder="ex: carlos@fitsaude.com" value="carlos@fitsaude.com" required />
           </div>
-        </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ob-pass">Criar Senha de Acesso</label>
+            <input class="form-input" id="ob-pass" type="password" placeholder="Mínimo 6 caracteres" value="123456" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ob-goal">Objetivo Principal</label>
+            <select class="form-select" id="ob-goal">
+              <option value="Hipertrofia" selected>Hipertrofia (Ganho de Massa)</option>
+              <option value="Emagrecimento">Emagrecimento / Definição</option>
+              <option value="Condicionamento">Saúde & Condicionamento</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-save" style="margin-top:16px;">
+            Continuar para Assinatura <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
       </div>
 
-      <button class="btn-save" style="margin-top:16px;" onclick="confirmSubscriptionPayment()">
-        <i class="fa-solid fa-circle-check"></i> Confirmar & Ativar Acesso Atleta
-      </button>
+      <!-- ── PASSO 2: ASSINATURA & PAGAMENTO SIMULADO ────────── -->
+      <div id="ob-step-2" style="display:none;">
+        <h3 class="auth-modal-title"><i class="fa-solid fa-credit-card" style="color:var(--red-light);"></i> Assinatura FitSaúde</h3>
+        <p class="auth-modal-subtitle">Simulação de pagamento sem cobrança real nesta etapa.</p>
+
+        <div class="payment-method-selector">
+          <button type="button" class="payment-method-btn active ob-pay-btn" id="ob-pay-pix" onclick="setOnboardingPaymentMethod('pix')">
+            <i class="fa-brands fa-pix" style="font-size:20px;color:var(--green);"></i>
+            <span>PIX Simulado</span>
+          </button>
+          <button type="button" class="payment-method-btn ob-pay-btn" id="ob-pay-card" onclick="setOnboardingPaymentMethod('card')">
+            <i class="fa-solid fa-credit-card" style="font-size:20px;color:var(--blue);"></i>
+            <span>Cartão de Crédito</span>
+          </button>
+        </div>
+
+        <!-- PIX View -->
+        <div id="ob-pix-view">
+          <div class="pix-box">
+            <div style="font-size:12px;color:var(--txt2);margin-bottom:8px;">QR Code de Teste (Aprovação Instantânea):</div>
+            <div class="pix-qr-img">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=00020126580014br.gov.bcb.pix0136fitsaude-treinos-assinatura-20265204000053039865802BR5916FITSAUDE6009SAOPAULO62070503***6304A1B2" alt="QR Code PIX FitSaúde" width="120" height="120" />
+            </div>
+            <div style="font-size:11px;color:var(--green);font-weight:700;"><i class="fa-solid fa-bolt"></i> Simulação de Liberação Imediata</div>
+          </div>
+          <div class="pix-code-field">
+            <input class="form-input" type="text" value="00020126580014br.gov.bcb.pix0136fitsaude..." readonly style="font-size:11px;" />
+            <button type="button" class="btn-save" style="width:auto;padding:8px 14px;" onclick="copyPixCode()"><i class="fa-solid fa-copy"></i></button>
+          </div>
+        </div>
+
+        <!-- Card View -->
+        <div id="ob-card-view" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Número do Cartão (Simulado)</label>
+            <input class="form-input" type="text" value="4532 •••• •••• 4242" readonly />
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Validade</label>
+              <input class="form-input" type="text" value="12/29" readonly />
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVV</label>
+              <input class="form-input" type="password" value="888" readonly />
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-save" style="margin-top:16px;" onclick="confirmSimulatedPayment()">
+          <i class="fa-solid fa-circle-check"></i> Confirmar Assinatura (Simulação)
+        </button>
+        <button type="button" class="btn-reset" style="margin-top:8px;" onclick="setOnboardingStep(1)">
+          <i class="fa-solid fa-arrow-left"></i> Voltar para Dados
+        </button>
+      </div>
+
+      <!-- ── PASSO 3: RECEBE ACESSO & ENTRA NO WEBAPP ────────── -->
+      <div id="ob-step-3" style="display:none;">
+        <div class="success-access-card">
+          <div class="success-icon-wrap"><i class="fa-solid fa-check"></i></div>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--txt);margin-bottom:4px;">Parabéns, <span id="ob-success-user-name">Carlos</span>!</h3>
+          <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">Sua assinatura foi confirmada e seu acesso está 100% liberado.</p>
+          
+          <div class="success-plan-pill" id="ob-success-plan-title">
+            <i class="fa-solid fa-crown"></i> Plano Anual VIP Ativo
+          </div>
+
+          <div style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:20px;text-align:left;background:var(--bg3);padding:12px;border-radius:var(--r-md);border:1px solid var(--border);">
+            <div><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Fichas de treino personalizadas liberadas</div>
+            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Player 3D de execução com cronômetro</div>
+            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> FitBot IA Groq Llama 3.3 disponível 24h</div>
+          </div>
+
+          <button type="button" class="btn-save" style="font-size:15px;padding:14px;" onclick="enterWebAppAsAthlete()">
+            <i class="fa-solid fa-bolt"></i> Entrar no WebApp do Atleta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Modal: Detalhes do Aluno (/admin/alunos/:id) ──────── -->
+  <div class="auth-modal-backdrop" id="student-detail-modal-backdrop">
+    <div class="auth-modal-box">
+      <button class="auth-modal-close" onclick="closeStudentDetailModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      <div id="student-detail-content">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
     </div>
   </div>
 

@@ -16,12 +16,12 @@
   --bg4: #1a1a21;
   --bg-hover: #1f1f28;
 
-  --red: #dc143c;
-  --red-light: #f43f5e;
-  --red-pale: #fb7185;
-  --red-dark: #9f0f2b;
-  --red-glow: rgba(220, 20, 60, 0.38);
-  --red-subtle: rgba(220, 20, 60, 0.08);
+  --red: #FF1A4B;
+  --red-light: #ff4d6d;
+  --red-pale: #ff758f;
+  --red-dark: #cc0033;
+  --red-glow: rgba(255, 26, 75, 0.4);
+  --red-subtle: rgba(255, 26, 75, 0.08);
 
   --green: #22d3a0;
   --green-sub: rgba(34, 211, 160, 0.12);
