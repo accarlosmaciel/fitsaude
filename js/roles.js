@@ -662,12 +662,24 @@ function openStudentDetail(id) {
       <p style="font-size:13px;color:var(--txt);"><strong>Data de Matrícula:</strong> ${student.joined || '15/01/2026'}</p>
     </div>
 
-    <div class="form-grid-2">
-      <button class="btn-save" style="background:#25D366;color:#fff;" onclick="window.open('https://wa.me/55${(student.phone||'').replace(/\\D/g,'')}', '_blank')">
-        <i class="fa-brands fa-whatsapp"></i> Contato WhatsApp
+    <!-- Cobrança Automática WhatsApp -->
+    <div style="background:rgba(37, 211, 102, 0.08);border:1px solid rgba(37, 211, 102, 0.25);border-radius:var(--r-lg);padding:14px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:12px;font-weight:700;color:#25D366;"><i class="fa-brands fa-whatsapp"></i> Lembrete de Pagamento</span>
+        <span style="font-size:10px;background:rgba(37,211,102,0.18);color:#25D366;padding:2px 8px;border-radius:10px;font-weight:800;">AUTO</span>
+      </div>
+      <p style="font-size:11px;color:var(--txt2);line-height:1.4;margin-bottom:10px;">Envia mensagem automática da Assistente Virtual com aviso de mensalidade pendente e solicitação de comprovante.</p>
+      <button class="btn-save" style="background:#25D366;color:#060608;font-weight:800;font-size:13px;padding:10px;" onclick="sendPaymentReminderWhatsApp('${student.id}')">
+        <i class="fa-solid fa-paper-plane"></i> Enviar Cobrança Automática
       </button>
+    </div>
+
+    <div class="form-grid-2">
       <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="toggleStudentStatus('${student.id}');closeStudentDetailModal();">
         <i class="fa-solid fa-arrows-rotate"></i> Alternar Status
+      </button>
+      <button class="btn-reset" style="background:rgba(255,26,75,0.12);color:var(--red-light);border-color:var(--border-red);" onclick="deleteStudent('${student.id}');closeStudentDetailModal();">
+        <i class="fa-solid fa-trash"></i> Excluir Aluno
       </button>
     </div>
   `;
@@ -675,9 +687,25 @@ function openStudentDetail(id) {
   modal.classList.add('show');
 }
 
+function sendPaymentReminderWhatsApp(studentId) {
+  const students = JSON.parse(localStorage.getItem(STUDENTS_DB_KEY) || '[]');
+  const student = students.find(s => s.id === studentId);
+  if (!student) return;
+
+  const phone = (student.phone || '11988880000').replace(/\D/g, '');
+  const studentName = student.name ? student.name.split(' ')[0] : 'Aluno FitSaúde';
+
+  const message = `(Mensagem automática)\n\nOlá, ${studentName}! 👋\n\nSou a Assistente Virtual da FitSaúde, responsável pelos lembretes de pagamento e acompanhamento das mensalidades.\n\nIdentificamos que a sua mensalidade está pendente.\n\nAssim que realizar o pagamento, basta responder esta mensagem com o comprovante para que a baixa seja efetuada.\n\nCaso o pagamento já tenha sido realizado, desconsidere esta mensagem.\n\nAgradecemos pela atenção! 😊! 👋`;
+
+  const url = `https://api.whatsapp.com/send?phone=55${phone}&text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+  showToast(`📲 Lembrete de cobrança gerado para ${studentName}!`);
+}
+
 function closeStudentDetailModal() {
   const modal = document.getElementById('student-detail-modal-backdrop');
   if (modal) modal.classList.remove('show');
+}
 }
 
 function toggleStudentStatus(id) {
