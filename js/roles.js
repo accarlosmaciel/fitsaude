@@ -733,7 +733,6 @@ function closeStudentDetailModal() {
   const modal = document.getElementById('student-detail-modal-backdrop');
   if (modal) modal.classList.remove('show');
 }
-}
 
 function toggleStudentStatus(id) {
   let students = JSON.parse(localStorage.getItem(STUDENTS_DB_KEY) || '[]');
