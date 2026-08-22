@@ -19,7 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="js/roles.js"></script>
+
 </head>
 
 <body>
@@ -3247,10 +3247,12 @@ IMPORTANTE: Use sempre o nome do aluno (${p.name || 'Aluno'}) e considere as sua
     document.getElementById('day-greeting').innerHTML = getGreeting();
     render();
     renderPlanilhas();
-    if (typeof initRolesSystem === 'function') {
-      initRolesSystem();
-    }
+    // initRolesSystem é chamado automaticamente pelo roles.js via DOMContentLoaded
+  </script>
 
+  <script src="js/roles.js"></script>
+
+  <script>
     // Register Service Worker for PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
