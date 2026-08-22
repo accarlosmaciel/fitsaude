@@ -225,6 +225,7 @@
 .visitor-title span {
   background: linear-gradient(135deg, var(--red) 0%, #ff758f 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
