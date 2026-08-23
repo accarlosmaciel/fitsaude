@@ -427,7 +427,7 @@ function confirmSimulatedPayment() {
   // Save subscription record
   const subs = JSON.parse(localStorage.getItem(SUBSCRIPTIONS_DB_KEY) || '[]');
   const isPix = document.getElementById('ob-pay-pix')?.classList.contains('active');
-  subs.unshift({
+  const newSub = {
     id: 'sub_' + Date.now(),
     student: temporaryUserData.name,
     plan: selectedOnboardingPlan.name,
@@ -435,8 +435,17 @@ function confirmSimulatedPayment() {
     method: isPix ? 'PIX Simulado' : 'Cartão de Crédito',
     status: 'Paga',
     date: new Date().toLocaleDateString('pt-BR')
-  });
+  };
+  subs.unshift(newSub);
   localStorage.setItem(SUBSCRIPTIONS_DB_KEY, JSON.stringify(subs));
+
+  // Sync to Supabase in cloud
+  if (typeof syncProfileToSupabase === 'function') {
+    syncProfileToSupabase(temporaryUserData);
+  }
+  if (typeof syncSubscriptionToSupabase === 'function') {
+    syncSubscriptionToSupabase(newSub);
+  }
 
   // Update success card info
   const successName = document.getElementById('ob-success-user-name');
@@ -481,28 +490,66 @@ function switchAuthTab(tab) {
   if (activeContent) activeContent.style.display = 'block';
 }
 
-function handleLoginSubmit(e) {
+async function handleLoginSubmit(e) {
   if (e) e.preventDefault();
-  const email = document.getElementById('auth-login-email').value;
-  const pass = document.getElementById('auth-login-pass').value;
+  const emailInput = document.getElementById('auth-login-email');
+  const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+  const pass = document.getElementById('auth-login-pass')?.value || '';
 
-  if (!email || !pass) {
-    showToast('Preencha email e senha!');
+  if (!email) {
+    showToast('Preencha o seu e-mail!');
     return;
   }
 
-  // Admin login check
-  if (email.toLowerCase().includes('admin')) {
+  // Tentar autenticação oficial no Supabase se houver senha
+  const sb = typeof getSupabase === 'function' ? getSupabase() : null;
+  if (sb && pass) {
+    try {
+      const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+      if (error && !email.includes('accarlosmaciel@gmail.com')) {
+        console.warn('Supabase Auth Notice:', error.message);
+      }
+    } catch (err) {
+      console.warn('Supabase login error (fallback local):', err);
+    }
+  }
+
+  // Super Admin Level 1 Check (accarlosmaciel@gmail.com)
+  const isSuperAdmin = email === 'accarlosmaciel@gmail.com' || email.includes('admin');
+
+  if (isSuperAdmin) {
+    const adminUser = {
+      id: '1',
+      level: 1,
+      name: 'Carlos Maciel',
+      email: 'accarlosmaciel@gmail.com',
+      role: 'admin',
+      plan: 'Anual VIP (Super Admin Nível 1)',
+      status: 'active',
+      avatar: '👑',
+      memberSince: new Date().toLocaleDateString('pt-BR')
+    };
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(adminUser));
     closeAuthModal();
     setUserRole('admin');
-    showToast('👑 Painel Administrador autenticado!');
+    showToast('👑 Bem-vindo, Super Administrador (Nível 1)!');
     return;
   }
 
   // Regular athlete login
+  const athleteUser = {
+    id: 'alu_' + Date.now(),
+    name: email.split('@')[0],
+    email: email,
+    role: 'atleta',
+    plan: 'Anual VIP',
+    status: 'active',
+    memberSince: new Date().toLocaleDateString('pt-BR')
+  };
+  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(athleteUser));
   closeAuthModal();
   setUserRole('atleta');
-  showToast(`⚡ Bem-vindo de volta!`);
+  showToast(`⚡ Bem-vindo(a) de volta!`);
 }
 
 function handleRegisterSubmit(e) {
@@ -536,6 +583,10 @@ function handleRegisterSubmit(e) {
   students.unshift(newUser);
   localStorage.setItem(STUDENTS_DB_KEY, JSON.stringify(students));
   localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(newUser));
+
+  if (typeof syncProfileToSupabase === 'function') {
+    syncProfileToSupabase(newUser);
+  }
 
   closeAuthModal();
   setUserRole('atleta');

@@ -134,6 +134,10 @@ function saveProfile() {
 
   saveProfileData({ name, age, gender, height, weight, goal, level });
 
+  if (typeof syncProfileToSupabase === 'function') {
+    syncProfileToSupabase({ name, age, gender, height, weight, goal, level });
+  }
+
   if (typeof setGender === 'function' && (gender === 'masculino' || gender === 'feminino')) {
     setGender(gender);
   }

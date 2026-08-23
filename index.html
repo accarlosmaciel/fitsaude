@@ -19,6 +19,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 </head>
 
@@ -139,13 +141,16 @@
           <button class="btn-cardio btn-cardio-start" id="cardio-btn-start" onclick="startCardioTimer()">
             <i class="fa-solid fa-play"></i> Iniciar
           </button>
-          <button class="btn-cardio btn-cardio-pause" id="cardio-btn-pause" onclick="pauseCardioTimer()" style="display:none;">
+          <button class="btn-cardio btn-cardio-pause" id="cardio-btn-pause" onclick="pauseCardioTimer()"
+            style="display:none;">
             <i class="fa-solid fa-pause"></i> Pausar
           </button>
-          <button class="btn-cardio btn-cardio-resume" id="cardio-btn-resume" onclick="resumeCardioTimer()" style="display:none;">
+          <button class="btn-cardio btn-cardio-resume" id="cardio-btn-resume" onclick="resumeCardioTimer()"
+            style="display:none;">
             <i class="fa-solid fa-play"></i> Continuar
           </button>
-          <button class="btn-cardio btn-cardio-stop" id="cardio-btn-stop" onclick="stopCardioTimer()" style="display:none;">
+          <button class="btn-cardio btn-cardio-stop" id="cardio-btn-stop" onclick="stopCardioTimer()"
+            style="display:none;">
             <i class="fa-solid fa-square"></i> Finalizar
           </button>
         </div>
@@ -409,7 +414,8 @@
             <i class="fa-solid fa-bell" style="color:var(--red-light);"></i> Lembretes de Água
           </div>
           <div class="reminder-controls">
-            <select class="form-select form-select-sm" id="water-reminder-freq" onchange="updateWaterReminderFreq(this.value)">
+            <select class="form-select form-select-sm" id="water-reminder-freq"
+              onchange="updateWaterReminderFreq(this.value)">
               <option value="1">A cada 1h</option>
               <option value="2" selected>A cada 2h</option>
               <option value="3">A cada 3h</option>
@@ -423,25 +429,32 @@
 
       <!-- App Personalização & Temas Card -->
       <div class="profile-card" style="margin-top:16px;">
-        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-palette"></i> Aparência & Temas</div>
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-palette"></i> Aparência &
+          Temas</div>
 
         <div class="form-group">
           <label class="form-label">Modo do Tema</label>
           <div class="rest-buttons-row" style="margin-top:6px;">
             <button class="btn-rest-preset" onclick="setTheme('dark')"><i class="fa-solid fa-moon"></i> Dark</button>
             <button class="btn-rest-preset" onclick="setTheme('light')"><i class="fa-solid fa-sun"></i> Light</button>
-            <button class="btn-rest-preset" onclick="setTheme('auto')"><i class="fa-solid fa-circle-half-stroke"></i> Automático</button>
+            <button class="btn-rest-preset" onclick="setTheme('auto')"><i class="fa-solid fa-circle-half-stroke"></i>
+              Automático</button>
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label">Cor Principal</label>
           <div class="rest-buttons-row" style="margin-top:6px;">
-            <button class="btn-rest-preset" style="background:#dc143c;color:#fff;" onclick="setColor('red')">Vermelho</button>
-            <button class="btn-rest-preset" style="background:#8b5cf6;color:#fff;" onclick="setColor('purple')">Roxo</button>
-            <button class="btn-rest-preset" style="background:#3b82f6;color:#fff;" onclick="setColor('blue')">Azul</button>
-            <button class="btn-rest-preset" style="background:#10b981;color:#fff;" onclick="setColor('green')">Verde</button>
-            <button class="btn-rest-preset" style="background:#f97316;color:#fff;" onclick="setColor('orange')">Laranja</button>
+            <button class="btn-rest-preset" style="background:#dc143c;color:#fff;"
+              onclick="setColor('red')">Vermelho</button>
+            <button class="btn-rest-preset" style="background:#8b5cf6;color:#fff;"
+              onclick="setColor('purple')">Roxo</button>
+            <button class="btn-rest-preset" style="background:#3b82f6;color:#fff;"
+              onclick="setColor('blue')">Azul</button>
+            <button class="btn-rest-preset" style="background:#10b981;color:#fff;"
+              onclick="setColor('green')">Verde</button>
+            <button class="btn-rest-preset" style="background:#f97316;color:#fff;"
+              onclick="setColor('orange')">Laranja</button>
           </div>
         </div>
 
@@ -455,37 +468,48 @@
         </div>
 
         <div class="form-group">
-          <button class="btn-reset" style="margin-top:4px;" onclick="toggleHighContrast()"><i class="fa-solid fa-eye"></i> Alternar Alto Contraste</button>
+          <button class="btn-reset" style="margin-top:4px;" onclick="toggleHighContrast()"><i
+              class="fa-solid fa-eye"></i> Alternar Alto Contraste</button>
         </div>
       </div>
 
       <!-- Backup & Web Features Card -->
       <div class="profile-card" style="margin-top:16px;">
-        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-floppy-disk"></i> Backup & Recursos PWA</div>
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-floppy-disk"></i> Backup
+          & Recursos PWA</div>
 
         <div class="form-grid-2">
-          <button class="btn-save" style="background:var(--bg4);color:var(--txt);" onclick="exportData()"><i class="fa-solid fa-file-export"></i> Exportar JSON</button>
-          <button class="btn-save" style="background:var(--bg4);color:var(--txt);" onclick="importData()"><i class="fa-solid fa-file-import"></i> Importar JSON</button>
+          <button class="btn-save" style="background:var(--bg4);color:var(--txt);" onclick="exportData()"><i
+              class="fa-solid fa-file-export"></i> Exportar JSON</button>
+          <button class="btn-save" style="background:var(--bg4);color:var(--txt);" onclick="importData()"><i
+              class="fa-solid fa-file-import"></i> Importar JSON</button>
         </div>
 
         <div class="form-grid-2" style="margin-top:10px;">
-          <button class="btn-reset" onclick="requestWorkoutNotification()"><i class="fa-solid fa-bell"></i> Lembretes</button>
-          <button class="btn-reset" onclick="shareAppProgress()"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
+          <button class="btn-reset" onclick="requestWorkoutNotification()"><i class="fa-solid fa-bell"></i>
+            Lembretes</button>
+          <button class="btn-reset" onclick="shareAppProgress()"><i class="fa-solid fa-share-nodes"></i>
+            Compartilhar</button>
         </div>
       </div>
 
       <!-- Minha Conta & Segurança Card -->
       <div class="profile-card" style="margin-top:16px;">
-        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-user-shield"></i> Minha Conta & Acesso</div>
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-user-shield"></i> Minha
+          Conta & Acesso</div>
         <div class="form-grid-2">
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('atleta-assinatura')">
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="switchRoleScreen('atleta-assinatura')">
             <i class="fa-solid fa-credit-card"></i> Assinatura
           </button>
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('atleta-seguranca')">
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="switchRoleScreen('atleta-seguranca')">
             <i class="fa-solid fa-lock"></i> Segurança
           </button>
         </div>
-        <button class="btn-reset" style="margin-top:12px;background:rgba(220,20,60,0.1);color:var(--red-light);border-color:var(--border-red);" onclick="handleLogout()">
+        <button class="btn-reset"
+          style="margin-top:12px;background:rgba(220,20,60,0.1);color:var(--red-light);border-color:var(--border-red);"
+          onclick="handleLogout()">
           <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
         </button>
       </div>
@@ -496,10 +520,12 @@
       <div class="visitor-hero">
         <div class="visitor-tag"><i class="fa-solid fa-bolt"></i> Sistema Inteligente de Treinos</div>
         <h1 class="visitor-title">Transforme Seu Corpo com o <span>FitSaúde</span></h1>
-        <p class="visitor-subtitle">Treinos com animações 3D interativas, assistente com Inteligência Artificial Groq Llama 3.3 e controle completo da sua evolução.</p>
-        
+        <p class="visitor-subtitle">Treinos com animações 3D interativas, assistente com Inteligência Artificial Groq
+          Llama 3.3 e controle completo da sua evolução.</p>
+
         <div class="visitor-cta-row">
-          <button class="btn-visitor-primary" onclick="startOnboardingFunnel('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
+          <button class="btn-visitor-primary"
+            onclick="startOnboardingFunnel('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
             <i class="fa-solid fa-sparkles"></i> Assinar Plano
           </button>
           <button class="btn-visitor-secondary" onclick="openAuthModal('register')">
@@ -534,13 +560,20 @@
         </div>
 
         <!-- Banner Planos -->
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-xl);padding:18px;text-align:left;margin-top:12px;">
+        <div
+          style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-xl);padding:18px;text-align:left;margin-top:12px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;font-weight:700;color:var(--red-light);text-transform:uppercase;">Oferta Especial</span>
-            <span style="font-size:11px;background:rgba(34,211,160,0.15);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:700;">40% OFF</span>
+            <span style="font-size:12px;font-weight:700;color:var(--red-light);text-transform:uppercase;">Oferta
+              Especial</span>
+            <span
+              style="font-size:11px;background:rgba(34,211,160,0.15);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:700;">40%
+              OFF</span>
           </div>
-          <h3 style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:var(--txt);margin-bottom:4px;">Acesso Ilimitado a partir de R$ 29,90/mês</h3>
-          <p style="font-size:12px;color:var(--txt2);margin-bottom:14px;">Sem fidelidade obrigatória. Treine no seu ritmo com suporte integral.</p>
+          <h3
+            style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:var(--txt);margin-bottom:4px;">
+            Acesso Ilimitado a partir de R$ 29,90/mês</h3>
+          <p style="font-size:12px;color:var(--txt2);margin-bottom:14px;">Sem fidelidade obrigatória. Treine no seu
+            ritmo com suporte integral.</p>
           <button class="btn-plan-select primary" onclick="switchRoleScreen('visitante-planos')">
             <i class="fa-solid fa-tags"></i> Ver Todos os Planos
           </button>
@@ -591,7 +624,8 @@
             <li><i class="fa-solid fa-circle-check"></i> FitBot IA Ilimitado</li>
             <li><i class="fa-solid fa-circle-check"></i> Cálculo de calorias e macros</li>
           </ul>
-          <button class="btn-plan-select secondary" onclick="startOnboardingFunnel('Trimestral', 'R$ 39,90/mês (R$ 119,70/tri)')">
+          <button class="btn-plan-select secondary"
+            onclick="startOnboardingFunnel('Trimestral', 'R$ 39,90/mês (R$ 119,70/tri)')">
             <i class="fa-solid fa-bolt"></i> Assinar Trimestral
           </button>
         </div>
@@ -613,7 +647,8 @@
             <li><i class="fa-solid fa-circle-check"></i> Exportação ilimitada de PDFs</li>
             <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário</li>
           </ul>
-          <button class="btn-plan-select primary" onclick="startOnboardingFunnel('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
+          <button class="btn-plan-select primary"
+            onclick="startOnboardingFunnel('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
             <i class="fa-solid fa-crown"></i> Assinar Anual VIP
           </button>
         </div>
@@ -656,7 +691,8 @@
       </div>
 
       <div class="profile-card">
-        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Faturas</div>
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-clock-rotate-left"></i>
+          Histórico de Faturas</div>
         <div class="admin-student-card" style="margin-bottom:8px;">
           <div class="admin-student-info">
             <div class="admin-student-avatar" style="color:var(--green);"><i class="fa-solid fa-check"></i></div>
@@ -667,7 +703,8 @@
           </div>
           <span class="student-status-badge active">Paga</span>
         </div>
-        <button class="btn-save" style="margin-top:10px;background:var(--bg3);border:1px solid var(--border);" onclick="openCheckoutModal('Anual VIP', 'R$ 29,90/mês')">
+        <button class="btn-save" style="margin-top:10px;background:var(--bg3);border:1px solid var(--border);"
+          onclick="openCheckoutModal('Anual VIP', 'R$ 29,90/mês')">
           <i class="fa-solid fa-arrows-rotate"></i> Alterar Plano ou Forma de Pagamento
         </button>
       </div>
@@ -681,7 +718,8 @@
       </div>
 
       <div class="profile-card">
-        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-key"></i> Alterar Senha</div>
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-key"></i> Alterar Senha
+        </div>
         <form onsubmit="event.preventDefault();handleChangePassword();">
           <div class="form-group">
             <label class="form-label" for="sec-curr-pass">Senha Atual</label>
@@ -700,7 +738,8 @@
       </div>
 
       <div class="profile-card" style="margin-top:14px;">
-        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-mobile-screen-button"></i> Sessões & Dispositivos</div>
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i
+            class="fa-solid fa-mobile-screen-button"></i> Sessões & Dispositivos</div>
         <div class="admin-student-card" style="margin-bottom:8px;">
           <div class="admin-student-info">
             <div class="admin-student-avatar"><i class="fa-solid fa-mobile"></i></div>
@@ -711,7 +750,9 @@
           </div>
           <span class="student-status-badge active">Conectado</span>
         </div>
-        <button class="btn-reset" style="margin-top:12px;background:rgba(220,20,60,0.12);color:var(--red-light);border-color:var(--border-red);" onclick="handleLogout()">
+        <button class="btn-reset"
+          style="margin-top:12px;background:rgba(220,20,60,0.12);color:var(--red-light);border-color:var(--border-red);"
+          onclick="handleLogout()">
           <i class="fa-solid fa-right-from-bracket"></i> Encerrar Sessão (Sair)
         </button>
       </div>
@@ -757,14 +798,19 @@
 
       <!-- Ações Rápidas -->
       <div class="profile-card">
-        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-bolt"></i> Ações Rápidas</div>
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-bolt"></i> Ações Rápidas
+        </div>
         <div class="form-grid-2">
-          <button class="btn-save" onclick="openAddStudentModal()"><i class="fa-solid fa-user-plus"></i> Novo Aluno</button>
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="exportAdminReport('pdf')"><i class="fa-solid fa-file-pdf"></i> Baixar Relatório</button>
+          <button class="btn-save" onclick="openAddStudentModal()"><i class="fa-solid fa-user-plus"></i> Novo
+            Aluno</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="exportAdminReport('pdf')"><i class="fa-solid fa-file-pdf"></i> Baixar Relatório</button>
         </div>
         <div class="form-grid-2" style="margin-top:10px;">
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('admin-assinaturas')"><i class="fa-solid fa-credit-card"></i> Assinaturas</button>
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('admin-config')"><i class="fa-solid fa-gear"></i> Configurações</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="switchRoleScreen('admin-assinaturas')"><i class="fa-solid fa-credit-card"></i> Assinaturas</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="switchRoleScreen('admin-config')"><i class="fa-solid fa-gear"></i> Configurações</button>
         </div>
       </div>
     </div>
@@ -777,8 +823,10 @@
       </div>
 
       <div class="admin-search-bar">
-        <input class="admin-search-input" type="text" placeholder="Buscar por nome, e-mail ou plano..." oninput="renderAdminAlunos(this.value)" />
-        <button class="btn-save" style="width:auto;padding:10px 16px;" onclick="openAddStudentModal()"><i class="fa-solid fa-plus"></i></button>
+        <input class="admin-search-input" type="text" placeholder="Buscar por nome, e-mail ou plano..."
+          oninput="renderAdminAlunos(this.value)" />
+        <button class="btn-save" style="width:auto;padding:10px 16px;" onclick="openAddStudentModal()"><i
+            class="fa-solid fa-plus"></i></button>
       </div>
 
       <div id="admin-alunos-list">
@@ -794,18 +842,24 @@
       </div>
 
       <div class="profile-card">
-        <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-layer-group"></i> Fichas Padrão Ativas</div>
-        <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">As fichas padrão Masculina e Feminina estão sincronizadas com o banco de animações 3D.</p>
-        
+        <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-layer-group"></i> Fichas
+          Padrão Ativas</div>
+        <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">As fichas padrão Masculina e Feminina estão
+          sincronizadas com o banco de animações 3D.</p>
+
         <div class="form-grid-2">
-          <button class="btn-save" onclick="setGender('masculino');switchRoleScreen('treinos');"><i class="fa-solid fa-mars"></i> Ver Ficha Masc</button>
-          <button class="btn-save" onclick="setGender('feminino');switchRoleScreen('treinos');"><i class="fa-solid fa-venus"></i> Ver Ficha Fem</button>
+          <button class="btn-save" onclick="setGender('masculino');switchRoleScreen('treinos');"><i
+              class="fa-solid fa-mars"></i> Ver Ficha Masc</button>
+          <button class="btn-save" onclick="setGender('feminino');switchRoleScreen('treinos');"><i
+              class="fa-solid fa-venus"></i> Ver Ficha Fem</button>
         </div>
       </div>
 
       <div class="profile-card" style="margin-top:14px;">
-        <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-plus-circle"></i> Adicionar Exercício Global</div>
-        <button class="btn-save" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> Cadastrar Novo Exercício</button>
+        <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-plus-circle"></i>
+          Adicionar Exercício Global</div>
+        <button class="btn-save" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> Cadastrar Novo
+          Exercício</button>
       </div>
     </div>
 
@@ -817,7 +871,8 @@
       </div>
 
       <div class="profile-card">
-        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-file-invoice"></i> Emissão de Relatórios</div>
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-file-invoice"></i>
+          Emissão de Relatórios</div>
         <div class="pdf-card-preview">
           <div class="pdf-card-icon"><i class="fa-solid fa-file-pdf"></i></div>
           <div class="pdf-card-info">
@@ -825,14 +880,18 @@
             <div class="pdf-card-desc">Lista completa de matriculados, status e planos vigentes em formato PDF.</div>
           </div>
         </div>
-        <button class="btn-save" style="margin-top:12px;" onclick="exportAdminReport('pdf')"><i class="fa-solid fa-download"></i> Baixar Relatório PDF</button>
+        <button class="btn-save" style="margin-top:12px;" onclick="exportAdminReport('pdf')"><i
+            class="fa-solid fa-download"></i> Baixar Relatório PDF</button>
       </div>
 
       <div class="profile-card" style="margin-top:14px;">
-        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-table"></i> Fichas de Treino em Lote</div>
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-table"></i> Fichas de
+          Treino em Lote</div>
         <div class="form-grid-2">
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="downloadSinglePdf('masculino')"><i class="fa-solid fa-print"></i> PDF Treino Masc</button>
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="downloadSinglePdf('feminino')"><i class="fa-solid fa-print"></i> PDF Treino Fem</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="downloadSinglePdf('masculino')"><i class="fa-solid fa-print"></i> PDF Treino Masc</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="downloadSinglePdf('feminino')"><i class="fa-solid fa-print"></i> PDF Treino Fem</button>
         </div>
       </div>
     </div>
@@ -855,7 +914,8 @@
         </div>
       </div>
 
-      <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-receipt"></i> Faturas & Pagamentos Recentes</div>
+      <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-receipt"></i> Faturas &
+        Pagamentos Recentes</div>
       <div id="admin-assinaturas-list">
         <!-- Renderizado via JS -->
       </div>
@@ -869,7 +929,8 @@
       </div>
 
       <div class="profile-card">
-        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-building"></i> Dados da Academia</div>
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-building"></i> Dados da
+          Academia</div>
         <div class="form-group">
           <label class="form-label" for="cfg-gym-name">Nome da Academia / Estabelecimento</label>
           <input class="form-input" id="cfg-gym-name" type="text" value="FitSaúde Club & Training" />
@@ -882,14 +943,18 @@
           <label class="form-label" for="cfg-groq-model">Modelo de IA (Groq Cloud)</label>
           <input class="form-input" id="cfg-groq-model" type="text" value="Llama 3.3 70B Versatile" />
         </div>
-        <button class="btn-save" onclick="saveAdminConfig()"><i class="fa-solid fa-floppy-disk"></i> Salvar Configurações</button>
+        <button class="btn-save" onclick="saveAdminConfig()"><i class="fa-solid fa-floppy-disk"></i> Salvar
+          Configurações</button>
       </div>
 
       <div class="profile-card" style="margin-top:14px;">
-        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-database"></i> Backup & Restauração</div>
+        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-database"></i> Backup &
+          Restauração</div>
         <div class="form-grid-2">
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="exportData()"><i class="fa-solid fa-file-export"></i> Backup Total</button>
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="importData()"><i class="fa-solid fa-file-import"></i> Restaurar</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="exportData()"><i class="fa-solid fa-file-export"></i> Backup Total</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
+            onclick="importData()"><i class="fa-solid fa-file-import"></i> Restaurar</button>
         </div>
       </div>
     </div>
@@ -917,8 +982,10 @@
         <div class="spinner"></div>
       </div>
       <div class="wp-gif-actions">
-        <button class="wp-gif-action-btn" onclick="reloadGif()" title="Recarregar"><i class="fa-solid fa-rotate"></i></button>
-        <button class="wp-gif-action-btn" onclick="openExInfo()" title="Informações"><i class="fa-solid fa-info"></i></button>
+        <button class="wp-gif-action-btn" onclick="reloadGif()" title="Recarregar"><i
+            class="fa-solid fa-rotate"></i></button>
+        <button class="wp-gif-action-btn" onclick="openExInfo()" title="Informações"><i
+            class="fa-solid fa-info"></i></button>
       </div>
     </div>
 
@@ -934,21 +1001,30 @@
     <div class="wp-metrics-row">
       <div class="wp-metric-item reps">
         <div class="wp-metric-circle">
-          <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-reps" cx="38" cy="38" r="34" id="wp-reps-ring"/></svg>
+          <svg viewBox="0 0 76 76">
+            <circle class="track" cx="38" cy="38" r="34" />
+            <circle class="fill-reps" cx="38" cy="38" r="34" id="wp-reps-ring" />
+          </svg>
           <span class="wp-metric-value" id="wp-reps-val">12</span>
         </div>
         <span class="wp-metric-label">Repetições<br>necessárias</span>
       </div>
       <div class="wp-metric-item rest">
         <div class="wp-metric-circle">
-          <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-rest" cx="38" cy="38" r="34" id="wp-rest-ring"/></svg>
+          <svg viewBox="0 0 76 76">
+            <circle class="track" cx="38" cy="38" r="34" />
+            <circle class="fill-rest" cx="38" cy="38" r="34" id="wp-rest-ring" />
+          </svg>
           <span class="wp-metric-value" id="wp-rest-val">1:00</span>
         </div>
         <span class="wp-metric-label">Descanso</span>
       </div>
       <div class="wp-metric-item sets">
         <div class="wp-metric-circle">
-          <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="34"/><circle class="fill-sets" cx="38" cy="38" r="34" id="wp-sets-ring"/></svg>
+          <svg viewBox="0 0 76 76">
+            <circle class="track" cx="38" cy="38" r="34" />
+            <circle class="fill-sets" cx="38" cy="38" r="34" id="wp-sets-ring" />
+          </svg>
           <span class="wp-metric-value" id="wp-sets-val">1/4</span>
         </div>
         <span class="wp-metric-label">Séries<br>feitas</span>
@@ -977,7 +1053,10 @@
   <div class="wp-rest-overlay" id="wp-rest-overlay">
     <div class="wp-rest-title">⏱️ DESCANSO</div>
     <div class="wp-rest-circle-wrap pulse">
-      <svg viewBox="0 0 180 180"><circle class="track" cx="90" cy="90" r="82"/><circle class="progress" cx="90" cy="90" r="82" id="wp-rest-progress"/></svg>
+      <svg viewBox="0 0 180 180">
+        <circle class="track" cx="90" cy="90" r="82" />
+        <circle class="progress" cx="90" cy="90" r="82" id="wp-rest-progress" />
+      </svg>
       <span class="wp-rest-time" id="wp-rest-time">1:00</span>
     </div>
     <div class="wp-rest-subtitle">Respire fundo e se prepare para a próxima série</div>
@@ -1073,8 +1152,9 @@
   <!-- ── Modal: Autenticação (Login / Cadastro / Recuperação) ── -->
   <div class="auth-modal-backdrop" id="auth-modal-backdrop">
     <div class="auth-modal-box">
-      <button class="auth-modal-close" onclick="closeAuthModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
-      
+      <button class="auth-modal-close" onclick="closeAuthModal()" aria-label="Fechar"><i
+          class="fa-solid fa-xmark"></i></button>
+
       <div class="auth-tabs">
         <button class="auth-tab-btn active" id="auth-tab-login" onclick="switchAuthTab('login')">Fazer Login</button>
         <button class="auth-tab-btn" id="auth-tab-register" onclick="switchAuthTab('register')">Criar Conta</button>
@@ -1088,18 +1168,22 @@
 
         <div class="form-group">
           <label class="form-label" for="auth-login-email">Seu E-mail</label>
-          <input class="form-input" id="auth-login-email" type="email" placeholder="ex: seuemail@fitsaude.com" value="atleta@fitsaude.com" required />
+          <input class="form-input" id="auth-login-email" type="email" placeholder="ex: seuemail@fitsaude.com"
+            value="atleta@fitsaude.com" required />
         </div>
 
         <div class="form-group">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <label class="form-label" for="auth-login-pass">Senha</label>
-            <a href="javascript:void(0)" onclick="switchAuthTab('forgot')" style="font-size:11px;color:var(--red-light);text-decoration:none;">Esqueceu a senha?</a>
+            <a href="javascript:void(0)" onclick="switchAuthTab('forgot')"
+              style="font-size:11px;color:var(--red-light);text-decoration:none;">Esqueceu a senha?</a>
           </div>
-          <input class="form-input" id="auth-login-pass" type="password" placeholder="••••••••" value="123456" required />
+          <input class="form-input" id="auth-login-pass" type="password" placeholder="••••••••" value="123456"
+            required />
         </div>
 
-        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-right-to-bracket"></i> Entrar no FitSaúde</button>
+        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-right-to-bracket"></i>
+          Entrar no FitSaúde</button>
 
         <div class="auth-quick-demos">
           <div class="auth-quick-demos-title">Acesso Rápido de Demonstração</div>
@@ -1115,7 +1199,8 @@
       </form>
 
       <!-- Form Cadastro -->
-      <form class="auth-tab-content" id="auth-form-register" style="display:none;" onsubmit="handleRegisterSubmit(event)">
+      <form class="auth-tab-content" id="auth-form-register" style="display:none;"
+        onsubmit="handleRegisterSubmit(event)">
         <h3 class="auth-modal-title">Crie sua Conta</h3>
         <p class="auth-modal-subtitle">Cadastre-se para iniciar seus treinos personalizados.</p>
 
@@ -1134,21 +1219,26 @@
           <input class="form-input" id="auth-reg-pass" type="password" placeholder="Mínimo 6 dígitos" required />
         </div>
 
-        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-user-check"></i> Concluir Cadastro</button>
+        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-user-check"></i> Concluir
+          Cadastro</button>
       </form>
 
       <!-- Form Recuperar Senha -->
-      <form class="auth-tab-content" id="auth-form-forgot" style="display:none;" onsubmit="handleForgotPasswordSubmit(event)">
+      <form class="auth-tab-content" id="auth-form-forgot" style="display:none;"
+        onsubmit="handleForgotPasswordSubmit(event)">
         <h3 class="auth-modal-title">Recuperar Senha</h3>
         <p class="auth-modal-subtitle">Digite seu e-mail cadastrado para enviarmos as instruções de redefinição.</p>
 
         <div class="form-group">
           <label class="form-label" for="auth-forgot-email">Seu E-mail Cadastrado</label>
-          <input class="form-input" id="auth-forgot-email" type="email" placeholder="ex: seuemail@fitsaude.com" required />
+          <input class="form-input" id="auth-forgot-email" type="email" placeholder="ex: seuemail@fitsaude.com"
+            required />
         </div>
 
-        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-envelope"></i> Enviar Link de Recuperação</button>
-        <button type="button" class="btn-reset" style="margin-top:8px;" onclick="switchAuthTab('login')">Voltar ao Login</button>
+        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-envelope"></i> Enviar Link
+          de Recuperação</button>
+        <button type="button" class="btn-reset" style="margin-top:8px;" onclick="switchAuthTab('login')">Voltar ao
+          Login</button>
       </form>
     </div>
   </div>
@@ -1156,7 +1246,8 @@
   <!-- ── Modal: Funil de Onboarding Completo (Visitante → Atleta) ── -->
   <div class="auth-modal-backdrop" id="onboarding-modal-backdrop">
     <div class="auth-modal-box">
-      <button class="auth-modal-close" onclick="closeOnboardingModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      <button class="auth-modal-close" onclick="closeOnboardingModal()" aria-label="Fechar"><i
+          class="fa-solid fa-xmark"></i></button>
 
       <!-- Step Progress Indicator -->
       <div class="onboarding-steps-bar">
@@ -1186,17 +1277,20 @@
         <form onsubmit="handleOnboardingStep1Submit(event)">
           <div class="form-group">
             <label class="form-label" for="ob-name">Nome Completo</label>
-            <input class="form-input" id="ob-name" type="text" placeholder="ex: Carlos Maciel" value="Carlos Maciel" required />
+            <input class="form-input" id="ob-name" type="text" placeholder="ex: Carlos Maciel" value="Carlos Maciel"
+              required />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="ob-email">Seu Melhor E-mail</label>
-            <input class="form-input" id="ob-email" type="email" placeholder="ex: carlos@fitsaude.com" value="carlos@fitsaude.com" required />
+            <input class="form-input" id="ob-email" type="email" placeholder="ex: carlos@fitsaude.com"
+              value="carlos@fitsaude.com" required />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="ob-pass">Criar Senha de Acesso</label>
-            <input class="form-input" id="ob-pass" type="password" placeholder="Mínimo 6 caracteres" value="123456" required />
+            <input class="form-input" id="ob-pass" type="password" placeholder="Mínimo 6 caracteres" value="123456"
+              required />
           </div>
 
           <div class="form-group">
@@ -1216,15 +1310,18 @@
 
       <!-- ── PASSO 2: ASSINATURA & PAGAMENTO SIMULADO ────────── -->
       <div id="ob-step-2" style="display:none;">
-        <h3 class="auth-modal-title"><i class="fa-solid fa-credit-card" style="color:var(--red-light);"></i> Assinatura FitSaúde</h3>
+        <h3 class="auth-modal-title"><i class="fa-solid fa-credit-card" style="color:var(--red-light);"></i> Assinatura
+          FitSaúde</h3>
         <p class="auth-modal-subtitle">Simulação de pagamento sem cobrança real nesta etapa.</p>
 
         <div class="payment-method-selector">
-          <button type="button" class="payment-method-btn active ob-pay-btn" id="ob-pay-pix" onclick="setOnboardingPaymentMethod('pix')">
+          <button type="button" class="payment-method-btn active ob-pay-btn" id="ob-pay-pix"
+            onclick="setOnboardingPaymentMethod('pix')">
             <i class="fa-brands fa-pix" style="font-size:20px;color:var(--green);"></i>
             <span>PIX Simulado</span>
           </button>
-          <button type="button" class="payment-method-btn ob-pay-btn" id="ob-pay-card" onclick="setOnboardingPaymentMethod('card')">
+          <button type="button" class="payment-method-btn ob-pay-btn" id="ob-pay-card"
+            onclick="setOnboardingPaymentMethod('card')">
             <i class="fa-solid fa-credit-card" style="font-size:20px;color:var(--blue);"></i>
             <span>Cartão de Crédito</span>
           </button>
@@ -1233,15 +1330,21 @@
         <!-- PIX View -->
         <div id="ob-pix-view">
           <div class="pix-box">
-            <div style="font-size:12px;color:var(--txt2);margin-bottom:8px;">QR Code de Teste (Aprovação Instantânea):</div>
-            <div class="pix-qr-img">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=00020126580014br.gov.bcb.pix0136fitsaude-treinos-assinatura-20265204000053039865802BR5916FITSAUDE6009SAOPAULO62070503***6304A1B2" alt="QR Code PIX FitSaúde" width="120" height="120" />
+            <div style="font-size:12px;color:var(--txt2);margin-bottom:8px;">QR Code de Teste (Aprovação Instantânea):
             </div>
-            <div style="font-size:11px;color:var(--green);font-weight:700;"><i class="fa-solid fa-bolt"></i> Simulação de Liberação Imediata</div>
+            <div class="pix-qr-img">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=00020126580014br.gov.bcb.pix0136fitsaude-treinos-assinatura-20265204000053039865802BR5916FITSAUDE6009SAOPAULO62070503***6304A1B2"
+                alt="QR Code PIX FitSaúde" width="120" height="120" />
+            </div>
+            <div style="font-size:11px;color:var(--green);font-weight:700;"><i class="fa-solid fa-bolt"></i> Simulação
+              de Liberação Imediata</div>
           </div>
           <div class="pix-code-field">
-            <input class="form-input" type="text" value="00020126580014br.gov.bcb.pix0136fitsaude..." readonly style="font-size:11px;" />
-            <button type="button" class="btn-save" style="width:auto;padding:8px 14px;" onclick="copyPixCode()"><i class="fa-solid fa-copy"></i></button>
+            <input class="form-input" type="text" value="00020126580014br.gov.bcb.pix0136fitsaude..." readonly
+              style="font-size:11px;" />
+            <button type="button" class="btn-save" style="width:auto;padding:8px 14px;" onclick="copyPixCode()"><i
+                class="fa-solid fa-copy"></i></button>
           </div>
         </div>
 
@@ -1275,17 +1378,24 @@
       <div id="ob-step-3" style="display:none;">
         <div class="success-access-card">
           <div class="success-icon-wrap"><i class="fa-solid fa-check"></i></div>
-          <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--txt);margin-bottom:4px;">Parabéns, <span id="ob-success-user-name">Carlos</span>!</h3>
-          <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">Sua assinatura foi confirmada e seu acesso está 100% liberado.</p>
-          
+          <h3
+            style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--txt);margin-bottom:4px;">
+            Parabéns, <span id="ob-success-user-name">Carlos</span>!</h3>
+          <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">Sua assinatura foi confirmada e seu acesso
+            está 100% liberado.</p>
+
           <div class="success-plan-pill" id="ob-success-plan-title">
             <i class="fa-solid fa-crown"></i> Plano Anual VIP Ativo
           </div>
 
-          <div style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:20px;text-align:left;background:var(--bg3);padding:12px;border-radius:var(--r-md);border:1px solid var(--border);">
-            <div><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Fichas de treino personalizadas liberadas</div>
-            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Player 3D de execução com cronômetro</div>
-            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> FitBot IA Groq Llama 3.3 disponível 24h</div>
+          <div
+            style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:20px;text-align:left;background:var(--bg3);padding:12px;border-radius:var(--r-md);border:1px solid var(--border);">
+            <div><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Fichas de treino
+              personalizadas liberadas</div>
+            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check"
+                style="color:var(--green);margin-right:6px;"></i> Player 3D de execução com cronômetro</div>
+            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check"
+                style="color:var(--green);margin-right:6px;"></i> FitBot IA Groq Llama 3.3 disponível 24h</div>
           </div>
 
           <button type="button" class="btn-save" style="font-size:15px;padding:14px;" onclick="enterWebAppAsAthlete()">
@@ -1299,7 +1409,8 @@
   <!-- ── Modal: Detalhes do Aluno (/admin/alunos/:id) ──────── -->
   <div class="auth-modal-backdrop" id="student-detail-modal-backdrop">
     <div class="auth-modal-box">
-      <button class="auth-modal-close" onclick="closeStudentDetailModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      <button class="auth-modal-close" onclick="closeStudentDetailModal()" aria-label="Fechar"><i
+          class="fa-solid fa-xmark"></i></button>
       <div id="student-detail-content">
         <!-- Renderizado dinamicamente via JS -->
       </div>
@@ -1309,8 +1420,10 @@
   <!-- ── Modal: Cadastrar Novo Aluno (/admin/alunos) ──────── -->
   <div class="auth-modal-backdrop" id="add-student-modal-backdrop">
     <div class="auth-modal-box">
-      <button class="auth-modal-close" onclick="closeAddStudentModal()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
-      <h3 class="auth-modal-title"><i class="fa-solid fa-user-plus" style="color:var(--red-light);"></i> Cadastrar Novo Aluno</h3>
+      <button class="auth-modal-close" onclick="closeAddStudentModal()" aria-label="Fechar"><i
+          class="fa-solid fa-xmark"></i></button>
+      <h3 class="auth-modal-title"><i class="fa-solid fa-user-plus" style="color:var(--red-light);"></i> Cadastrar Novo
+        Aluno</h3>
       <p class="auth-modal-subtitle">Adicione o aluno à base de dados do FitSaúde.</p>
 
       <form onsubmit="handleAddStudentSubmit(event)">
@@ -1326,7 +1439,8 @@
 
         <div class="form-group">
           <label class="form-label" for="add-stu-phone">WhatsApp / Telefone</label>
-          <input class="form-input" id="add-stu-phone" type="text" placeholder="ex: (11) 98765-4321" value="(11) 9" required />
+          <input class="form-input" id="add-stu-phone" type="text" placeholder="ex: (11) 98765-4321" value="(11) 9"
+            required />
         </div>
 
         <div class="form-grid-2">
@@ -1350,8 +1464,10 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-check"></i> Cadastrar Aluno</button>
-        <button type="button" class="btn-reset" style="margin-top:8px;" onclick="closeAddStudentModal()">Cancelar</button>
+        <button type="submit" class="btn-save" style="margin-top:14px;"><i class="fa-solid fa-check"></i> Cadastrar
+          Aluno</button>
+        <button type="button" class="btn-reset" style="margin-top:8px;"
+          onclick="closeAddStudentModal()">Cancelar</button>
       </form>
     </div>
   </div>
@@ -2546,7 +2662,7 @@
         if (pctEl) pctEl.textContent = `${pct}% concluído`;
         if (badgeEl) {
           const targetMins = Math.round(cardioTargetSeconds / 60);
-          badgeEl.textContent = targetMins >= 60 ? `Meta: ${(targetMins/60).toFixed(1).replace('.0','')}h` : `Meta: ${targetMins}m`;
+          badgeEl.textContent = targetMins >= 60 ? `Meta: ${(targetMins / 60).toFixed(1).replace('.0', '')}h` : `Meta: ${targetMins}m`;
           badgeEl.className = 'cardio-badge';
         }
       }
@@ -2595,7 +2711,7 @@
       waterGoalMl = ml;
       localStorage.setItem(HK_GOAL, String(ml));
       updateHydrationUI();
-      toast('<i class="fa-solid fa-droplet" style="color:#38bdf8;"></i>', `Meta de água alterada para ${(ml/1000).toFixed(1)} L!`);
+      toast('<i class="fa-solid fa-droplet" style="color:#38bdf8;"></i>', `Meta de água alterada para ${(ml / 1000).toFixed(1)} L!`);
     }
 
     function addWaterIntake(ml) {
@@ -2611,7 +2727,7 @@
         toast('<i class="fa-solid fa-trophy"></i>', 'Parabéns! Você atingiu sua meta de água hoje! 💧🎉', 2500);
         confetti();
       } else {
-        toast('<i class="fa-solid fa-glass-water" style="color:#38bdf8;"></i>', `+${ml >= 1000 ? (ml/1000)+'L' : ml+'ml'} de água registrado!`);
+        toast('<i class="fa-solid fa-glass-water" style="color:#38bdf8;"></i>', `+${ml >= 1000 ? (ml / 1000) + 'L' : ml + 'ml'} de água registrado!`);
       }
     }
 
@@ -2659,7 +2775,7 @@
         if (waterIntakeMl < waterGoalMl) {
           if ('Notification' in window && Notification.permission === 'granted') {
             new Notification('FitSaúde 💧 Hora de Beber Água!', {
-              body: `Você consumiu ${(waterIntakeMl/1000).toFixed(1)}L de ${(waterGoalMl/1000).toFixed(1)}L hoje. Beba um copo de água!`,
+              body: `Você consumiu ${(waterIntakeMl / 1000).toFixed(1)}L de ${(waterGoalMl / 1000).toFixed(1)}L hoje. Beba um copo de água!`,
               icon: 'https://cdn-icons-png.flaticon.com/512/3105/3105807.png'
             });
           }
@@ -3321,6 +3437,7 @@ IMPORTANTE: Use sempre o nome do aluno (${p.name || 'Aluno'}) e considere as sua
     // initRolesSystem é chamado automaticamente pelo roles.js via DOMContentLoaded
   </script>
 
+  <script src="js/supabase.js"></script>
   <script src="js/roles.js"></script>
 
   <script>
