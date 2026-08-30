@@ -145,6 +145,20 @@ const WhatsAppService = {
   },
 
   /**
+   * Envia apenas a Chave PIX isolada para cópia instantânea no WhatsApp
+   */
+  sendPixKeyOnlyMessage: function(phone = null) {
+    const targetPhone = phone || OFFICIAL_WHATSAPP_NUMBER;
+    const message = OFFICIAL_PIX_KEY;
+    const url = this.generateWhatsAppLink(targetPhone, message);
+
+    if (typeof window !== 'undefined') {
+      window.open(url, '_blank');
+    }
+    return { phone: targetPhone, message, url };
+  },
+
+  /**
    * Scheduler Automático de Cobrança e Régua (Verificação Diária)
    * Executa mesmo sem admin logado.
    */
