@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════════════
-   FITSAÚDE - SUPABASE CLIENT & CLOUD SYNC MODULE
-   Conexão direta com Supabase Database, Auth e Storage
+   FITSAÚDE - SUPABASE CLIENT & CLOUD SYNC MODULE (MVP)
+   Conexão com Supabase Database, Auth, Storage e Assinaturas
    ══════════════════════════════════════════════════════════════════ */
 
 const SUPABASE_CONFIG = {
@@ -42,15 +42,16 @@ async function syncAllDataFromSupabase() {
         id: p.id,
         name: p.name,
         email: p.email,
-        plan: p.plan || 'Anual VIP',
+        plan: p.plan || 'FitSaúde',
         status: p.status || 'active',
+        subscription_status: p.subscription_status || 'TRIAL',
         joined: new Date(p.created_at).toLocaleDateString('pt-BR'),
-        phone: p.phone || '(11) 98765-4321',
+        phone: p.phone || '(62) 99439-0943',
         goal: p.goal || 'Hipertrofia',
         weight: Number(p.weight) || 75,
         height: Number(p.height) || 175,
         workoutsDone: p.workouts_done || 0,
-        avatar: p.avatar || (p.name ? p.name.slice(0, 2).toUpperCase() : 'AL')
+        avatar: p.avatar || (p.name ? p.name.slice(0, 2).toUpperCase() : 'FS')
       }));
       localStorage.setItem('fitsaude_students_db_v2', JSON.stringify(formattedStudents));
       console.log('📥 [FitSaúde] Alunos sincronizados do Supabase:', formattedStudents.length);
@@ -62,9 +63,9 @@ async function syncAllDataFromSupabase() {
       const formattedSubs = subs.map(s => ({
         id: s.id,
         student: s.student_name,
-        plan: s.plan_name,
-        val: s.price_formatted,
-        method: s.payment_method,
+        plan: s.plan_name || 'FitSaúde',
+        val: s.price_formatted || 'R$ 29,90/mês',
+        method: s.payment_method || 'PIX Oficial',
         status: s.status,
         date: new Date(s.paid_at || s.created_at).toLocaleDateString('pt-BR')
       }));
@@ -72,10 +73,10 @@ async function syncAllDataFromSupabase() {
       console.log('📥 [FitSaúde] Assinaturas sincronizadas do Supabase:', formattedSubs.length);
     }
 
-    // Atualizar telas administrativas se estiverem ativas
+    // Atualizar telas se ativas
     if (typeof renderAdminDashboard === 'function') renderAdminDashboard();
     if (typeof renderAdminAlunos === 'function') renderAdminAlunos();
-    if (typeof renderAdminAssinaturas === 'function') renderAdminAssinaturas();
+    if (typeof renderAdminPendingPayments === 'function') renderAdminPendingPayments();
 
   } catch (err) {
     console.warn('⚠️ [FitSaúde] Falha ao sincronizar dados em nuvem (usando cache local):', err);
@@ -103,7 +104,8 @@ async function syncProfileToSupabase(profileData) {
         level: profileData.level || 'Intermediário',
         role: profileData.role || 'atleta',
         status: profileData.status || 'active',
-        plan: profileData.plan || 'Anual VIP',
+        subscription_status: profileData.subscription_status || 'TRIAL',
+        plan: profileData.plan || 'FitSaúde',
         workouts_done: profileData.workoutsDone || profileData.workouts_done || 0,
         updated_at: new Date().toISOString()
       }, { onConflict: 'email' })
@@ -131,9 +133,9 @@ async function syncSubscriptionToSupabase(subData) {
       .insert([{
         student_name: subData.student,
         student_email: subData.email || null,
-        plan_name: subData.plan,
-        price_formatted: subData.val,
-        payment_method: subData.method,
+        plan_name: subData.plan || 'FitSaúde',
+        price_formatted: subData.val || 'R$ 29,90/mês',
+        payment_method: subData.method || 'PIX Oficial',
         status: subData.status || 'Paga'
       }])
       .select();
@@ -143,25 +145,6 @@ async function syncSubscriptionToSupabase(subData) {
     return data;
   } catch (err) {
     console.error('❌ [FitSaúde] Erro ao gravar assinatura:', err);
-    return null;
-  }
-}
-
-/**
- * Busca KPIs do Admin em tempo real da VIEW no Supabase
- */
-async function fetchAdminKPIsFromSupabase() {
-  const sb = getSupabase();
-  if (!sb) return null;
-  try {
-    const { data, error } = await sb
-      .from('admin_kpis_view')
-      .select('*')
-      .single();
-    if (error) throw error;
-    return data;
-  } catch (err) {
-    console.error('Erro ao buscar KPIs do admin:', err);
     return null;
   }
 }

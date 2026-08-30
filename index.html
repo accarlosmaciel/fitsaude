@@ -61,6 +61,10 @@
       <div class="app-header-title" id="header-title">Fit<span>Saúde</span></div>
     </header>
 
+    <!-- Banner de 7 Dias de Teste Grátis -->
+    <div class="trial-countdown-banner" id="trial-countdown-banner" style="display:none;"></div>
+
+
     <!-- ══ SCREEN: TREINOS ═════════════════════════════════ -->
     <div class="screen active" id="screen-treinos">
 
@@ -518,21 +522,16 @@
     <!-- ══ SCREEN: VISITANTE LANDING (CONHECER FITSAÚDE) ═══ -->
     <div class="screen" id="screen-visitante-landing">
       <div class="visitor-hero">
-        <div class="visitor-tag"><i class="fa-solid fa-bolt"></i> Sistema Inteligente de Treinos</div>
+        <div class="visitor-tag"><i class="fa-solid fa-gift"></i> 7 DIAS GRÁTIS — SEM CARTÃO</div>
         <h1 class="visitor-title">Transforme Seu Corpo com o <span>FitSaúde</span></h1>
-        <p class="visitor-subtitle">Treinos com animações 3D interativas, assistente com Inteligência Artificial Groq
-          Llama 3.3 e controle completo da sua evolução.</p>
+        <p class="visitor-subtitle">Treinos inteligentes, acompanhamento da evolução e inteligência artificial em uma única plataforma.</p>
 
         <div class="visitor-cta-row">
-          <button class="btn-visitor-primary"
-            onclick="startOnboardingFunnel('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
-            <i class="fa-solid fa-sparkles"></i> Assinar Plano
-          </button>
-          <button class="btn-visitor-secondary" onclick="openAuthModal('register')">
-            <i class="fa-solid fa-user-plus"></i> Criar Conta
+          <button class="btn-visitor-primary" onclick="startOnboardingFunnel()">
+            <i class="fa-solid fa-bolt"></i> COMEÇAR 7 DIAS GRÁTIS
           </button>
           <button class="btn-visitor-secondary" onclick="openAuthModal('login')">
-            <i class="fa-solid fa-right-to-bracket"></i> Fazer Login
+            <i class="fa-solid fa-right-to-bracket"></i> ENTRAR
           </button>
         </div>
 
@@ -544,7 +543,7 @@
           </div>
           <div class="feature-box">
             <div class="feature-icon"><i class="fa-solid fa-play"></i></div>
-            <div class="feature-title">Execução 3D</div>
+            <div class="feature-title">Exercícios 3D</div>
             <div class="feature-desc">Veja a postura correta de cada exercício com player de séries e descanso.</div>
           </div>
           <div class="feature-box">
@@ -559,24 +558,30 @@
           </div>
         </div>
 
-        <!-- Banner Planos -->
-        <div
-          style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-xl);padding:18px;text-align:left;margin-top:12px;">
+        <!-- Banner Oferta Oficial -->
+        <div class="official-offer-card" style="background:var(--bg2);border:1px solid rgba(220,20,60,0.4);border-radius:var(--r-xl);padding:20px;text-align:left;margin-top:14px;box-shadow:0 8px 30px rgba(0,0,0,0.4);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;font-weight:700;color:var(--red-light);text-transform:uppercase;">Oferta
-              Especial</span>
-            <span
-              style="font-size:11px;background:rgba(34,211,160,0.15);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:700;">40%
-              OFF</span>
+            <span style="font-size:12px;font-weight:800;color:var(--red-light);text-transform:uppercase;letter-spacing:0.5px;">
+              <i class="fa-solid fa-fire"></i> Plano Oficial
+            </span>
+            <span style="font-size:11px;background:rgba(34,211,160,0.15);color:var(--green);padding:3px 10px;border-radius:12px;font-weight:800;">
+              7 DIAS GRÁTIS
+            </span>
           </div>
-          <h3
-            style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:var(--txt);margin-bottom:4px;">
-            Acesso Ilimitado a partir de R$ 29,90/mês</h3>
-          <p style="font-size:12px;color:var(--txt2);margin-bottom:14px;">Sem fidelidade obrigatória. Treine no seu
-            ritmo com suporte integral.</p>
-          <button class="btn-plan-select primary" onclick="switchRoleScreen('visitante-planos')">
-            <i class="fa-solid fa-tags"></i> Ver Todos os Planos
-          </button>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--txt);margin-bottom:4px;">
+            FitSaúde — R$ 29,90/mês
+          </h3>
+          <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">
+            Experimente 7 dias com acesso completo e ilimitado a todas as ferramentas. Após o teste, apenas R$ 29,90/mês via PIX.
+          </p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn-plan-select primary" style="flex:1;" onclick="startOnboardingFunnel()">
+              <i class="fa-solid fa-bolt"></i> COMEÇAR 7 DIAS GRÁTIS
+            </button>
+            <button class="btn-plan-select secondary" style="width:auto;padding:12px 18px;" onclick="switchRoleScreen('visitante-planos')">
+              Ver Detalhes
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -584,76 +589,39 @@
     <!-- ══ SCREEN: VISITANTE PLANOS ═════════════════════════ -->
     <div class="screen" id="screen-visitante-planos">
       <div class="hero-strip">
-        <div class="hero-greeting">Escolha o seu plano <i class="fa-solid fa-shield-heart"></i></div>
-        <h1 class="hero-title">Planos <span>FitSaúde</span></h1>
+        <div class="hero-greeting">Assinatura Simples <i class="fa-solid fa-shield-heart"></i></div>
+        <h1 class="hero-title">Plano <span>FitSaúde</span></h1>
       </div>
 
-      <div class="plans-container">
-        <!-- Plano Mensal -->
-        <div class="plan-card">
-          <div class="plan-name">Plano Mensal</div>
-          <div class="plan-desc">Ideal para quem quer flexibilidade total mês a mês.</div>
-          <div class="plan-price-row">
-            <span class="plan-currency">R$</span>
-            <span class="plan-price">49,90</span>
-            <span class="plan-period">/mês</span>
-          </div>
-          <ul class="plan-features-list">
-            <li><i class="fa-solid fa-circle-check"></i> Acesso a todos os treinos semanais</li>
-            <li><i class="fa-solid fa-circle-check"></i> Player de execução com GIFs 3D</li>
-            <li><i class="fa-solid fa-circle-check"></i> FitBot IA (Até 50 perguntas/mês)</li>
-            <li><i class="fa-solid fa-circle-check"></i> Exportação de PDF das fichas</li>
-          </ul>
-          <button class="btn-plan-select secondary" onclick="startOnboardingFunnel('Mensal', 'R$ 49,90/mês')">
-            <i class="fa-solid fa-bolt"></i> Assinar Mensal
-          </button>
-        </div>
-
-        <!-- Plano Trimestral -->
-        <div class="plan-card">
-          <div class="plan-name">Plano Trimestral</div>
-          <div class="plan-desc">O melhor equilíbrio para quem busca resultados sólidos.</div>
-          <div class="plan-price-row">
-            <span class="plan-currency">R$</span>
-            <span class="plan-price">39,90</span>
-            <span class="plan-period">/mês (R$ 119,70/tri)</span>
-          </div>
-          <ul class="plan-features-list">
-            <li><i class="fa-solid fa-circle-check"></i> Tudo do plano mensal</li>
-            <li><i class="fa-solid fa-circle-check"></i> Economia de 20% no valor mensal</li>
-            <li><i class="fa-solid fa-circle-check"></i> FitBot IA Ilimitado</li>
-            <li><i class="fa-solid fa-circle-check"></i> Cálculo de calorias e macros</li>
-          </ul>
-          <button class="btn-plan-select secondary"
-            onclick="startOnboardingFunnel('Trimestral', 'R$ 39,90/mês (R$ 119,70/tri)')">
-            <i class="fa-solid fa-bolt"></i> Assinar Trimestral
-          </button>
-        </div>
-
-        <!-- Plano Anual VIP -->
-        <div class="plan-card popular">
-          <div class="plan-badge-popular">Mais Popular • 40% OFF</div>
-          <div class="plan-name">Plano Anual VIP</div>
-          <div class="plan-desc">A transformação completa com o menor custo e benefícios VIP exclusivos.</div>
+      <div class="plans-container" style="max-width:480px;margin:0 auto;">
+        <div class="plan-card popular" style="border-color:rgba(220,20,60,0.5);">
+          <div class="plan-badge-popular">7 DIAS GRÁTIS • APÓS R$ 29,90/MÊS</div>
+          <div class="plan-name">FitSaúde Ilimitado</div>
+          <div class="plan-desc">Acesso completo e irrestrito a toda a plataforma sem taxas extras ou contratos longos.</div>
           <div class="plan-price-row">
             <span class="plan-currency">R$</span>
             <span class="plan-price">29,90</span>
-            <span class="plan-period">/mês (R$ 358,80/ano)</span>
+            <span class="plan-period">/mês</span>
           </div>
           <ul class="plan-features-list">
-            <li><i class="fa-solid fa-circle-check"></i> Acesso total a treinos Masc & Fem</li>
-            <li><i class="fa-solid fa-circle-check"></i> Player 3D com cronômetro de descanso</li>
-            <li><i class="fa-solid fa-circle-check"></i> FitBot IA Groq Llama 3.3 Ilimitado</li>
-            <li><i class="fa-solid fa-circle-check"></i> Exportação ilimitada de PDFs</li>
-            <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>7 Dias de Teste 100% Gratuito</strong></li>
+            <li><i class="fa-solid fa-circle-check"></i> Fichas completas de Treinos Masculinos e Femininos</li>
+            <li><i class="fa-solid fa-circle-check"></i> Player 3D interativo com cronômetro de descanso</li>
+            <li><i class="fa-solid fa-circle-check"></i> FitBot IA treinado com Groq Llama 3.3 24h</li>
+            <li><i class="fa-solid fa-circle-check"></i> Download e impressão de Planilhas em PDF</li>
+            <li><i class="fa-solid fa-circle-check"></i> Pagamento simplificado via PIX sem burocracia</li>
+            <li><i class="fa-solid fa-circle-check"></i> Suporte oficial via WhatsApp (+55 62 99439-0943)</li>
           </ul>
-          <button class="btn-plan-select primary"
-            onclick="startOnboardingFunnel('Anual VIP', 'R$ 29,90/mês (R$ 358,80/ano)')">
-            <i class="fa-solid fa-crown"></i> Assinar Anual VIP
+          <button class="btn-plan-select primary" style="font-size:15px;padding:14px;" onclick="startOnboardingFunnel()">
+            <i class="fa-solid fa-bolt"></i> COMEÇAR 7 DIAS GRÁTIS
           </button>
+          <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--txt2);">
+            Já possui conta? <a href="javascript:void(0)" onclick="openAuthModal('login')" style="color:var(--red-light);font-weight:700;">Entrar</a>
+          </div>
         </div>
       </div>
     </div>
+
 
     <!-- ══ SCREEN: ATLETA ASSINATURA ════════════════════════ -->
     <div class="screen" id="screen-atleta-assinatura">
@@ -761,59 +729,92 @@
     <!-- ══ SCREEN: ADMIN DASHBOARD ══════════════════════════ -->
     <div class="screen" id="screen-admin-dashboard">
       <div class="hero-strip">
-        <div class="admin-badge-header"><i class="fa-solid fa-crown"></i> Painel do Dono</div>
+        <div class="admin-badge-header"><i class="fa-solid fa-crown"></i> Painel Super Admin</div>
         <h1 class="hero-title">Dashboard <span>Geral</span></h1>
       </div>
 
-      <!-- KPIs Grid -->
+      <!-- KPIs Grid Completo do MVP -->
       <div class="admin-kpi-grid">
         <div class="admin-kpi-card">
           <div class="admin-kpi-icon"><i class="fa-solid fa-users"></i></div>
-          <div class="admin-kpi-val" id="admin-kpi-total">5</div>
-          <div class="admin-kpi-label">Total de Alunos</div>
-          <div class="admin-kpi-trend"><i class="fa-solid fa-arrow-up"></i> +12% este mês</div>
+          <div class="admin-kpi-val" id="admin-kpi-total">0</div>
+          <div class="admin-kpi-label">Total de Usuários</div>
+        </div>
+
+        <div class="admin-kpi-card" style="border-color:rgba(167,139,250,0.3);">
+          <div class="admin-kpi-icon" style="color:#a78bfa;"><i class="fa-solid fa-gift"></i></div>
+          <div class="admin-kpi-val" id="admin-kpi-trial" style="color:#a78bfa;">0</div>
+          <div class="admin-kpi-label">Em Teste (7 Dias)</div>
         </div>
 
         <div class="admin-kpi-card green">
+          <div class="admin-kpi-icon" style="color:var(--green);"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="admin-kpi-val" id="admin-kpi-active" style="color:var(--green);">0</div>
+          <div class="admin-kpi-label">Assinantes Ativos</div>
+        </div>
+
+        <div class="admin-kpi-card" style="border-color:rgba(255,209,102,0.3);">
+          <div class="admin-kpi-icon" style="color:var(--yellow);"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div class="admin-kpi-val" id="admin-kpi-pending" style="color:var(--yellow);">0</div>
+          <div class="admin-kpi-label">Pagamentos Pendentes</div>
+        </div>
+
+        <div class="admin-kpi-card" style="border-color:rgba(255,107,53,0.3);">
+          <div class="admin-kpi-icon" style="color:#ff6b35;"><i class="fa-solid fa-clock"></i></div>
+          <div class="admin-kpi-val" id="admin-kpi-expiring" style="color:#ff6b35;">0</div>
+          <div class="admin-kpi-label">Vencendo (3 Dias)</div>
+        </div>
+
+        <div class="admin-kpi-card" style="border-color:rgba(220,20,60,0.3);">
+          <div class="admin-kpi-icon" style="color:var(--red-light);"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="admin-kpi-val" id="admin-kpi-expired" style="color:var(--red-light);">0</div>
+          <div class="admin-kpi-label">Assinaturas Expiradas</div>
+        </div>
+
+        <div class="admin-kpi-card green" style="grid-column: 1 / -1;">
           <div class="admin-kpi-icon" style="color:var(--green);"><i class="fa-solid fa-sack-dollar"></i></div>
-          <div class="admin-kpi-val" id="admin-kpi-mrr">R$ 5.920</div>
-          <div class="admin-kpi-label">Faturamento MRR</div>
-          <div class="admin-kpi-trend"><i class="fa-solid fa-arrow-up"></i> +8.5%</div>
-        </div>
-
-        <div class="admin-kpi-card blue">
-          <div class="admin-kpi-icon" style="color:var(--blue);"><i class="fa-solid fa-dumbbell"></i></div>
-          <div class="admin-kpi-val">42</div>
-          <div class="admin-kpi-label">Treinos Hoje</div>
-          <div class="admin-kpi-trend"><i class="fa-solid fa-fire"></i> Pico: 18h-20h</div>
-        </div>
-
-        <div class="admin-kpi-card">
-          <div class="admin-kpi-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-          <div class="admin-kpi-val">94%</div>
-          <div class="admin-kpi-label">Retenção de Alunos</div>
-          <div class="admin-kpi-trend"><i class="fa-solid fa-check"></i> Excelente</div>
+          <div class="admin-kpi-val" id="admin-kpi-mrr">R$ 0,00</div>
+          <div class="admin-kpi-label">Receita Mensal Estimada (MRR - R$ 29,90/aluno ativo)</div>
         </div>
       </div>
 
       <!-- Ações Rápidas -->
       <div class="profile-card">
-        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-bolt"></i> Ações Rápidas
-        </div>
+        <div class="section-label" style="padding:0;margin-bottom:14px;"><i class="fa-solid fa-bolt"></i> Ações Rápidas</div>
         <div class="form-grid-2">
-          <button class="btn-save" onclick="openAddStudentModal()"><i class="fa-solid fa-user-plus"></i> Novo
-            Aluno</button>
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
-            onclick="exportAdminReport('pdf')"><i class="fa-solid fa-file-pdf"></i> Baixar Relatório</button>
+          <button class="btn-save" onclick="openAddStudentModal()"><i class="fa-solid fa-user-plus"></i> Novo Aluno (Trial)</button>
+          <button class="btn-save" style="background:#25D366;color:#060608;font-weight:800;" onclick="switchRoleScreen('admin-pendentes')">
+            <i class="fa-solid fa-clock-rotate-left"></i> Pagamentos Pendentes
+          </button>
         </div>
         <div class="form-grid-2" style="margin-top:10px;">
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
-            onclick="switchRoleScreen('admin-assinaturas')"><i class="fa-solid fa-credit-card"></i> Assinaturas</button>
-          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);"
-            onclick="switchRoleScreen('admin-config')"><i class="fa-solid fa-gear"></i> Configurações</button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="switchRoleScreen('admin-alunos')">
+            <i class="fa-solid fa-users"></i> Gestão de Alunos
+          </button>
+          <button class="btn-save" style="background:var(--bg3);border:1px solid var(--border);" onclick="exportAdminReport('pdf')">
+            <i class="fa-solid fa-file-pdf"></i> Baixar Relatório PDF
+          </button>
         </div>
       </div>
     </div>
+
+    <!-- ══ SCREEN: ADMIN PAGAMENTOS PENDENTES ════════════════ -->
+    <div class="screen" id="screen-admin-pendentes">
+      <div class="hero-strip">
+        <div class="admin-badge-header"><i class="fa-solid fa-shield-halved"></i> Auditoria Financeira</div>
+        <h1 class="hero-title">Pagamentos <span>Pendentes</span></h1>
+      </div>
+
+      <div style="margin-bottom:14px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-md);font-size:12px;color:var(--txt2);">
+        <i class="fa-solid fa-info-circle" style="color:var(--green);margin-right:4px;"></i>
+        Confira o comprovante enviado pelo aluno no WhatsApp oficial <strong>+55 62 99439-0943</strong> e clique em <strong>CONFIRMAR PAGAMENTO</strong> para liberar <strong>+30 dias</strong> de acesso.
+      </div>
+
+      <div id="admin-pending-payments-list">
+        <!-- Renderizado dinamicamente via roles.js / subscription.js -->
+      </div>
+    </div>
+
 
     <!-- ══ SCREEN: ADMIN ALUNOS ═════════════════════════════ -->
     <div class="screen" id="screen-admin-alunos">
@@ -936,8 +937,12 @@
           <input class="form-input" id="cfg-gym-name" type="text" value="FitSaúde Club & Training" />
         </div>
         <div class="form-group">
-          <label class="form-label" for="cfg-gym-phone">WhatsApp de Suporte</label>
-          <input class="form-input" id="cfg-gym-phone" type="text" value="(11) 98888-7777" />
+          <label class="form-label" for="cfg-gym-phone">WhatsApp Oficial de Cobrança / Suporte</label>
+          <input class="form-input" id="cfg-gym-phone" type="text" value="(62) 99439-0943" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cfg-gym-pix">Chave PIX Oficial</label>
+          <input class="form-input" id="cfg-gym-pix" type="text" value="5f038f67-9fd9-44fc-8c50-b94e8c79e172" />
         </div>
         <div class="form-group">
           <label class="form-label" for="cfg-groq-model">Modelo de IA (Groq Cloud)</label>
@@ -1243,168 +1248,122 @@
     </div>
   </div>
 
-  <!-- ── Modal: Funil de Onboarding Completo (Visitante → Atleta) ── -->
+  <!-- ── Modal: Funil de Onboarding (7 Dias Grátis) ── -->
   <div class="auth-modal-backdrop" id="onboarding-modal-backdrop">
     <div class="auth-modal-box">
       <button class="auth-modal-close" onclick="closeOnboardingModal()" aria-label="Fechar"><i
           class="fa-solid fa-xmark"></i></button>
 
-      <!-- Step Progress Indicator -->
-      <div class="onboarding-steps-bar">
-        <div class="step-node active" id="node-step-1">
-          <div class="step-circle">1</div>
-          <span class="step-title">Conta</span>
-        </div>
-        <div class="step-node" id="node-step-2">
-          <div class="step-circle">2</div>
-          <span class="step-title">Assinatura</span>
-        </div>
-        <div class="step-node" id="node-step-3">
-          <div class="step-circle">3</div>
-          <span class="step-title">Acesso</span>
-        </div>
-      </div>
-
-      <!-- ── PASSO 1: CRIAR CONTA ───────────────────────────── -->
+      <!-- ── PASSO 1: CRIAR CONTA E ATIVAR TRIAL ── -->
       <div id="ob-step-1">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-          <span class="role-badge-current role-badge-visitante" id="ob-selected-plan-badge">Plano Anual VIP</span>
-          <span style="font-weight:800;color:var(--red-light);" id="ob-selected-plan-price">R$ 29,90/mês</span>
+          <span class="role-badge-current role-badge-visitante" id="ob-selected-plan-badge" style="background:rgba(220,20,60,0.15);color:var(--red-light);border:1px solid rgba(220,20,60,0.3);">
+            <i class="fa-solid fa-gift"></i> 7 DIAS GRÁTIS
+          </span>
+          <span style="font-weight:800;color:var(--green);" id="ob-selected-plan-price">Depois R$ 29,90/mês</span>
         </div>
-        <h3 class="auth-modal-title">Crie sua Conta FitSaúde</h3>
-        <p class="auth-modal-subtitle">Preencha seus dados para configurar seus treinos.</p>
+        <h3 class="auth-modal-title">Comece Seus 7 Dias Grátis</h3>
+        <p class="auth-modal-subtitle">Acesso completo liberado na hora. Sem necessidade de cartão de crédito!</p>
 
         <form onsubmit="handleOnboardingStep1Submit(event)">
           <div class="form-group">
             <label class="form-label" for="ob-name">Nome Completo</label>
-            <input class="form-input" id="ob-name" type="text" placeholder="ex: Carlos Maciel" value="Carlos Maciel"
-              required />
+            <input class="form-input" id="ob-name" type="text" placeholder="ex: Carlos Maciel" required />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="ob-email">Seu Melhor E-mail</label>
-            <input class="form-input" id="ob-email" type="email" placeholder="ex: carlos@fitsaude.com"
-              value="carlos@fitsaude.com" required />
+            <input class="form-input" id="ob-email" type="email" placeholder="ex: carlos@fitsaude.com" required />
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="ob-pass">Criar Senha de Acesso</label>
-            <input class="form-input" id="ob-pass" type="password" placeholder="Mínimo 6 caracteres" value="123456"
-              required />
+            <label class="form-label" for="ob-phone">WhatsApp / Telefone</label>
+            <input class="form-input" id="ob-phone" type="text" placeholder="ex: (62) 99439-0943" value="(62) 9" required />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="ob-goal">Objetivo Principal</label>
             <select class="form-select" id="ob-goal">
               <option value="Hipertrofia" selected>Hipertrofia (Ganho de Massa)</option>
-              <option value="Emagrecimento">Emagrecimento / Definição</option>
+              <option value="Emagrecimento">Emagrecimento / Queima de Gordura</option>
+              <option value="Definição">Definição Muscular</option>
               <option value="Condicionamento">Saúde & Condicionamento</option>
             </select>
           </div>
 
-          <button type="submit" class="btn-save" style="margin-top:16px;">
-            Continuar para Assinatura <i class="fa-solid fa-arrow-right"></i>
+          <button type="submit" class="btn-save" style="margin-top:16px;font-size:15px;padding:14px;">
+            <i class="fa-solid fa-bolt"></i> ATIVAR 7 DIAS GRÁTIS AGORA
           </button>
         </form>
       </div>
 
-      <!-- ── PASSO 2: ASSINATURA & PAGAMENTO SIMULADO ────────── -->
-      <div id="ob-step-2" style="display:none;">
-        <h3 class="auth-modal-title"><i class="fa-solid fa-credit-card" style="color:var(--red-light);"></i> Assinatura
-          FitSaúde</h3>
-        <p class="auth-modal-subtitle">Simulação de pagamento sem cobrança real nesta etapa.</p>
+      <!-- ── PASSO 2 (Fallback): PAGAMENTO PIX ── -->
+      <div id="ob-step-2" style="display:none;"></div>
 
-        <div class="payment-method-selector">
-          <button type="button" class="payment-method-btn active ob-pay-btn" id="ob-pay-pix"
-            onclick="setOnboardingPaymentMethod('pix')">
-            <i class="fa-brands fa-pix" style="font-size:20px;color:var(--green);"></i>
-            <span>PIX Simulado</span>
-          </button>
-          <button type="button" class="payment-method-btn ob-pay-btn" id="ob-pay-card"
-            onclick="setOnboardingPaymentMethod('card')">
-            <i class="fa-solid fa-credit-card" style="font-size:20px;color:var(--blue);"></i>
-            <span>Cartão de Crédito</span>
-          </button>
-        </div>
-
-        <!-- PIX View -->
-        <div id="ob-pix-view">
-          <div class="pix-box">
-            <div style="font-size:12px;color:var(--txt2);margin-bottom:8px;">QR Code de Teste (Aprovação Instantânea):
-            </div>
-            <div class="pix-qr-img">
-              <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=00020126580014br.gov.bcb.pix0136fitsaude-treinos-assinatura-20265204000053039865802BR5916FITSAUDE6009SAOPAULO62070503***6304A1B2"
-                alt="QR Code PIX FitSaúde" width="120" height="120" />
-            </div>
-            <div style="font-size:11px;color:var(--green);font-weight:700;"><i class="fa-solid fa-bolt"></i> Simulação
-              de Liberação Imediata</div>
-          </div>
-          <div class="pix-code-field">
-            <input class="form-input" type="text" value="00020126580014br.gov.bcb.pix0136fitsaude..." readonly
-              style="font-size:11px;" />
-            <button type="button" class="btn-save" style="width:auto;padding:8px 14px;" onclick="copyPixCode()"><i
-                class="fa-solid fa-copy"></i></button>
-          </div>
-        </div>
-
-        <!-- Card View -->
-        <div id="ob-card-view" style="display:none;">
-          <div class="form-group">
-            <label class="form-label">Número do Cartão (Simulado)</label>
-            <input class="form-input" type="text" value="4532 •••• •••• 4242" readonly />
-          </div>
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">Validade</label>
-              <input class="form-input" type="text" value="12/29" readonly />
-            </div>
-            <div class="form-group">
-              <label class="form-label">CVV</label>
-              <input class="form-input" type="password" value="888" readonly />
-            </div>
-          </div>
-        </div>
-
-        <button type="button" class="btn-save" style="margin-top:16px;" onclick="confirmSimulatedPayment()">
-          <i class="fa-solid fa-circle-check"></i> Confirmar Assinatura (Simulação)
-        </button>
-        <button type="button" class="btn-reset" style="margin-top:8px;" onclick="setOnboardingStep(1)">
-          <i class="fa-solid fa-arrow-left"></i> Voltar para Dados
-        </button>
-      </div>
-
-      <!-- ── PASSO 3: RECEBE ACESSO & ENTRA NO WEBAPP ────────── -->
+      <!-- ── PASSO 3: SUCESSO & ENTRADA NO WEBAPP ── -->
       <div id="ob-step-3" style="display:none;">
         <div class="success-access-card">
-          <div class="success-icon-wrap"><i class="fa-solid fa-check"></i></div>
-          <h3
-            style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--txt);margin-bottom:4px;">
-            Parabéns, <span id="ob-success-user-name">Carlos</span>!</h3>
-          <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">Sua assinatura foi confirmada e seu acesso
-            está 100% liberado.</p>
+          <div class="success-icon-wrap" style="background:rgba(34,211,160,0.15);color:var(--green);"><i class="fa-solid fa-gift"></i></div>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--txt);margin-bottom:4px;">
+            Parabéns, <span id="ob-success-user-name">Atleta</span>!
+          </h3>
+          <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">Seu período de teste de 7 dias grátis está 100% ativo com todas as funções liberadas.</p>
 
-          <div class="success-plan-pill" id="ob-success-plan-title">
-            <i class="fa-solid fa-crown"></i> Plano Anual VIP Ativo
+          <div class="success-plan-pill" id="ob-success-plan-title" style="background:rgba(220,20,60,0.15);color:var(--red-light);border:1px solid rgba(220,20,60,0.3);">
+            <i class="fa-solid fa-bolt"></i> FitSaúde — 7 Dias Grátis Ativos
           </div>
 
-          <div
-            style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:20px;text-align:left;background:var(--bg3);padding:12px;border-radius:var(--r-md);border:1px solid var(--border);">
-            <div><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Fichas de treino
-              personalizadas liberadas</div>
-            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check"
-                style="color:var(--green);margin-right:6px;"></i> Player 3D de execução com cronômetro</div>
-            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check"
-                style="color:var(--green);margin-right:6px;"></i> FitBot IA Groq Llama 3.3 disponível 24h</div>
+          <div style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:20px;text-align:left;background:var(--bg3);padding:12px;border-radius:var(--r-md);border:1px solid var(--border);">
+            <div><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Todos os treinos semanais Masc e Fem liberados</div>
+            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Player 3D de execução com animações e cronômetro</div>
+            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> FitBot IA Groq Llama 3.3 disponível 24h</div>
+            <div style="margin-top:4px;"><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:6px;"></i> Exportação de fichas e relatórios em PDF</div>
           </div>
 
           <button type="button" class="btn-save" style="font-size:15px;padding:14px;" onclick="enterWebAppAsAthlete()">
-            <i class="fa-solid fa-bolt"></i> Entrar no WebApp do Atleta
+            <i class="fa-solid fa-dumbbell"></i> Entrar no App e Começar a Treinar
           </button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- ══ PAYWALL / BLOQUEIO APÓS EXPIRAÇÃO ═════════════════ -->
+  <div class="paywall-overlay" id="paywall-expired-overlay">
+    <div class="paywall-card">
+      <div class="paywall-icon"><i class="fa-solid fa-lock"></i></div>
+      <h2 class="paywall-title">Sua assinatura expirou</h2>
+      <p class="paywall-subtitle">Seu período de acesso terminou. Renove agora para continuar treinando sem perder seu histórico e evolução.</p>
+
+      <div class="paywall-price-box">
+        <div class="paywall-plan-tag">PLANO OFICIAL FITSAÚDE</div>
+        <div class="paywall-price">R$ 29,90<span style="font-size:14px;color:var(--txt2);font-weight:400;">/mês</span></div>
+      </div>
+
+      <div class="pix-key-display-box" style="margin-bottom:14px;">
+        <div class="pix-key-label">CHAVE PIX OFICIAL</div>
+        <div class="pix-key-val-row">
+          <code class="pix-code-text">5f038f67-9fd9-44fc-8c50-b94e8c79e172</code>
+          <button type="button" class="btn-copy-pix" onclick="copyOfficialPixKey()">
+            <i class="fa-solid fa-copy"></i> Copiar
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="btn-save" style="background:#25D366;color:#060608;font-weight:800;font-size:15px;padding:14px;margin-bottom:10px;" onclick="submitProofOfPayment()">
+        <i class="fa-brands fa-whatsapp"></i> PAGUEI / ENVIAR COMPROVANTE
+      </button>
+
+      <p style="font-size:11px;color:var(--txt2);text-align:center;margin-bottom:12px;">
+        WhatsApp Oficial: <strong>+55 62 99439-0943</strong>
+      </p>
+
+      <button type="button" class="btn-reset" onclick="handleLogout()">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao Início
+      </button>
+    </div>
+  </div>
+
 
   <!-- ── Modal: Detalhes do Aluno (/admin/alunos/:id) ──────── -->
   <div class="auth-modal-backdrop" id="student-detail-modal-backdrop">
@@ -3438,6 +3397,8 @@ IMPORTANTE: Use sempre o nome do aluno (${p.name || 'Aluno'}) e considere as sua
   </script>
 
   <script src="js/supabase.js"></script>
+  <script src="js/subscription.js"></script>
+  <script src="js/whatsapp.js"></script>
   <script src="js/roles.js"></script>
 
   <script>
