@@ -59,12 +59,13 @@ body {
   background: var(--bg);
   color: var(--txt);
   min-height: 100dvh;
-  max-width: 480px;
+  width: 100%;
   margin: 0 auto;
   overflow-x: hidden;
   position: relative;
   padding-bottom: var(--nav-h);
 }
+
 
 /* ─── Background ─────────────────────────────────────────────── */
 .bg-blobs {
