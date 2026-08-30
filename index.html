@@ -42,7 +42,6 @@
         <i class="fa-solid fa-eye"></i> Visitante
       </div>
       <div class="role-quick-select">
-        <span style="font-size:11px;color:var(--txt2);font-weight:600;margin-right:2px;">Perfil:</span>
         <button class="role-switch-btn active" data-role="visitante" onclick="setUserRole('visitante')">
           <i class="fa-solid fa-eye"></i> Visitante
         </button>
@@ -54,6 +53,7 @@
         </button>
       </div>
     </div>
+
 
     <!-- App Header -->
     <header class="app-header" id="app-header">
@@ -522,16 +522,19 @@
     <!-- ══ SCREEN: VISITANTE LANDING (CONHECER FITSAÚDE) ═══ -->
     <div class="screen" id="screen-visitante-landing">
       <div class="visitor-hero">
-        <div class="visitor-tag"><i class="fa-solid fa-gift"></i> 7 DIAS GRÁTIS — SEM CARTÃO</div>
+        <div class="visitor-tag"><i class="fa-solid fa-bolt"></i> Sistema Inteligente de Treinos</div>
         <h1 class="visitor-title">Transforme Seu Corpo com o <span>FitSaúde</span></h1>
-        <p class="visitor-subtitle">Treinos inteligentes, acompanhamento da evolução e inteligência artificial em uma única plataforma.</p>
+        <p class="visitor-subtitle">Treinos com animações 3D interativas, assistente com Inteligência Artificial Groq Llama 3.3 e controle completo da sua evolução.</p>
 
         <div class="visitor-cta-row">
           <button class="btn-visitor-primary" onclick="startOnboardingFunnel()">
-            <i class="fa-solid fa-bolt"></i> COMEÇAR 7 DIAS GRÁTIS
+            Assinar Plano
+          </button>
+          <button class="btn-visitor-secondary" onclick="openAuthModal('register')">
+            <i class="fa-solid fa-user-plus"></i> Criar Conta
           </button>
           <button class="btn-visitor-secondary" onclick="openAuthModal('login')">
-            <i class="fa-solid fa-right-to-bracket"></i> ENTRAR
+            <i class="fa-solid fa-right-to-bracket"></i> Fazer Login
           </button>
         </div>
 
@@ -543,11 +546,11 @@
           </div>
           <div class="feature-box">
             <div class="feature-icon"><i class="fa-solid fa-play"></i></div>
-            <div class="feature-title">Exercícios 3D</div>
+            <div class="feature-title">Execução 3D</div>
             <div class="feature-desc">Veja a postura correta de cada exercício com player de séries e descanso.</div>
           </div>
           <div class="feature-box">
-            <div class="feature-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="feature-icon"><i class="fa-solid fa-file-lines"></i></div>
             <div class="feature-title">Planilhas & PDF</div>
             <div class="feature-desc">Baixe e imprima fichas completas Masc e Fem personalizadas.</div>
           </div>
@@ -558,30 +561,21 @@
           </div>
         </div>
 
-        <!-- Banner Oferta Oficial -->
-        <div class="official-offer-card" style="background:var(--bg2);border:1px solid rgba(220,20,60,0.4);border-radius:var(--r-xl);padding:20px;text-align:left;margin-top:14px;box-shadow:0 8px 30px rgba(0,0,0,0.4);">
+        <!-- Banner Oferta Especial -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-xl);padding:18px;text-align:left;margin-top:12px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:12px;font-weight:800;color:var(--red-light);text-transform:uppercase;letter-spacing:0.5px;">
-              <i class="fa-solid fa-fire"></i> Plano Oficial
-            </span>
-            <span style="font-size:11px;background:rgba(34,211,160,0.15);color:var(--green);padding:3px 10px;border-radius:12px;font-weight:800;">
-              7 DIAS GRÁTIS
-            </span>
+            <span style="font-size:12px;font-weight:700;color:var(--red-light);text-transform:uppercase;">OFERTA ESPECIAL</span>
+            <span style="font-size:11px;background:rgba(34,211,160,0.15);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:700;">40% OFF</span>
           </div>
-          <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--txt);margin-bottom:4px;">
-            FitSaúde — R$ 29,90/mês
+          <h3 style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:var(--txt);margin-bottom:4px;">
+            Acesso Ilimitado a partir de R$ 29,90/mês
           </h3>
-          <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;">
-            Experimente 7 dias com acesso completo e ilimitado a todas as ferramentas. Após o teste, apenas R$ 29,90/mês via PIX.
+          <p style="font-size:12px;color:var(--txt2);margin-bottom:14px;">
+            Sem fidelidade obrigatória. Treine no seu ritmo com suporte integral.
           </p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn-plan-select primary" style="flex:1;" onclick="startOnboardingFunnel()">
-              <i class="fa-solid fa-bolt"></i> COMEÇAR 7 DIAS GRÁTIS
-            </button>
-            <button class="btn-plan-select secondary" style="width:auto;padding:12px 18px;" onclick="switchRoleScreen('visitante-planos')">
-              Ver Detalhes
-            </button>
-          </div>
+          <button class="btn-plan-select primary" style="width:100%;" onclick="switchRoleScreen('visitante-planos')">
+            <i class="fa-solid fa-tags"></i> Ver Todos os Planos
+          </button>
         </div>
       </div>
     </div>

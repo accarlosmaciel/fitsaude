@@ -243,18 +243,21 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-visitor-primary {
-  background: linear-gradient(135deg, var(--red) 0%, var(--red-light) 100%);
+  background: linear-gradient(135deg, #FF1A4B 0%, #ff4d6d 100%);
   color: #fff;
   border: none;
-  padding: 12px 22px;
-  border-radius: var(--r-md);
+  padding: 13px 24px;
+  border-radius: 18px;
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 4px 20px var(--red-glow);
+  box-shadow: 0 4px 20px rgba(255, 26, 75, 0.4);
   transition: var(--ease);
   display: inline-flex;
   align-items: center;
@@ -267,11 +270,11 @@
 }
 
 .btn-visitor-secondary {
-  background: var(--bg3);
+  background: #141418;
   color: var(--txt);
-  border: 1px solid var(--border);
-  padding: 12px 18px;
-  border-radius: var(--r-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 13px 20px;
+  border-radius: 18px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -282,8 +285,8 @@
 }
 
 .btn-visitor-secondary:hover {
-  background: var(--bg4);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: #1a1a21;
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 /* Feature grid showcase */
@@ -291,19 +294,20 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin: 16px 0 24px;
+  margin: 16px 0 20px;
 }
 
 .feature-box {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: 16px;
+  background: #0e0e12;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 18px 16px;
   text-align: left;
   transition: var(--ease);
   position: relative;
   overflow: hidden;
 }
+
 
 .feature-box:hover {
   border-color: var(--border-red);
