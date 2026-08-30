@@ -4,6 +4,8 @@
    ══════════════════════════════════════════════════════════════════ */
 
 const WHATSAPP_LOGS_KEY = 'fitsaude_whatsapp_logs_v3';
+const OFFICIAL_PIX_KEY = '5f038f67-9fd9-44fc-8c50-b94e8c79e172';
+const OFFICIAL_WHATSAPP_NUMBER = '+5562994390943';
 
 const WhatsAppService = {
   /**
@@ -29,7 +31,10 @@ const WhatsAppService = {
       `Atenção, ${name}! ⏳\n\nFalta apenas *1 dia* para o encerramento do seu teste grátis no *FitSaúde*.\n\nPara não perder o acesso às suas fichas e histórico, renove por *R$ 29,90/mês* via PIX:\n🔑 *Chave PIX:* ${OFFICIAL_PIX_KEY}\n\nEnvie seu comprovante por aqui para continuarmos juntos! 💪`,
 
     DAY_7_FINAL: (name) => 
-      `Olá, ${name}! 🚨\n\nSeu período de 7 dias grátis no *FitSaúde* encerrou hoje.\n\nPara reativar seu acesso completo imediatamente:\n📌 *Plano:* FitSaúde\n💰 *Valor:* R$ 29,90/mês\n🔑 *Chave PIX:* ${OFFICIAL_PIX_KEY}\n\nAssim que fizer o PIX, envie o comprovante nesta conversa para liberarmos seus +30 dias! 🚀`,
+      `Olá, ${name}! 🚨\n\nSeu período de 7 dias grátis no *FitSaúde* encerrou hoje.\n\nPara reativar seu acesso completo imediatamente:\n📌 *Plano:* FitSaúde Ilimitado\n💰 *Valor:* R$ 29,90/mês\n🔑 *Chave PIX:* ${OFFICIAL_PIX_KEY}\n\nAssim que fizer o PIX, envie o comprovante nesta conversa para liberarmos seus +30 dias! 🚀`,
+
+    PIX_BILLING_DIRECT: (name) => 
+      `Olá, ${name}! 👋\n\nSegue a chave oficial para renovação/pagamento do plano *FitSaúde*:\n\n📌 *Plano:* FitSaúde Ilimitado\n💰 *Valor:* R$ 29,90/mês\n🔑 *Chave PIX:* ${OFFICIAL_PIX_KEY}\n\n📲 Após a transferência, envie o comprovante por aqui para liberação de mais 30 dias de acesso imediato! 💪🔥`,
 
     EXPIRING_SOON_RENEWAL: (name, daysLeft) =>
       `Olá, ${name}! 👋\n\nSua assinatura do *FitSaúde* vence em *${daysLeft} dia(s)*.\n\nPara renovar seu plano sem interrupção:\n💰 *Valor:* R$ 29,90/mês\n🔑 *Chave PIX:* ${OFFICIAL_PIX_KEY}\n\nEnvie o comprovante para confirmação da baixa!`,
@@ -37,6 +42,7 @@ const WhatsAppService = {
     PAYMENT_CONFIRMED: (name) => 
       `🎉 Parabéns, ${name}!\n\nSeu pagamento de *R$ 29,90* foi confirmado com sucesso pelo Super Admin do FitSaúde! ✅\n\nSeu acesso completo está garantido por mais *30 dias*. Bons treinos e continue focado na sua meta! 🏋️‍♂️🔥`
   },
+
 
   /**
    * Retorna os logs de mensagens disparadas
@@ -114,6 +120,28 @@ const WhatsAppService = {
     console.log(`📱 [WhatsAppService] Mensagem gerada para ${student.name} [${eventType}]:\n${message}`);
 
     return { phone, message, url: this.generateWhatsAppLink(phone, message) };
+  },
+
+  /**
+   * Envia a mensagem automática final com a Chave PIX oficial
+   */
+  sendPixBillingMessage: function(studentId) {
+    const studentsKey = 'fitsaude_students_db_v2';
+    const students = JSON.parse(localStorage.getItem(studentsKey) || '[]');
+    const student = students.find(s => s.id === studentId);
+    if (!student) return false;
+
+    const studentName = (student.name || 'Aluno').split(' ')[0];
+    const phone = student.phone || OFFICIAL_WHATSAPP_NUMBER;
+    const message = this.templates.PIX_BILLING_DIRECT(studentName);
+
+    this.logMessage(studentId, 'PIX_BILLING_DIRECT', student.name, phone, message, 'SENT');
+    const url = this.generateWhatsAppLink(phone, message);
+
+    if (typeof window !== 'undefined') {
+      window.open(url, '_blank');
+    }
+    return { phone, message, url };
   },
 
   /**
