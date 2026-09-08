@@ -370,54 +370,77 @@
       </div>
 
       <!-- ── Meta de Hidratação 💧 ──────────────────────────── -->
-      <div class="hydration-card">
+      <div class="hydration-card-premium">
         <div class="hydration-header">
-          <div class="hydration-title">
-            <i class="fa-solid fa-droplet" style="color:var(--red-light);"></i> Meta de Hidratação
+          <div class="hydration-title-wrap">
+            <div class="hydration-icon-circle"><i class="fa-solid fa-droplet"></i></div>
+            <div>
+              <div class="hydration-title">Meta de Hidratação</div>
+              <div class="hydration-subtitle">Acompanhe seu consumo diário de água</div>
+            </div>
           </div>
           <div class="hydration-badge" id="hydration-badge">Meta: 3.0 L</div>
         </div>
 
-        <div class="hydration-meta-label">Selecione sua meta diária:</div>
-        <div class="hydration-chips">
-          <button class="water-chip" data-l="1" onclick="setWaterGoal(1000)">1 L</button>
-          <button class="water-chip" data-l="2" onclick="setWaterGoal(2000)">2 L</button>
-          <button class="water-chip active" data-l="3" onclick="setWaterGoal(3000)">3 L</button>
-          <button class="water-chip" data-l="4" onclick="setWaterGoal(4000)">4 L</button>
-          <button class="water-chip" data-l="5" onclick="setWaterGoal(5000)">5 L</button>
-          <button class="water-chip" data-l="6" onclick="setWaterGoal(6000)">6 L</button>
-        </div>
-
-        <div class="hydration-body">
-          <div class="hydration-display">
-            <span class="water-intake-val" id="water-intake-val">0.0 L</span>
-            <span class="water-target-sub" id="water-target-sub">/ 3.0 L hoje</span>
+        <!-- Hero Gauge / Stat Card -->
+        <div class="hydration-hero-box">
+          <div class="hydration-hero-top">
+            <div class="hydration-intake-stat">
+              <span class="water-intake-val" id="water-intake-val">0.0 L</span>
+              <span class="water-target-sub" id="water-target-sub">/ 3.0 L hoje</span>
+            </div>
+            <div class="hydration-pct-badge" id="water-pct-val">0%</div>
           </div>
-          <div class="hydration-pct" id="water-pct-val">0%</div>
+
+          <div class="water-progress-track">
+            <div class="water-progress-fill" id="water-progress-fill" style="width: 0%;"></div>
+          </div>
+
+          <div class="water-status-tip" id="water-status-tip">
+            <i class="fa-solid fa-circle-info"></i> Faltam 3.0 L para bater sua meta diária!
+          </div>
         </div>
 
-        <div class="water-progress-track">
-          <div class="water-progress-fill" id="water-progress-fill" style="width: 0%;"></div>
-        </div>
-
-        <div class="water-quick-add">
-          <button class="btn-water-add" onclick="addWaterIntake(250)">
-            <i class="fa-solid fa-glass-water"></i> +250 ml
+        <!-- Quick 1-Touch Buttons -->
+        <div class="hydration-section-title"><i class="fa-solid fa-plus"></i> Registro Rápido</div>
+        <div class="water-quick-grid">
+          <button class="btn-water-quick" onclick="addWaterIntake(250)">
+            <i class="fa-solid fa-glass-water"></i>
+            <span class="btn-water-amount">+250 ml</span>
+            <span class="btn-water-label">Copo</span>
           </button>
-          <button class="btn-water-add" onclick="addWaterIntake(500)">
-            <i class="fa-solid fa-bottle-water"></i> +500 ml
+          <button class="btn-water-quick" onclick="addWaterIntake(500)">
+            <i class="fa-solid fa-bottle-water"></i>
+            <span class="btn-water-amount">+500 ml</span>
+            <span class="btn-water-label">Garrafa</span>
           </button>
-          <button class="btn-water-add" onclick="addWaterIntake(1000)">
-            <i class="fa-solid fa-faucet-drip"></i> +1 L
+          <button class="btn-water-quick" onclick="addWaterIntake(1000)">
+            <i class="fa-solid fa-faucet-drip"></i>
+            <span class="btn-water-amount">+1.0 L</span>
+            <span class="btn-water-label">Garrafão</span>
           </button>
-          <button class="btn-water-reset" onclick="resetWaterIntake()" title="Resetar consumo de hoje">
+          <button class="btn-water-quick reset" onclick="resetWaterIntake()" title="Resetar consumo de hoje">
             <i class="fa-solid fa-rotate-right"></i>
+            <span class="btn-water-amount">Resetar</span>
+            <span class="btn-water-label">Hoje</span>
           </button>
         </div>
 
+        <!-- Meta Selector Chips -->
+        <div class="hydration-section-title"><i class="fa-solid fa-bullseye"></i> Ajustar Meta Diária</div>
+        <div class="hydration-chips">
+          <button class="water-chip" data-l="1" onclick="setWaterGoal(1000)">1.0 L</button>
+          <button class="water-chip" data-l="2" onclick="setWaterGoal(2000)">2.0 L</button>
+          <button class="water-chip" data-l="3" onclick="setWaterGoal(3000)">3.0 L</button>
+          <button class="water-chip" data-l="4" onclick="setWaterGoal(4000)">4.0 L</button>
+          <button class="water-chip" data-l="5" onclick="setWaterGoal(5000)">5.0 L</button>
+        </div>
+
+        <!-- Reminders Row -->
         <div class="water-reminders-box">
           <div class="reminder-label">
-            <i class="fa-solid fa-bell" style="color:var(--red-light);"></i> Lembretes de Água
+            <i class="fa-solid fa-bell"></i>
+            <span>Lembretes Inteligentes</span>
           </div>
           <div class="reminder-controls">
             <select class="form-select form-select-sm" id="water-reminder-freq"
@@ -430,52 +453,6 @@
               <i class="fa-solid fa-bell-slash"></i> Ativar
             </button>
           </div>
-        </div>
-      </div>
-
-      <!-- App Personalização & Temas Card -->
-      <div class="profile-card" style="margin-top:16px;">
-        <div class="section-label" style="padding:0;margin-bottom:16px;"><i class="fa-solid fa-palette"></i> Aparência &
-          Temas</div>
-
-        <div class="form-group">
-          <label class="form-label">Modo do Tema</label>
-          <div class="rest-buttons-row" style="margin-top:6px;">
-            <button class="btn-rest-preset" onclick="setTheme('dark')"><i class="fa-solid fa-moon"></i> Dark</button>
-            <button class="btn-rest-preset" onclick="setTheme('light')"><i class="fa-solid fa-sun"></i> Light</button>
-            <button class="btn-rest-preset" onclick="setTheme('auto')"><i class="fa-solid fa-circle-half-stroke"></i>
-              Automático</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Cor Principal</label>
-          <div class="rest-buttons-row" style="margin-top:6px;">
-            <button class="btn-rest-preset" style="background:#dc143c;color:#fff;"
-              onclick="setColor('red')">Vermelho</button>
-            <button class="btn-rest-preset" style="background:#8b5cf6;color:#fff;"
-              onclick="setColor('purple')">Roxo</button>
-            <button class="btn-rest-preset" style="background:#3b82f6;color:#fff;"
-              onclick="setColor('blue')">Azul</button>
-            <button class="btn-rest-preset" style="background:#10b981;color:#fff;"
-              onclick="setColor('green')">Verde</button>
-            <button class="btn-rest-preset" style="background:#f97316;color:#fff;"
-              onclick="setColor('orange')">Laranja</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Tamanho da Fonte</label>
-          <div class="rest-buttons-row" style="margin-top:6px;">
-            <button class="btn-rest-preset" onclick="setFontSize('small')">Pequeno</button>
-            <button class="btn-rest-preset" onclick="setFontSize('normal')">Normal</button>
-            <button class="btn-rest-preset" onclick="setFontSize('large')">Grande</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <button class="btn-reset" style="margin-top:4px;" onclick="toggleHighContrast()"><i
-              class="fa-solid fa-eye"></i> Alternar Alto Contraste</button>
         </div>
       </div>
 
@@ -2752,6 +2729,7 @@
       const badgeEl = document.getElementById('hydration-badge');
       const btnReminderEl = document.getElementById('btn-toggle-reminder');
       const freqSelectEl = document.getElementById('water-reminder-freq');
+      const tipEl = document.getElementById('water-status-tip');
 
       if (!intakeValEl) return;
 
@@ -2763,6 +2741,17 @@
       targetSubEl.textContent = `/ ${goalL} L hoje`;
       pctValEl.textContent = `${pct}%`;
       if (fillEl) fillEl.style.width = `${pct}%`;
+
+      if (tipEl) {
+        if (waterIntakeMl >= waterGoalMl) {
+          tipEl.innerHTML = '<i class="fa-solid fa-trophy" style="color:#22d3a0;"></i> <strong>Parabéns!</strong> Você bateu sua meta diária de hidratação hoje! 🎉';
+          tipEl.style.color = '#22d3a0';
+        } else {
+          const remainingL = Math.max(0, (waterGoalMl - waterIntakeMl) / 1000).toFixed(1);
+          tipEl.innerHTML = `<i class="fa-solid fa-droplet" style="color:#38bdf8;"></i> Faltam <strong>${remainingL} L</strong> para bater sua meta diária!`;
+          tipEl.style.color = 'var(--txt2)';
+        }
+      }
 
       document.querySelectorAll('.water-chip').forEach(chip => {
         const goalLiters = parseInt(chip.getAttribute('data-l'));

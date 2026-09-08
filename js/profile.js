@@ -336,6 +336,7 @@ function updateHydrationUI() {
   const badgeEl = document.getElementById('hydration-badge');
   const btnReminderEl = document.getElementById('btn-toggle-reminder');
   const freqSelectEl = document.getElementById('water-reminder-freq');
+  const tipEl = document.getElementById('water-status-tip');
 
   if (!intakeValEl) return;
 
@@ -347,6 +348,17 @@ function updateHydrationUI() {
   targetSubEl.textContent = `/ ${goalL} L hoje`;
   pctValEl.textContent = `${pct}%`;
   if (fillEl) fillEl.style.width = `${pct}%`;
+
+  if (tipEl) {
+    if (waterIntakeMl >= waterGoalMl) {
+      tipEl.innerHTML = '<i class="fa-solid fa-trophy" style="color:#22d3a0;"></i> <strong>Parabéns!</strong> Você bateu sua meta diária de hidratação hoje! 🎉';
+      tipEl.style.color = '#22d3a0';
+    } else {
+      const remainingL = Math.max(0, (waterGoalMl - waterIntakeMl) / 1000).toFixed(1);
+      tipEl.innerHTML = `<i class="fa-solid fa-droplet" style="color:#38bdf8;"></i> Faltam <strong>${remainingL} L</strong> para bater sua meta diária!`;
+      tipEl.style.color = 'var(--txt2)';
+    }
+  }
 
   document.querySelectorAll('.water-chip').forEach(chip => {
     const goalLiters = parseInt(chip.getAttribute('data-l'));
