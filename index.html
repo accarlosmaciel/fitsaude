@@ -36,12 +36,12 @@
   <!-- ── App Shell ──────────────────────────────────────── -->
   <div class="app-shell">
 
-    <!-- ── Top Role Bar & Switcher (Visível apenas para Administrador) ── -->
-    <div class="role-top-bar" id="role-top-bar" style="display:none;">
+    <!-- ── Top Role Bar & Switcher ────────────────────────── -->
+    <div class="role-top-bar" id="role-top-bar">
       <div class="role-badge-current role-badge-visitante" id="current-role-badge">
         <i class="fa-solid fa-eye"></i> Visitante
       </div>
-      <div class="role-quick-select">
+      <div class="role-quick-select" id="role-quick-select" style="display:none;">
         <button class="role-switch-btn active" data-role="visitante" onclick="setUserRole('visitante')">
           <i class="fa-solid fa-eye"></i> Visitante
         </button>
