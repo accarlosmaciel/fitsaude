@@ -395,7 +395,7 @@ function switchScreen(name) {
     perfil: 'Perfil <span>Usuário</span>'
   };
   const icons = {
-    treinos: '<i class="fa-solid fa-dumbbell"></i>',
+    treinos: '<img src="images/logo.png" alt="FitSaúde" class="app-header-logo-img" />',
     planilhas: '<i class="fa-solid fa-table-list"></i>',
     resumo: '<i class="fa-solid fa-chart-pie"></i>',
     chat: '<i class="fa-solid fa-robot"></i>',
@@ -403,7 +403,7 @@ function switchScreen(name) {
   };
 
   if (document.getElementById('header-title')) document.getElementById('header-title').innerHTML = titles[name] || 'Fit<span>Saúde</span>';
-  if (document.getElementById('header-icon')) document.getElementById('header-icon').innerHTML = icons[name] || '<i class="fa-solid fa-dumbbell"></i>';
+  if (document.getElementById('header-icon')) document.getElementById('header-icon').innerHTML = icons[name] || '<img src="images/logo.png" alt="FitSaúde" class="app-header-logo-img" />';
   if (document.getElementById('header-action-btn')) document.getElementById('header-action-btn').style.display = name === 'treinos' ? '' : 'none';
 
   if (name === 'planilhas' && typeof renderPlanilhas === 'function') {

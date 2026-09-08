@@ -360,9 +360,9 @@ function switchRoleScreen(screenId) {
   };
 
   const icons = {
-    'visitante-landing': '<i class="fa-solid fa-dumbbell"></i>',
+    'visitante-landing': '<img src="images/logo.png" alt="FitSaúde" class="app-header-logo-img" />',
     'visitante-planos': '<i class="fa-solid fa-tags"></i>',
-    'treinos': '<i class="fa-solid fa-dumbbell"></i>',
+    'treinos': '<img src="images/logo.png" alt="FitSaúde" class="app-header-logo-img" />',
     'planilhas': '<i class="fa-solid fa-table-list"></i>',
     'resumo': '<i class="fa-solid fa-chart-pie"></i>',
     'chat': '<i class="fa-solid fa-robot"></i>',
@@ -372,7 +372,7 @@ function switchRoleScreen(screenId) {
     'admin-dashboard': '<i class="fa-solid fa-chart-line"></i>',
     'admin-alunos': '<i class="fa-solid fa-users"></i>',
     'admin-pendentes': '<i class="fa-solid fa-clock-rotate-left"></i>',
-    'admin-treinos': '<i class="fa-solid fa-dumbbell"></i>',
+    'admin-treinos': '<img src="images/logo.png" alt="FitSaúde" class="app-header-logo-img" />',
     'admin-planilhas': '<i class="fa-solid fa-file-pdf"></i>',
     'admin-assinaturas': '<i class="fa-solid fa-credit-card"></i>',
     'admin-config': '<i class="fa-solid fa-gear"></i>'

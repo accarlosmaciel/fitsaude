@@ -176,20 +176,31 @@ body::before {
 }
 
 .app-header-icon {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, var(--red), var(--red-light));
+  width: 38px;
+  height: 38px;
+  background: #000;
   border-radius: 10px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 16px;
-  box-shadow: var(--sh-red);
+  box-shadow: 0 0 14px rgba(255, 26, 75, 0.35);
+  border: 1px solid rgba(255, 26, 75, 0.3);
   flex-shrink: 0;
   transition: var(--spring);
+  overflow: hidden;
 }
 
 .app-header-icon:active {
   transform: scale(0.92);
+}
+
+.app-header-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
 }
 
 .app-header-title {
