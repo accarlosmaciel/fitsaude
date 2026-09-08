@@ -36,8 +36,8 @@
   <!-- ── App Shell ──────────────────────────────────────── -->
   <div class="app-shell">
 
-    <!-- ── Top Role Bar & Switcher ────────────────────────── -->
-    <div class="role-top-bar" id="role-top-bar">
+    <!-- ── Top Role Bar & Switcher (Visível apenas para Administrador) ── -->
+    <div class="role-top-bar" id="role-top-bar" style="display:none;">
       <div class="role-badge-current role-badge-visitante" id="current-role-badge">
         <i class="fa-solid fa-eye"></i> Visitante
       </div>
@@ -56,7 +56,7 @@
 
 
     <!-- App Header -->
-    <header class="app-header" id="app-header">
+    <header class="app-header" id="app-header" onclick="handleHeaderSecretClick()" style="cursor:pointer;" title="FitSaúde">
       <div class="app-header-icon" id="header-icon"><i class="fa-solid fa-dumbbell"></i></div>
       <div class="app-header-title" id="header-title">Fit<span>Saúde</span></div>
     </header>

@@ -3,9 +3,9 @@
    Paleta: Dark Theme (#060608, #0e0e12, #141418), Vermelho #FF1A4B
    ══════════════════════════════════════════════════════════════════ */
 
-/* ─── Top Role Switcher Bar (Demo & Switch) ─────────────────── */
+/* ─── Top Role Switcher Bar (Visível apenas para Administrador) ─── */
 .role-top-bar {
-  display: flex;
+  display: none; /* Oculto para usuários comuns (visitante e atleta) */
   align-items: center;
   justify-content: space-between;
   background: rgba(14, 14, 18, 0.92);
@@ -17,6 +17,10 @@
   top: 0;
   z-index: 120;
   font-size: 13px;
+}
+
+.role-top-bar.is-admin {
+  display: flex !important;
 }
 
 .role-badge-current {

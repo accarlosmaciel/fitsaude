@@ -133,10 +133,78 @@ function handleHashRouting() {
   }
 }
 
+// ─── Controle de Visibilidade dos Botões de Role (Apenas Admin) ───
+function isCurrentSessionAdmin() {
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || 'null');
+  } catch (e) {}
+  return currentUserRole === 'admin' || (user && (user.role === 'admin' || user.email === 'accarlosmaciel@gmail.com'));
+}
+
+function updateRoleTopBar() {
+  const topBar = document.getElementById('role-top-bar');
+  if (!topBar) return;
+
+  const isAdmin = isCurrentSessionAdmin();
+  if (isAdmin) {
+    topBar.style.display = 'flex';
+    topBar.classList.add('is-admin');
+  } else {
+    topBar.style.display = 'none';
+    topBar.classList.remove('is-admin');
+  }
+}
+
+// Atalho secreto: 5 toques no cabeçalho para abrir acesso admin se necessário
+let headerSecretClicks = 0;
+let headerSecretTimer = null;
+function handleHeaderSecretClick() {
+  headerSecretClicks++;
+  clearTimeout(headerSecretTimer);
+  headerSecretTimer = setTimeout(() => {
+    headerSecretClicks = 0;
+  }, 2000);
+
+  if (headerSecretClicks >= 5) {
+    headerSecretClicks = 0;
+    if (isCurrentSessionAdmin()) {
+      setUserRole(currentUserRole === 'admin' ? 'atleta' : 'admin');
+    } else {
+      openAuthModal('login');
+      showToast('👑 Área de Acesso Administrativo', '<i class="fa-solid fa-crown"></i>');
+    }
+  }
+}
+window.handleHeaderSecretClick = handleHeaderSecretClick;
+window.isCurrentSessionAdmin = isCurrentSessionAdmin;
+window.updateRoleTopBar = updateRoleTopBar;
+
 // ─── Set Role & Re-render Interface ───────────────────────────
 function setUserRole(role, silent = false) {
   currentUserRole = role;
   localStorage.setItem(ROLES_STORAGE_KEY, role);
+
+  if (role === 'admin') {
+    let u = null;
+    try { u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY)); } catch(e) {}
+    if (!u || u.role !== 'admin') {
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({
+        id: '1',
+        level: 1,
+        name: 'Carlos Maciel',
+        email: 'accarlosmaciel@gmail.com',
+        role: 'admin',
+        plan: 'FitSaúde (Super Admin)',
+        status: 'active',
+        avatar: '👑',
+        memberSince: new Date().toLocaleDateString('pt-BR')
+      }));
+    }
+  }
+
+  // Apenas o Administrador pode visualizar a barra com botões de roles
+  updateRoleTopBar();
 
   // Update top-bar badge
   const badge = document.getElementById('current-role-badge');
@@ -988,6 +1056,10 @@ function handleChangePassword() {
 }
 
 function handleLogout() {
+  localStorage.removeItem(CURRENT_USER_KEY);
+  localStorage.setItem(ROLES_STORAGE_KEY, 'visitante');
+  currentUserRole = 'visitante';
+  updateRoleTopBar();
   setUserRole('visitante');
   showToast('👋 Sessão encerrada.');
 }
