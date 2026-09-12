@@ -218,11 +218,13 @@
         <!-- Bot info bar -->
         <div class="chat-bot-header">
           <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
-          <div>
-            <div class="bot-name">FitBot IA <span class="ai-status-badge"><i class="fa-solid fa-circle"
-                  style="color:#22d3a0;font-size:0.5rem;"></i> Groq IA Online</span></div>
-            <div class="bot-status" id="bot-status-txt">Especialista em Treinos & Saúde</div>
+          <div class="bot-header-info">
+            <div class="bot-name">FitBot IA <span class="ai-status-badge"><i class="fa-solid fa-circle ai-dot"></i> IA Online</span></div>
+            <div class="bot-status" id="bot-status-txt">Especialista em Treinos &amp; Saúde</div>
           </div>
+          <button class="chat-clear-btn" id="chat-clear-btn" onclick="clearChat()" aria-label="Limpar chat" title="Limpar conversa">
+            <i class="fa-solid fa-broom"></i>
+          </button>
         </div>
 
         <!-- Messages area -->
@@ -232,37 +234,42 @@
 
         <!-- Typing indicator -->
         <div class="typing-indicator" id="typing-indicator">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+          <span class="typing-label">FitBot está digitando...</span>
         </div>
 
         <!-- Quick replies -->
         <div class="quick-replies" id="quick-replies">
-          <button class="quick-btn" onclick="sendQuick('Montar treino de hipertrofia')"><i
-              class="fa-solid fa-dumbbell"></i> Monte um Treino</button>
-          <button class="quick-btn" onclick="sendQuick('Como fazer agachamento?')"><i
-              class="fa-solid fa-person-walking"></i> Agachamento</button>
-          <button class="quick-btn" onclick="sendQuick('Devo treinar com dor muscular?')"><i
-              class="fa-solid fa-heart-crack"></i> Dor Muscular</button>
-          <button class="quick-btn" onclick="sendQuick('Quanto de proteína devo consumir?')"><i
-              class="fa-solid fa-drumstick-bite"></i> Proteína</button>
-          <button class="quick-btn" onclick="sendQuick('Como fazer aquecimento?')"><i class="fa-solid fa-fire"></i>
-            Aquecimento</button>
-          <button class="quick-btn" onclick="sendQuick('Como suplementar Creatina?')"><i class="fa-solid fa-flask"></i>
-            Creatina</button>
-          <button class="quick-btn" onclick="sendQuick('Como perder gordura mantendo massa?')"><i
-              class="fa-solid fa-weight-scale"></i> Perder Gordura</button>
+          <button class="quick-btn" onclick="sendQuick('Montar treino de hipertrofia')"><i class="fa-solid fa-dumbbell"></i> Monte um Treino</button>
+          <button class="quick-btn" onclick="sendQuick('Como fazer agachamento?')"><i class="fa-solid fa-person-walking"></i> Agachamento</button>
+          <button class="quick-btn" onclick="sendQuick('Devo treinar com dor muscular?')"><i class="fa-solid fa-heart-crack"></i> Dor Muscular</button>
+          <button class="quick-btn" onclick="sendQuick('Quanto de proteína devo consumir?')"><i class="fa-solid fa-drumstick-bite"></i> Proteína</button>
+          <button class="quick-btn" onclick="sendQuick('Quantas horas devo dormir para ganhar músculo?')"><i class="fa-solid fa-moon"></i> Sono</button>
+          <button class="quick-btn" onclick="sendQuick('Como fazer aquecimento?')"><i class="fa-solid fa-fire"></i> Aquecimento</button>
+          <button class="quick-btn" onclick="sendQuick('Como suplementar Creatina?')"><i class="fa-solid fa-flask"></i> Creatina</button>
+          <button class="quick-btn" onclick="sendQuick('Como perder gordura mantendo massa?')"><i class="fa-solid fa-weight-scale"></i> Perder Gordura</button>
+          <button class="quick-btn" onclick="sendQuick('Estou desmotivado para treinar, o que fazer?')"><i class="fa-solid fa-bolt"></i> Motivação</button>
+          <button class="quick-btn" onclick="sendQuick('Como fazer bulking limpo?')"><i class="fa-solid fa-arrow-trend-up"></i> Bulking</button>
         </div>
 
         <!-- Input bar -->
-        <div class="chat-input-bar">
-          <textarea class="chat-input" id="chat-input" placeholder="Pergunte qualquer coisa sobre treinos e saúde..."
-            rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
-            oninput="autoResize(this)"></textarea>
-          <button class="chat-send-btn" id="send-btn" onclick="sendMessage()" aria-label="Enviar">
-            <i class="fa-solid fa-paper-plane"></i>
-          </button>
+        <div class="chat-input-wrap">
+          <div class="chat-input-bar">
+            <textarea class="chat-input" id="chat-input" placeholder="Pergunte qualquer coisa sobre treinos e saúde..."
+              rows="1" maxlength="600"
+              onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
+              oninput="autoResize(this); updateCharCount(this)"></textarea>
+            <button class="chat-send-btn" id="send-btn" onclick="sendMessage()" aria-label="Enviar">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+          <div class="chat-input-meta">
+            <span class="chat-char-count" id="chat-char-count">0 / 600</span>
+          </div>
         </div>
 
       </div>
@@ -2787,55 +2794,113 @@
     const GROQ_API_KEY = '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';
     const GROQ_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
 
-    const SYSTEM_TRAINING_PROMPT = `Você é o FitBot IA, personal trainer e especialista em saúde e nutrição do app FitSaúde.
+    const SYSTEM_TRAINING_PROMPT = `Você é o FitBot IA — personal trainer virtual, especialista em musculação, nutrição esportiva, saúde e bem-estar do aplicativo FitSaúde.
 
-REGRAS DE RESPOSTA:
-- Responda SEMPRE em português do Brasil de forma clara, motivadora e estruturada.
-- Use bullet points, emojis e **negrito** para destacar dicas práticas.
-- Seja direto e forneça respostas acionáveis sobre treino, execução, nutrição ou descanso.
-- Mantenha respostas concisas e fáceis de ler no celular.`;
+═══ PERSONA & TOM ═══
+- Seja motivador, empático e profissional, como um personal trainer de alto nível.
+- Use linguagem acessível e amigável, sem jargão técnico desnecessário.
+- Celebre os esforços do usuário com frases de incentivo quando pertinente.
+- Nunca seja negativo, crítico ou desmotivador.
+
+═══ FORMATO DAS RESPOSTAS ═══
+- Responda SEMPRE em português do Brasil, fluente e natural.
+- Estruture respostas com: título em **negrito**, bullet points com •, emojis estratégicos.
+- Termine com uma dica rápida introduzida por: 💡 *Dica:* ou 💡 *Lembre-se:*
+- Máximo de 5 bullet points por resposta — seja conciso e direto.
+- Prefira listas ao invés de parágrafos longos para facilitar a leitura no celular.
+
+═══ ESCOPO & LIMITES ═══
+- Responda perguntas sobre: treinos, exercícios, execução, séries/repetições, nutrição, suplementação, descanso, sono, motivação e bem-estar geral.
+- Para dúvidas médicas, lesões graves ou condições de saúde específicas: recomende sempre consultar um médico ou fisioterapeuta. Não faça diagnósticos.
+- Para perguntas totalmente fora do escopo de fitness/saúde: responda brevemente e traga o foco de volta para saúde e treino.
+- Nunca invente informações científicas. Se não tiver certeza, diga que é uma recomendação geral.
+
+═══ PERSONALIZAÇÃO ═══
+- Use o nome do aluno nas respostas quando disponível para criar conexão.
+- Adapte a intensidade e volume dos treinos ao nível declarado (Iniciante / Intermediário / Avançado).
+- Sempre considere o objetivo principal (Hipertrofia / Emagrecimento / Condicionamento / Força) ao dar orientações.`;
 
     let chatHistory = [];
     let isBotTyping = false;
     let lastUserQuery = '';
 
-    // Local fallback database if offline or API unavailable
+    // Local fallback database — respostas ricas para modo offline
     const BOT_RESPONSES_LOCAL = [
       {
-        keys: ['dor', 'doendo', 'muscular', 'doms', 'recuperacao', 'recuperar'],
-        reply: `**💪 Treinar com Dor Muscular (DOMS)**\n\n• **Dor leve a moderada:** Pode treinar! Foque em outro grupo muscular ou faça treino regenerativo com carga reduzida.\n• **Dor intensa ou nas articulações:** Descanse! O músculo cresce e se regenera durante o descanso.\n• **Dicas de alívio:** Hidrate-se bem, consuma boas fontes de proteína e faça 10 min de aquecimento/alongamento dinâmico.\n\n💡 *Regra de ouro:* Dor tardia no músculo é normal; pontadas em tendões e articulações exigem pausa imediata!`
+        keys: ['oi', 'ola', 'ola!', 'bom dia', 'boa tarde', 'boa noite', 'hey', 'hello', 'tudo bem', 'tudo bom'],
+        reply: `**👋 Olá! Seja bem-vindo ao FitBot IA!**\n\n• Sou seu personal trainer virtual do FitSaúde 💪\n• Estou aqui para te ajudar com treinos, nutrição e bem-estar\n• Me faça qualquer pergunta sobre academia, exercícios ou saúde\n\n💡 *Dica:* Use os botões rápidos abaixo ou escreva sua dúvida diretamente! 🚀`
+      },
+      {
+        keys: ['dor', 'doendo', 'doms', 'recuperacao', 'recuperar'],
+        reply: `**💪 Treinar com Dor Muscular (DOMS)**\n\n• **Dor leve a moderada:** Pode treinar! Foque em outro grupo muscular.\n• **Dor intensa ou articular:** Descanse! O músculo cresce durante o repouso.\n• **Alívio:** Hidrate-se bem, proteína suficiente e 10 min de aquecimento dinâmico.\n• **Tempo médio:** DOMS dura de 24h a 72h após o treino intenso.\n\n💡 *Lembre-se:* Dor no músculo é normal; dor em tendões e articulações exige pausa!`
       },
       {
         keys: ['montar treino', 'monte um treino', 'rotina', 'divisao', 'ficha', 'hipertrofia', 'treino'],
-        reply: `**🏋️ Rotina Sugerida para Hipertrofia (ABC)**\n\n• **Treino A (Push):** Peito, Ombros e Tríceps (Supino, Desenvolvimento, Paralelas/Tríceps corda).\n• **Treino B (Pull):** Costas, Trapézio e Bíceps (Puxada alta, Remada curvada, Rosca direta).\n• **Treino C (Legs):** Pernas completas e Panturrilhas (Agachamento, Leg Press, Cadeira extensora, Stiff).\n\n💡 *Dica:* Mantenha de 3 a 4 séries de 8 a 12 repetições com foco na progressão de carga!`
+        reply: `**🏋️ Rotina para Hipertrofia (ABC)**\n\n• **Treino A – Push:** Peito, Ombros, Tríceps (Supino, Desenvolvimento, Tríceps corda)\n• **Treino B – Pull:** Costas, Trapézio, Bíceps (Puxada, Remada, Rosca direta)\n• **Treino C – Legs:** Quadríceps, Posterior, Panturrilha (Agachamento, Leg Press, Stiff)\n• **Volume:** 3–4 séries de 8–12 reps com progressão de carga semanal\n\n💡 *Dica:* Descanse 48h antes de repetir o mesmo grupo muscular!`
       },
       {
-        keys: ['agach', 'squat', 'agachar', 'perna', 'quadriceps'],
-        reply: `**🦵 Agachamento Perfeito**\n\n• **Pés:** Largura dos ombros, ligeiramente apontados para fora.\n• **Joelhos:** Acompanham a linha dos pés, sem fechar para dentro.\n• **Coluna:** Neutra e peito aberto durante todo o percurso.\n• **Movimento:** Inicie projetando o quadril para trás como se fosse sentar.\n\n💡 *Dica de ouro:* Calcanhares 100% firmes no chão o tempo todo!`
+        keys: ['agach', 'squat', 'agachar', 'quadriceps'],
+        reply: `**🦵 Agachamento Perfeito**\n\n• **Pés:** Na largura dos ombros, ligeiramente apontados para fora\n• **Joelhos:** Acompanham a linha dos pés — não deixe fechar para dentro\n• **Coluna:** Neutra e peito aberto em todo o percurso\n• **Descida:** Projete o quadril para trás como se fosse sentar em uma cadeira\n\n💡 *Dica de ouro:* Calcanhares 100% no chão durante todo o movimento!`
       },
       {
         keys: ['supino', 'peito', 'bench', 'peitoral'],
-        reply: `**🏋️ Supino Reto Perfeito**\n\n• **Escápulas:** Retraídas e presas firmes no banco.\n• **Pegada:** Ligeiramente mais larga que os ombros.\n• **Descida:** Barra controlada até a linha média do peitoral.\n• **Cotovelos:** Ângulo seguro em torno de 45° a 75° do tronco.\n\n💡 *Dica:* Mantenha os pés firmes no chão gerando impulso (leg drive)!`
+        reply: `**🏋️ Supino Reto Perfeito**\n\n• **Escápulas:** Retraídas e presas no banco — crie uma base sólida\n• **Pegada:** Ligeiramente mais larga que os ombros\n• **Descida:** Barra controlada até a linha média do peitoral\n• **Cotovelos:** Ângulo de 45°–75° do tronco para proteger o ombro\n\n💡 *Dica:* Pés firmes no chão gerando leg drive aumenta a força no supino!`
       },
       {
         keys: ['proteina', 'protein', 'whey', 'frango', 'ovo', 'carne'],
-        reply: `**🥩 Meta Diária de Proteína**\n\n• **Para Hipertrofia:** 1,6g a 2,2g por kg de peso corporal ao dia.\n• **Exemplo prático:** Quem pesa 70kg precisa de aproximadamente 120g a 150g de proteína/dia.\n• **Melhores fontes:** Ovos, peito de frango, peixes, carnes magras, Whey Protein e queijos magros.\n\n💡 *Dica:* Distribua em 3 a 5 refeições para manter a síntese proteica ativa.`
+        reply: `**🥩 Meta Diária de Proteína**\n\n• **Hipertrofia:** 1,6g a 2,2g por kg de peso corporal/dia\n• **Exemplo:** 75kg → 120g a 165g de proteína por dia\n• **Melhores fontes:** Ovos, frango, peixes, carnes magras, Whey Protein, queijo cottage\n• **Distribuição:** Divida em 4–5 refeições para síntese proteica constante\n\n💡 *Dica:* Consuma proteína em até 2h pós-treino para maximizar a recuperação!`
       },
       {
         keys: ['creatina', 'creatine', 'suplemento'],
-        reply: `**🧪 Guia da Creatina**\n\n• **Dose ideal:** 3g a 5g todos os dias (mesmo nos dias sem treino).\n• **Melhor momento:** Com uma refeição rica em carboidratos para melhor absorção.\n• **Benefícios:** Mais força, aumento de potência e volume celular.\n\n💡 *Mito:* Não é obrigatório fazer fase de saturação, o efeito é por acúmulo contínuo!`
+        reply: `**🧪 Guia Completo da Creatina**\n\n• **Dose ideal:** 3g a 5g por dia — todos os dias, inclusive em descanso\n• **Melhor horário:** Com refeição rica em carbs para melhor absorção\n• **Benefícios:** Mais força, potência, volume celular e recuperação acelerada\n• **Saturação:** Não é necessária — o efeito é cumulativo em ~4 semanas\n\n💡 *Dica:* É o suplemento mais estudado e seguro para performance!`
       },
       {
         keys: ['aquec', 'mobilidade', 'alongar', 'aquecimento'],
-        reply: `**🔥 Aquecimento Eficiente**\n\n• **Cardio leve:** 5 a 10 min de esteira ou bike para elevar temperatura corporal.\n• **Mobilidade articular:** Rotação de ombros, quadril e tornozelos.\n• **Séries de aproximação:** 1 ou 2 séries leves do primeiro exercício com 40-50% da carga.\n\n💡 *Evite:* Alongamentos estáticos excessivos antes de pegar cargas pesadas.`
+        reply: `**🔥 Aquecimento Eficiente**\n\n• **Cardio leve:** 5–10 min de esteira ou bike (60–70% FCmáx)\n• **Mobilidade:** Rotação de ombros, quadril, tornozelos e coluna\n• **Séries de aproximação:** 1–2 séries com 40–50% da carga do 1° exercício\n• **Evite:** Alongamentos estáticos excessivos antes de cargas pesadas\n\n💡 *Dica:* Um bom aquecimento reduz lesões e melhora a performance imediata!`
       },
       {
         keys: ['gordura', 'emagrec', 'secar', 'deficit', 'perder peso', 'cardio'],
-        reply: `**🔥 Perda de Gordura com Preservação Muscular**\n\n• **Déficit Calórico Moderado:** Gaste 300 a 500 kcal a mais do que consome.\n• **Mantenha a Proteína Alta:** 1,8g a 2,2g/kg para não perder massa magra.\n• **Musculação Intensa:** Mantenha os treinos de força como prioridade.\n• **Cardio regular:** 150 min de atividade moderada na semana (ou 20-30 min pós-treino).\n\n💡 *Constância vence qualquer dieta restritiva extrema!*`
+        reply: `**🔥 Perda de Gordura com Preservação Muscular**\n\n• **Déficit Calórico:** Reduza 300–500 kcal/dia — moderado e sustentável\n• **Proteína Alta:** 1,8–2,2g/kg para preservar massa magra\n• **Musculação:** Priorize o treino de força para evitar perda muscular\n• **Cardio:** 150 min/semana de atividade moderada (ex: 30 min pós-treino)\n\n💡 *Lembre-se:* Constância e paciência vencem qualquer dieta extrema!`
       },
       {
         keys: ['agua', 'hidrat', 'beber'],
-        reply: `**💧 Hidratação para Alta Performance**\n\n• **Cálculo básico:** 35ml a 45ml de água por kg de peso corporal.\n• **Exemplo:** 70kg x 35ml = ~2,5 Litros por dia (+ 500ml durante o treino).\n• **Benefícios:** Evita fadiga precoce, previne cãibras e melhora a força muscular!`
+        reply: `**💧 Hidratação para Alta Performance**\n\n• **Cálculo:** 35ml–45ml por kg de peso corporal ao dia\n• **Treino:** Adicione 500ml–700ml durante a sessão\n• **Sinais de desidratação:** Urina escura, fadiga precoce, cãibras\n• **Dica extra:** Adicione eletrólitos (sódio, potássio) em treinos longos\n\n💡 *Dica:* A desidratação de apenas 2% já reduz a performance em ~20%!`
+      },
+      {
+        keys: ['sono', 'dormir', 'horas de sono', 'descanso', 'descansar'],
+        reply: `**😴 Sono & Recuperação Muscular**\n\n• **Ideal:** 7 a 9 horas de sono de qualidade por noite\n• **Por quê importa:** 70% do GH (hormônio do crescimento) é liberado durante o sono\n• **Hacks:** Quarto escuro e fresco, sem tela 30 min antes, horário regular\n• **Falta de sono:** Aumenta cortisol, reduz testosterona e piora performance\n\n💡 *Lembre-se:* O músculo cresce fora da academia — no sono e na alimentação!`
+      },
+      {
+        keys: ['lesao', 'machuquei', 'contusao', 'torci', 'inflamou', 'dor no joelho', 'dor no ombro'],
+        reply: `**🚨 Atenção com Lesões**\n\n• **Imediato:** Pare o treino e aplique gelo (15–20 min) nas primeiras 48h\n• **Não force:** Treinar com lesão aguda pode agravar e prolongar a recuperação\n• **Avaliação profissional:** Consulte um médico ou fisioterapeuta — essencial!\n• **Enquanto isso:** Treine os grupos musculares não afetados\n\n💡 *Importante:* Nunca faço diagnósticos — um profissional de saúde é indispensável!`
+      },
+      {
+        keys: ['cafeina', 'pre-treino', 'pre treino', 'pre treino'],
+        reply: `**⚡ Cafeína & Pré-Treino**\n\n• **Dose eficaz:** 3–6mg de cafeína por kg de peso (ex: 70kg → 210–420mg)\n• **Timing:** Consuma 30–45 min antes do treino para efeito máximo\n• **Benefícios:** Mais foco, energia, resistência e queima de gordura\n• **Cuidado:** Evite após 16h para não prejudicar o sono\n\n💡 *Dica:* Cafeína pura ou café preto é tão eficaz quanto pré-treinos caros!`
+      },
+      {
+        keys: ['imc', 'peso ideal', 'calcular peso', 'sobrepeso', 'obesidade'],
+        reply: `**📊 IMC — Índice de Massa Corporal**\n\n• **Fórmula:** Peso (kg) ÷ Altura² (m)\n• **< 18,5:** Abaixo do peso | **18,5–24,9:** Normal | **25–29,9:** Sobrepeso | **≥ 30:** Obeso\n• **Limitação:** O IMC não diferencia músculo de gordura — atletas têm IMC alto\n• **Melhor alternativa:** Medir % de gordura corporal com bioimpedância ou dobras\n\n💡 *Dica:* O espelho e a fita métrica dizem mais que a balança!`
+      },
+      {
+        keys: ['motivacao', 'animo', 'cansado', 'desanimado', 'preguica', 'nao quero treinar'],
+        reply: `**🔥 Recuperando a Motivação**\n\n• **Mindset:** Motivação vem depois da ação — comece, mesmo sem vontade\n• **Meta pequena:** "Só vou fazer 20 minutos" — geralmente você termina o treino completo\n• **Variedade:** Mude exercícios, playlist ou horário para renovar o prazer\n• **Parceiro:** Treinar com alguém aumenta a adesão em até 65%\n\n💡 *Lembre-se:* Disciplina é o que te mantém quando a motivação some. Você consegue! 💪`
+      },
+      {
+        keys: ['bulk', 'bulking', 'ganhar peso', 'ganhar massa', 'massa muscular'],
+        reply: `**📈 Bulking Limpo — Ganho de Massa**\n\n• **Superávit calórico:** Consuma 200–400 kcal a mais do que você gasta por dia\n• **Proteína:** Mantenha 1,8–2,2g/kg para maximizar síntese proteica\n• **Progressão:** Aumente cargas ou volume semanalmente (sobrecarga progressiva)\n• **Paciência:** Ganho natural: 1–2kg de músculo por mês para iniciantes\n\n💡 *Dica:* Superávit muito alto → mais gordura acumulada. Seja moderado!`
+      },
+      {
+        keys: ['cut', 'cutting', 'definicao', 'definicao muscular', 'refeed'],
+        reply: `**📉 Cutting — Definição Muscular**\n\n• **Déficit controlado:** 300–500 kcal/dia abaixo do gasto total\n• **Proteína elevada:** 2,0–2,5g/kg para preservar ao máximo a massa muscular\n• **Musculação:** Continue pesado — o sinal de treino preserva o músculo\n• **Cardio:** Adicione gradualmente, sem exagero para não catabolizar\n\n💡 *Dica:* Faça um refeed calórico a cada 7–14 dias para manter hormônios e performance!`
+      },
+      {
+        keys: ['vitamina', 'mineral', 'zinco', 'vitamina d', 'magnesio', 'ferro'],
+        reply: `**💊 Vitaminas & Minerais para Atletas**\n\n• **Vitamina D:** Crucial para testosterona, imunidade e saúde óssea (2000–5000 UI/dia)\n• **Magnésio:** Relaxamento muscular, sono e energia celular (200–400mg/dia)\n• **Zinco:** Síntese proteica e hormônios (fígado, carne, sementes de abóbora)\n• **Ferro:** Transporte de oxigênio — importante para mulheres e veganos\n\n💡 *Dica:* Prefira obter pela alimentação e suplemente apenas com indicação médica!`
+      },
+      {
+        keys: ['pos treino', 'depois do treino', 'refeicao pos', 'janela anabolica'],
+        reply: `**🍽️ Refeição Pós-Treino**\n\n• **Timing:** Consuma em até 1–2 horas após o treino\n• **Proteína:** 20–40g de proteína de alta qualidade (Whey, frango, ovos)\n• **Carboidratos:** Inclua carbos para repor glicogênio (batata doce, arroz, frutas)\n• **Janela anabólica:** Menos crítica do que se pensava — o total diário importa mais\n\n💡 *Dica:* Uma refeição completa pós-treino é melhor que ficar em jejum longo!`
       }
     ];
 
@@ -2846,28 +2911,28 @@ REGRAS DE RESPOSTA:
           return r.reply;
         }
       }
-      return `💪 **FitBot IA ao seu dispor!**\n\nPosso te orientar com:\n• **Treinos personalizados** (Hipertrofia, Emagrecimento, Força)\n• **Execução postural** (Agachamento, Supino, Terra)\n• **Nutrição & Suplementos** (Proteína, Creatina, Déficit calórico)\n• **Descanso & Recuperação muscular**\n\nToque em um dos botões rápidos acima ou digite sua pergunta detalhada! 🚀`;
+      return `💪 **FitBot IA ao seu dispor!**\n\nPosso te orientar com:\n• **Treinos** — Hipertrofia, Emagrecimento, Força, Condicionamento\n• **Execução** — Agachamento, Supino, Levantamento Terra e mais\n• **Nutrição** — Proteína, carboidratos, déficit calórico, bulking\n• **Suplementos** — Creatina, Whey, Cafeína, Vitaminas\n• **Recuperação** — Sono, descanso, DOMS, lesões\n• **Motivação** — Quando o ânimo estiver baixo!\n\nToque em um botão rápido acima ou escreva sua pergunta! 🚀`;
     }
 
     function getDynamicSystemPrompt() {
       const p = (typeof userProfile !== 'undefined' && userProfile) ? userProfile : (typeof DEFAULT_PROFILE !== 'undefined' ? DEFAULT_PROFILE : {});
       return `${SYSTEM_TRAINING_PROMPT}
 
-DADOS DO ALUNO:
+PERFIL DO ALUNO ATUAL:
 - Nome: ${p.name || 'Aluno'}
 - Idade: ${p.age || '25'} anos
 - Sexo: ${p.gender || 'masculino'}
 - Altura: ${p.height || '175'} cm
 - Peso: ${p.weight || '75'} kg
-- Objetivo: ${p.goal || 'Hipertrofia'}
+- Objetivo principal: ${p.goal || 'Hipertrofia'}
 - Nível de treino: ${p.level || 'Intermediário'}
 
-Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
+Personalize TODAS as respostas considerando esse perfil. Use o nome "${p.name || 'campeão'}" quando pertinente para criar conexão.`;
     }
 
     async function fetchGroqAIResponse(userText) {
       chatHistory.push({ role: 'user', content: userText });
-      if (chatHistory.length > 12) chatHistory = chatHistory.slice(-12);
+      if (chatHistory.length > 14) chatHistory = chatHistory.slice(-14);
 
       const messagesPayload = [
         { role: 'system', content: getDynamicSystemPrompt() },
@@ -2877,7 +2942,7 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
       for (const modelName of GROQ_MODELS) {
         try {
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 9000);
+          const timeoutId = setTimeout(() => controller.abort(), 10000);
 
           const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -2889,8 +2954,8 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
             body: JSON.stringify({
               model: modelName,
               messages: messagesPayload,
-              temperature: 0.6,
-              max_tokens: 500
+              temperature: 0.65,
+              max_tokens: 600
             })
           });
           clearTimeout(timeoutId);
@@ -2911,20 +2976,32 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
         }
       }
 
-      console.info('Usando resposta inteligente local do FitBot.');
+      console.info('Usando base de conhecimento local do FitBot.');
       return getBotReplyLocal(userText);
     }
 
     function formatMd(text) {
       return text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/^#{1,3}\s+(.+)$/gm, '<strong>$1</strong>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+        .replace(/^---+$/gm, '<hr class="msg-divider">')
         .replace(/\n/g, '<br>');
     }
 
     function getTime() {
       return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function updateCharCount(el) {
+      const count = el.value.length;
+      const max = el.maxLength || 600;
+      const counter = document.getElementById('chat-char-count');
+      if (counter) {
+        counter.textContent = `${count} / ${max}`;
+        counter.style.color = count > max * 0.85 ? 'var(--red-light)' : 'var(--txt3)';
+      }
     }
 
     function copyBotMessage(text) {
@@ -2939,6 +3016,23 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
         toast('<i class="fa-solid fa-circle-info"></i>', 'Nenhuma mensagem para regenerar.');
         return;
       }
+      if (isBotTyping) return;
+      // Remove last bot msg from history for fresh response
+      if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'assistant') {
+        chatHistory.pop();
+      }
+      if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'user') {
+        chatHistory.pop();
+      }
+      const msgs = document.getElementById('chat-messages');
+      if (msgs) {
+        // Remove last 2 msg divs (user + bot)
+        const allMsgs = msgs.querySelectorAll('.msg');
+        const toRemove = Math.min(2, allMsgs.length);
+        for (let i = allMsgs.length - 1; i >= allMsgs.length - toRemove; i--) {
+          allMsgs[i].remove();
+        }
+      }
       const input = document.getElementById('chat-input');
       if (input) {
         input.value = lastUserQuery;
@@ -2946,24 +3040,58 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
       }
     }
 
+    function clearChat() {
+      const msgs = document.getElementById('chat-messages');
+      if (msgs) msgs.innerHTML = '';
+      chatHistory = [];
+      lastUserQuery = '';
+      const input = document.getElementById('chat-input');
+      if (input) { input.value = ''; input.style.height = ''; }
+      const counter = document.getElementById('chat-char-count');
+      if (counter) counter.textContent = '0 / 600';
+      // Re-inject welcome
+      setTimeout(() => injectWelcomeMessage(), 100);
+      toast('<i class="fa-solid fa-broom"></i>', 'Conversa limpa!');
+    }
+
+    function injectWelcomeMessage() {
+      const p = (typeof userProfile !== 'undefined' && userProfile) ? userProfile : {};
+      const name = p.name ? ` ${p.name}` : '';
+      const goal = p.goal || 'seus objetivos';
+      const level = p.level || 'seu nível';
+      addMsg('bot',
+        `**🤖 Olá${name}! Sou o FitBot IA** — seu personal trainer virtual do FitSaúde.\n\n` +
+        `• 🏋️ **Treinos personalizados** para ${goal}\n` +
+        `• 🥗 **Nutrição & Suplementação** com dicas práticas\n` +
+        `• 🎯 **Execução perfeita** de qualquer exercício\n` +
+        `• 😴 **Descanso & Recuperação** otimizados\n` +
+        `• 🔥 **Motivação** quando você precisar!\n\n` +
+        `Tenho sua ficha configurada para **${level}**. Use os botões rápidos abaixo ou me faça qualquer pergunta! 💬`
+      );
+    }
+
     function addMsg(role, text) {
       const msgs = document.getElementById('chat-messages');
       if (!msgs) return;
       const div = document.createElement('div');
       div.className = `msg ${role}`;
-      const cleanTextEscaped = text.replace(/'/g, "\\'").replace(/\n/g, ' ');
+
+      const rawForCopy = text.replace(/'/g, "&#39;").replace(/"/g, '&quot;');
 
       div.innerHTML = `
-        <div class="msg-bubble">${formatMd(text)}</div>
-        ${role === 'bot' ? `
-          <div class="ai-actions-bar" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
-            <button class="btn-ai-sub" onclick="copyBotMessage('${cleanTextEscaped}')" style="background:var(--bg3);border:1px solid var(--border);color:var(--txt2);font-size:11px;padding:3px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-copy"></i> Copiar</button>
-            <button class="btn-ai-sub" onclick="toast('<i class=\\'fa-solid fa-thumbs-up\\'></i>', 'Obrigado pelo feedback!')" style="background:var(--bg3);border:1px solid var(--border);color:var(--txt2);font-size:11px;padding:3px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-thumbs-up"></i> 👍</button>
-            <button class="btn-ai-sub" onclick="toast('<i class=\\'fa-solid fa-thumbs-down\\'></i>', 'Anotado para melhorias!')" style="background:var(--bg3);border:1px solid var(--border);color:var(--txt2);font-size:11px;padding:3px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-thumbs-down"></i> 👎</button>
-            <button class="btn-ai-sub" onclick="regenerateLastMessage()" style="background:var(--bg3);border:1px solid var(--border);color:var(--txt2);font-size:11px;padding:3px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-rotate-right"></i> Regenerar</button>
-          </div>
-        ` : ''}
-        <div class="msg-time">${getTime()}</div>
+        ${role === 'bot' ? '<div class="msg-avatar-icon"><i class="fa-solid fa-robot"></i></div>' : ''}
+        <div class="msg-content">
+          <div class="msg-bubble">${formatMd(text)}</div>
+          ${role === 'bot' ? `
+            <div class="ai-actions-bar">
+              <button class="btn-ai-action" onclick="navigator.clipboard&&navigator.clipboard.writeText(this.closest('.msg-content').querySelector('.msg-bubble').innerText).then(()=>toast('<i class=\'fa-solid fa-copy\'></i>','Copiado!'))" title="Copiar"><i class="fa-solid fa-copy"></i> Copiar</button>
+              <button class="btn-ai-action" onclick="toast('<i class=\'fa-solid fa-thumbs-up\'></i>','Obrigado pelo feedback! 😊')" title="Curtir"><i class="fa-solid fa-thumbs-up"></i></button>
+              <button class="btn-ai-action" onclick="toast('<i class=\'fa-solid fa-thumbs-down\'></i>','Anotado! Vou melhorar 🙏')" title="Não curtir"><i class="fa-solid fa-thumbs-down"></i></button>
+              <button class="btn-ai-action" onclick="regenerateLastMessage()" title="Regenerar resposta"><i class="fa-solid fa-rotate-right"></i> Regenerar</button>
+            </div>
+          ` : ''}
+          <div class="msg-time">${getTime()}</div>
+        </div>
       `;
       msgs.appendChild(div);
       scrollChat();
@@ -2971,7 +3099,7 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
 
     function scrollChat() {
       const msgs = document.getElementById('chat-messages');
-      if (msgs) msgs.scrollTop = msgs.scrollHeight;
+      if (msgs) msgs.scrollTo({ top: msgs.scrollHeight, behavior: 'smooth' });
     }
 
     async function sendMessage() {
@@ -2982,6 +3110,8 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
       lastUserQuery = text;
       input.value = '';
       input.style.height = '';
+      const counter = document.getElementById('chat-char-count');
+      if (counter) counter.textContent = '0 / 600';
       addMsg('user', text);
       showTyping();
 
@@ -2995,6 +3125,7 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
       const input = document.getElementById('chat-input');
       if (input) {
         input.value = text;
+        updateCharCount(input);
         setTimeout(() => sendMessage(), 50);
       }
     }
@@ -3468,10 +3599,9 @@ Oriente o aluno ${p.name || ''} com base nas suas metas e nível atual.`;
       });
     }
 
-    // Initial bot message
-    setTimeout(() => {
-      addMsg('bot', `<i class="fa-solid fa-robot"></i> **Olá! Bem-vindo ao FitSaúde!**\n\nSou o **FitBot IA**, seu personal trainer inteligente integrado à API Groq. Estou aqui para tirar qualquer dúvida sobre treinos, execução de exercícios, dieta, suplementos e recuperação!\n\nComo posso te ajudar hoje? 💪🔥`);
-    }, 400);
+    // Initial bot welcome message (personalized via injectWelcomeMessage)
+    setTimeout(() => injectWelcomeMessage(), 400);
+
   </script>
 </body>
 
