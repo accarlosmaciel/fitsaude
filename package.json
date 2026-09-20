@@ -1,8 +1,8 @@
 {
-  "name": "sistema-academia",
+  "name": "fit-saude",
   "version": "1.0.0",
-  "description": "",
-  "main": "gen.js",
+  "description": "FitSaúde – App de treinos, saúde e assistente IA",
+  "main": "index.html",
   "directories": {
     "doc": "docs"
   },
@@ -11,16 +11,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/accarlosmaciel/Sistema-academia.git"
+    "url": "git+https://github.com/accarlosmaciel/Fit-Sa-de.git"
   },
-  "keywords": [],
+  "keywords": [
+    "fitsaude",
+    "treino",
+    "fitness",
+    "pwa"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/accarlosmaciel/Sistema-academia/issues"
+    "url": "https://github.com/accarlosmaciel/Fit-Sa-de/issues"
   },
-  "homepage": "https://github.com/accarlosmaciel/Sistema-academia#readme",
+  "homepage": "https://github.com/accarlosmaciel/Fit-Sa-de#readme",
   "dependencies": {
     "@supabase/server": "^1.4.1",
     "@supabase/supabase-js": "^2.112.3",
