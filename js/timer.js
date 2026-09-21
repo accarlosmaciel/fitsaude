@@ -102,6 +102,112 @@ function startRestTimer(seconds) {
 
 /* ── Cardio Timer com Meta ── */
 let cardioTargetSeconds = 3600;
+class WorkoutTracker {
+  constructor() {
+    this.startTime = null;
+    this.totalDistanceKm = 0;
+    this.lastPosition = null;
+  }
+
+  calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  onLocationUpdate(newLat, newLon) {
+    if (this.lastPosition) {
+      const distanceDelta = this.calculateDistance(
+        this.lastPosition.lat,
+        this.lastPosition.lon,
+        newLat,
+        newLon
+      );
+      if (distanceDelta > 0.002) {
+        this.totalDistanceKm += distanceDelta;
+      }
+    }
+    this.lastPosition = { lat: newLat, lon: newLon };
+  }
+
+  getPace(elapsedSeconds) {
+    if (this.totalDistanceKm === 0 || elapsedSeconds === 0) return "0:00 /km";
+    const paceMinutesDecimal = (elapsedSeconds / 60) / this.totalDistanceKm;
+    if (!isFinite(paceMinutesDecimal) || paceMinutesDecimal > 99) return "0:00 /km";
+    const minutes = Math.floor(paceMinutesDecimal);
+    const seconds = Math.round((paceMinutesDecimal - minutes) * 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')} /km`;
+  }
+
+  reset() {
+    this.startTime = null;
+    this.totalDistanceKm = 0;
+    this.lastPosition = null;
+  }
+}
+
+const cardioTracker = new WorkoutTracker();
+let cardioWatchId = null;
+
+function startCardioGPS() {
+  const statusEl = document.getElementById('cardio-gps-status');
+  if ('geolocation' in navigator) {
+    if (statusEl) {
+      statusEl.innerHTML = '<i class="fa-solid fa-satellite-dish fa-fade"></i> <span>Buscando sinal GPS...</span>';
+      statusEl.className = 'cardio-gps-status';
+    }
+    try {
+      cardioWatchId = navigator.geolocation.watchPosition(
+        pos => {
+          const { latitude, longitude, accuracy } = pos.coords;
+          cardioTracker.onLocationUpdate(latitude, longitude);
+          if (statusEl) {
+            statusEl.innerHTML = `<i class="fa-solid fa-location-arrow" style="color:#22d3a0;"></i> <span>GPS Conectado (Precisão: ±${Math.round(accuracy)}m)</span>`;
+            statusEl.className = 'cardio-gps-status active';
+          }
+          updateCardioGPSUI();
+        },
+        err => {
+          if (statusEl) {
+            const msg = err.code === 1 ? 'Permissão de GPS negada' : 'Sem sinal de GPS no momento';
+            statusEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> <span>${msg}</span>`;
+            statusEl.className = 'cardio-gps-status';
+          }
+        },
+        { enableHighAccuracy: true, maximumAge: 3000, timeout: 12000 }
+      );
+    } catch (e) {
+      console.warn('Erro ao inicializar GPS:', e);
+    }
+  }
+}
+
+function stopCardioGPS() {
+  if (cardioWatchId !== null && 'geolocation' in navigator) {
+    navigator.geolocation.clearWatch(cardioWatchId);
+    cardioWatchId = null;
+  }
+  const statusEl = document.getElementById('cardio-gps-status');
+  if (statusEl) {
+    statusEl.innerHTML = '<i class="fa-solid fa-location-dot"></i> <span>GPS pausado</span>';
+    statusEl.className = 'cardio-gps-status';
+  }
+}
+
+function updateCardioGPSUI() {
+  const distEl = document.getElementById('cardio-dist-val');
+  const paceEl = document.getElementById('cardio-pace-val');
+  if (distEl) distEl.innerHTML = `${cardioTracker.totalDistanceKm.toFixed(2)} <span class="cardio-gps-unit">km</span>`;
+  if (paceEl) paceEl.innerHTML = `${cardioTracker.getPace(cardioSecondsElapsed)}`;
+}
+
+let cardioTargetSeconds = 3600;
 let cardioSecondsElapsed = 0;
 let cardioTimerInterval = null;
 let cardioState = 'stopped';
@@ -127,6 +233,10 @@ function startCardioTimer() {
   cardioSecondsElapsed = 0;
   cardioGoalReached = false;
 
+  cardioTracker.reset();
+  updateCardioGPSUI();
+  startCardioGPS();
+
   cardioTimerInterval = setInterval(() => {
     cardioSecondsElapsed++;
     updateCardioUI();
@@ -141,6 +251,7 @@ function pauseCardioTimer() {
   cardioState = 'paused';
   clearInterval(cardioTimerInterval);
   cardioTimerInterval = null;
+  stopCardioGPS();
 
   updateCardioControlsUI();
   toast('<i class="fa-solid fa-pause"></i>', 'Cardio pausado');
@@ -149,6 +260,8 @@ function pauseCardioTimer() {
 function resumeCardioTimer() {
   if (cardioState !== 'paused') return;
   cardioState = 'running';
+
+  startCardioGPS();
 
   cardioTimerInterval = setInterval(() => {
     cardioSecondsElapsed++;
@@ -163,16 +276,21 @@ function stopCardioTimer() {
   if (cardioState === 'stopped') return;
 
   const mins = Math.max(1, Math.round(cardioSecondsElapsed / 60));
+  const distKm = cardioTracker.totalDistanceKm.toFixed(2);
+  const pace = cardioTracker.getPace(cardioSecondsElapsed);
+
   clearInterval(cardioTimerInterval);
   cardioTimerInterval = null;
   cardioState = 'stopped';
+  stopCardioGPS();
+
   cardioSecondsElapsed = 0;
   cardioGoalReached = false;
 
   updateCardioControlsUI();
   updateCardioUI();
 
-  toast('<i class="fa-solid fa-flag-checkered"></i>', `Cardio finalizado (${mins} min)!`);
+  toast('<i class="fa-solid fa-flag-checkered"></i>', `Cardio finalizado! ${distKm} km • Ritmo: ${pace}`);
   if (typeof confetti === 'function') confetti();
 }
 
@@ -219,6 +337,7 @@ function updateCardioUI() {
 
   if (!clockEl) return;
 
+  updateCardioGPSUI();
   clockEl.textContent = formatTimeHMS(cardioSecondsElapsed);
 
   const remSec = Math.max(0, cardioTargetSeconds - cardioSecondsElapsed);

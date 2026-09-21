@@ -2415,6 +2415,80 @@ body[data-color="orange"] {
   margin-top: 2px;
 }
 
+.cardio-gps-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0 8px;
+}
+
+.cardio-gps-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.cardio-gps-card:hover {
+  border-color: rgba(255, 26, 75, 0.25);
+  transform: translateY(-1px);
+}
+
+.cardio-gps-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--txt3);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.cardio-gps-label i {
+  color: var(--red-light);
+}
+
+.cardio-gps-val {
+  font-family: 'Outfit', 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.cardio-gps-unit {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--txt2);
+}
+
+.cardio-gps-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--txt2);
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.cardio-gps-status.active {
+  color: #22d3a0;
+  background: rgba(34, 211, 160, 0.08);
+  border-color: rgba(34, 211, 160, 0.25);
+}
+
 .cardio-progress-track {
   height: 6px;
   background: var(--bg3);
