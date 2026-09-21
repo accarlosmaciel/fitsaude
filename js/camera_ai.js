@@ -66,20 +66,20 @@ class CameraAIController {
   }
 
   async toggleCameraBox(forceOpen) {
+    const box = document.getElementById('camera-ai-box');
     const panel = document.getElementById('camera-ai-inline-panel');
-    const toggleBtn = document.getElementById('camera-ai-toggle-btn');
     if (!panel) return;
 
     const shouldOpen = forceOpen !== undefined ? forceOpen : (panel.style.display === 'none' || !panel.style.display);
 
     if (shouldOpen) {
       panel.style.display = 'block';
-      if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Fechar';
+      if (box) box.classList.add('open');
       await this.startStream();
       this.startLiveAnalysis();
     } else {
       panel.style.display = 'none';
-      if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-camera"></i> Abrir';
+      if (box) box.classList.remove('open');
       this.stopStream();
     }
   }

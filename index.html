@@ -70,9 +70,9 @@
     <!-- ══ SCREEN: TREINOS ═════════════════════════════════ -->
     <div class="screen active" id="screen-treinos">
 
-      <!-- ── Câmera Inteligente IA & Visão Computacional (Interface Compacta) ── -->
+      <!-- ── Câmera Inteligente IA & Visão Computacional ── -->
       <div class="camera-ai-compact-box" id="camera-ai-box">
-        <div class="camera-ai-top-trigger" onclick="cameraAI.toggleCameraBox()">
+        <div class="camera-ai-top-trigger" onclick="cameraAI.toggleCameraBox()" title="Toque para abrir a Câmera IA">
           <div class="camera-ai-trigger-left">
             <div class="camera-ai-trigger-icon">
               <i class="fa-solid fa-camera"></i>
@@ -80,14 +80,14 @@
             </div>
             <div class="camera-ai-trigger-info">
               <div class="camera-ai-trigger-title">
-                Câmera Inteligente IA <span class="camera-ai-trigger-badge">Visão IA</span>
+                Câmera Inteligente IA <span class="camera-ai-trigger-badge">VISÃO COMPUTACIONAL</span>
               </div>
-              <div class="camera-ai-trigger-sub">Reconhecer aparelhos e postura ao vivo</div>
+              <div class="camera-ai-trigger-sub">Identificar aparelhos, avaliar postura e contar repetições</div>
             </div>
           </div>
-          <button class="camera-ai-trigger-btn" type="button" id="camera-ai-toggle-btn">
-            <i class="fa-solid fa-camera"></i> Abrir
-          </button>
+          <div class="camera-ai-trigger-arrow" id="camera-ai-arrow">
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
         </div>
 
         <!-- Painel Compacto Expansível (Abre exatamente aqui) -->
