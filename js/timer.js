@@ -246,7 +246,11 @@ function updateCardioUI() {
     if (pctEl) pctEl.textContent = `${pct}% concluído`;
     if (badgeEl) {
       const targetMins = Math.round(cardioTargetSeconds / 60);
-      badgeEl.textContent = targetMins >= 60 ? `Meta: ${(targetMins/60).toFixed(1).replace('.0','')}h` : `Meta: ${targetMins}m`;
+      if (targetMins === 30) badgeEl.textContent = 'Meta: 30 min';
+      else if (targetMins === 60) badgeEl.textContent = 'Meta: 1h00';
+      else if (targetMins === 90) badgeEl.textContent = 'Meta: 1h30';
+      else if (targetMins === 120) badgeEl.textContent = 'Meta: 2h00';
+      else badgeEl.textContent = targetMins >= 60 ? `Meta: ${(targetMins / 60).toFixed(1)}h` : `Meta: ${targetMins} min`;
       badgeEl.className = 'cardio-badge';
     }
   }

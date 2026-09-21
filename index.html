@@ -125,7 +125,7 @@
 
         <div class="cardio-meta-label">Selecione sua meta:</div>
         <div class="cardio-chips">
-          <button class="cardio-chip" data-sec="2700" onclick="selectCardioGoal(2700)">45 min</button>
+          <button class="cardio-chip" data-sec="1800" onclick="selectCardioGoal(1800)">30 minutos</button>
           <button class="cardio-chip active" data-sec="3600" onclick="selectCardioGoal(3600)">1 hora</button>
           <button class="cardio-chip" data-sec="5400" onclick="selectCardioGoal(5400)">1h30</button>
           <button class="cardio-chip" data-sec="7200" onclick="selectCardioGoal(7200)">2 horas</button>
@@ -2600,7 +2600,11 @@
         if (pctEl) pctEl.textContent = `${pct}% concluído`;
         if (badgeEl) {
           const targetMins = Math.round(cardioTargetSeconds / 60);
-          badgeEl.textContent = targetMins >= 60 ? `Meta: ${(targetMins / 60).toFixed(1).replace('.0', '')}h` : `Meta: ${targetMins}m`;
+          if (targetMins === 30) badgeEl.textContent = 'Meta: 30 min';
+          else if (targetMins === 60) badgeEl.textContent = 'Meta: 1h00';
+          else if (targetMins === 90) badgeEl.textContent = 'Meta: 1h30';
+          else if (targetMins === 120) badgeEl.textContent = 'Meta: 2h00';
+          else badgeEl.textContent = targetMins >= 60 ? `Meta: ${(targetMins / 60).toFixed(1)}h` : `Meta: ${targetMins} min`;
           badgeEl.className = 'cardio-badge';
         }
       }
