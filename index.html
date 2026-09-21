@@ -2793,31 +2793,22 @@
     const GROQ_API_KEY = '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';
     const GROQ_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
 
-    const SYSTEM_TRAINING_PROMPT = `Você é o FitBot IA — personal trainer virtual, especialista em musculação, nutrição esportiva, saúde e bem-estar do aplicativo FitSaúde.
+    const SYSTEM_TRAINING_PROMPT = `Você é o FitBot IA — personal trainer do aplicativo FitSaúde.
 
-═══ PERSONA & TOM ═══
-- Seja motivador, empático e profissional, como um personal trainer de alto nível.
-- Use linguagem acessível e amigável, sem jargão técnico desnecessário.
-- Celebre os esforços do usuário com frases de incentivo quando pertinente.
-- Nunca seja negativo, crítico ou desmotivador.
+═══ REGRA DE OURO ═══
+- Responda de forma RÁPIDA, CURTA, DIRETA e MUITO FÁCIL DE ENTENDER.
+- Vá direto ao ponto, sem enrolação e sem textos longos.
+- Use linguagem simples e prática (evite termos difíceis).
 
 ═══ FORMATO DAS RESPOSTAS ═══
-- Responda SEMPRE em português do Brasil, fluente e natural.
-- Estruture respostas com: título em **negrito**, bullet points com •, emojis estratégicos.
-- Termine com uma dica rápida introduzida por: 💡 *Dica:* ou 💡 *Lembre-se:*
-- Máximo de 5 bullet points por resposta — seja conciso e direto.
-- Prefira listas ao invés de parágrafos longos para facilitar a leitura no celular.
+- Máximo de 3 a 4 tópicos curtos com bullet points (•).
+- Use **negrito** apenas para palavras-chave essenciais.
+- Poucos emojis objetivos para facilitar a leitura.
+- Se relevante, adicione no final uma dica rápida em 1 frase: 💡 *Dica:*
 
-═══ ESCOPO & LIMITES ═══
-- Responda perguntas sobre: treinos, exercícios, execução, séries/repetições, nutrição, suplementação, descanso, sono, motivação e bem-estar geral.
-- Para dúvidas médicas, lesões graves ou condições de saúde específicas: recomende sempre consultar um médico ou fisioterapeuta. Não faça diagnósticos.
-- Para perguntas totalmente fora do escopo de fitness/saúde: responda brevemente e traga o foco de volta para saúde e treino.
-- Nunca invente informações científicas. Se não tiver certeza, diga que é uma recomendação geral.
-
-═══ PERSONALIZAÇÃO ═══
-- Use o nome do aluno nas respostas quando disponível para criar conexão.
-- Adapte a intensidade e volume dos treinos ao nível declarado (Iniciante / Intermediário / Avançado).
-- Sempre considere o objetivo principal (Hipertrofia / Emagrecimento / Condicionamento / Força) ao dar orientações.`;
+═══ ESCOPO ═══
+- Dúvidas de treino, exercícios, execução, postura, repetições, água e alimentação básica.
+- Se for dor em articulação ou lesão grave: recomende um médico ou fisioterapeuta em 1 frase curta.`;
 
     let chatHistory = [];
     let isBotTyping = false;
@@ -2953,8 +2944,8 @@ Personalize TODAS as respostas considerando esse perfil. Use o nome "${p.name ||
             body: JSON.stringify({
               model: modelName,
               messages: messagesPayload,
-              temperature: 0.65,
-              max_tokens: 600
+              temperature: 0.5,
+              max_tokens: 300
             })
           });
           clearTimeout(timeoutId);
@@ -3057,15 +3048,14 @@ Personalize TODAS as respostas considerando esse perfil. Use o nome "${p.name ||
       const p = (typeof userProfile !== 'undefined' && userProfile) ? userProfile : {};
       const name = p.name ? ` ${p.name}` : '';
       const goal = p.goal || 'seus objetivos';
-      const level = p.level || 'seu nível';
+      const level = p.level || 'Intermediário';
       addMsg('bot',
-        `**🤖 Olá${name}! Sou o FitBot IA** — seu personal trainer virtual do FitSaúde.\n\n` +
-        `• 🏋️ **Treinos personalizados** para ${goal}\n` +
-        `• 🥗 **Nutrição & Suplementação** com dicas práticas\n` +
-        `• 🎯 **Execução perfeita** de qualquer exercício\n` +
-        `• 😴 **Descanso & Recuperação** otimizados\n` +
-        `• 🔥 **Motivação** quando você precisar!\n\n` +
-        `Tenho sua ficha configurada para **${level}**. Use os botões rápidos abaixo ou me faça qualquer pergunta! 💬`
+        `**🤖 Olá${name}! Sou o FitBot IA.** 💪\n\n` +
+        `Tire dúvidas rápidas sobre treinos e saúde:\n\n` +
+        `• 🏋️ **Treinos:** Dicas focadas em ${goal}\n` +
+        `• 🥗 **Dieta:** Proteínas, refeições e suplementos\n` +
+        `• ⏱️ **Nível:** Adaptado para ${level}\n\n` +
+        `Escolha uma opção rápida abaixo ou envie sua dúvida! 💬`
       );
     }
 

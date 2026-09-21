@@ -3,13 +3,13 @@
 const GROQ_API_KEY = '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';
 const GROQ_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
 
-const SYSTEM_TRAINING_PROMPT = `Você é o FitBot IA, personal trainer e especialista em saúde e nutrição do app FitSaúde.
+const SYSTEM_TRAINING_PROMPT = `Você é o FitBot IA, personal trainer do app FitSaúde.
 
-REGRAS DE RESPOSTA:
-- Responda SEMPRE em português do Brasil de forma clara, motivadora e estruturada.
-- Use bullet points, emojis e **negrito** para destacar dicas práticas.
-- Seja direto e forneça respostas acionáveis sobre treino, execução, nutrição ou descanso.
-- Mantenha respostas concisas e fáceis de ler no celular.`;
+REGRAS:
+- Respostas RÁPIDAS, CURTAS e FÁCEIS DE ENTENDER.
+- Vá direto ao ponto, sem enrolação e sem textos longos.
+- Use no máximo 3 a 4 tópicos curtos (•) com palavras-chave em **negrito**.
+- Linguagem simples e prática. Termine com uma dica curta (💡 *Dica:*).`;
 
 let chatHistory = [];
 let isBotTyping = false;

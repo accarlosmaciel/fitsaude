@@ -1191,18 +1191,19 @@ body::before {
 .msg.bot .msg-bubble {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
-  color: var(--txt);
+  color: #ffffff;
   border-bottom-left-radius: 5px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 
 .msg.bot .msg-bubble strong {
-  color: var(--red-pale);
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .msg.bot .msg-bubble em {
-  color: var(--txt2);
+  color: #f1f5f9;
   font-style: italic;
 }
 
