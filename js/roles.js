@@ -148,12 +148,13 @@ function updateRoleTopBar() {
   if (!topBar) return;
 
   const isAdmin = isCurrentSessionAdmin();
-  topBar.style.display = 'flex'; // Mantém visível para exibir o badge do atleta no lado direito
 
   if (isAdmin) {
+    topBar.style.display = 'flex';
     topBar.classList.add('is-admin');
     if (quickSelect) quickSelect.style.display = 'flex';
   } else {
+    topBar.style.display = 'none';
     topBar.classList.remove('is-admin');
     if (quickSelect) quickSelect.style.display = 'none';
   }

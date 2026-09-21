@@ -37,8 +37,23 @@
 
   <!-- ── App Shell ──────────────────────────────────────── -->
   <div class="app-shell">
-
-
+    <!-- ── Top Role Bar & Switcher (visível apenas para Super Admin) ── -->
+    <div class="role-top-bar" id="role-top-bar" style="display:none;">
+      <div class="role-badge-current role-badge-visitante" id="current-role-badge">
+        <i class="fa-solid fa-crown"></i> Super Admin
+      </div>
+      <div class="role-quick-select" id="role-quick-select" style="display:none;">
+        <button class="role-switch-btn" data-role="visitante" onclick="setUserRole('visitante')">
+          <i class="fa-solid fa-eye"></i> Visitante
+        </button>
+        <button class="role-switch-btn" data-role="atleta" onclick="setUserRole('atleta')">
+          <i class="fa-solid fa-dumbbell"></i> Atleta
+        </button>
+        <button class="role-switch-btn active" data-role="admin" onclick="setUserRole('admin')">
+          <i class="fa-solid fa-crown"></i> Admin
+        </button>
+      </div>
+    </div>
 
 
     <!-- App Header -->
