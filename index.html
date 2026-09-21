@@ -2754,7 +2754,7 @@
           tipEl.style.color = '#22d3a0';
         } else {
           const remainingL = Math.max(0, (waterGoalMl - waterIntakeMl) / 1000).toFixed(1);
-          tipEl.innerHTML = `<i class="fa-solid fa-droplet" style="color:#38bdf8;"></i> Faltam <strong>${remainingL} L</strong> para bater sua meta diária!`;
+          tipEl.innerHTML = `<i class="fa-solid fa-droplet" style="color:var(--red-light);"></i> Faltam <strong>${remainingL} L</strong> para bater sua meta diária!`;
           tipEl.style.color = 'var(--txt2)';
         }
       }
