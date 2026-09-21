@@ -1,5 +1,98 @@
 /* ─── FITSAÚDE CÂMERA INTELIGENTE & VISÃO COMPUTACIONAL IA ─────────── */
 
+/* Container Compacto da Câmera no Topo */
+.camera-ai-compact-box {
+  background: var(--bg2);
+  border: 1px solid rgba(255, 26, 75, 0.25);
+  border-radius: var(--r-md);
+  margin: 10px 0 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.25s ease;
+}
+
+.camera-ai-compact-box:hover {
+  border-color: rgba(255, 26, 75, 0.45);
+}
+
+.camera-ai-compact-box .camera-ai-top-trigger {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+}
+
+.camera-ai-inline-panel {
+  padding: 0 12px 14px;
+  border-top: 1px solid var(--border);
+  animation: slideDown 0.25s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.camera-viewfinder-wrap.compact {
+  max-width: 100%;
+  height: 210px;
+  aspect-ratio: auto;
+  border-radius: 12px;
+  margin: 10px 0 8px;
+}
+
+.camera-mode-tabs.compact {
+  max-width: 100%;
+  margin: 8px 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+}
+
+.btn-camera-mini {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-camera-mini:hover {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.compact-results .camera-result-card {
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.compact-results .camera-dashboard-grid {
+  margin: 8px 0;
+  gap: 6px;
+}
+
+.compact-results .camera-stat-box {
+  padding: 6px 4px;
+}
+
+.compact-results .camera-stat-val {
+  font-size: 0.95rem;
+}
+
+.compact-results .camera-device-info {
+  padding: 8px 10px;
+  font-size: 0.72rem;
+  margin-top: 6px;
+}
+
 /* Botão de Destaque no Topo de Treinos */
 .camera-ai-top-trigger {
   display: flex;

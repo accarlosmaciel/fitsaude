@@ -70,23 +70,62 @@
     <!-- ══ SCREEN: TREINOS ═════════════════════════════════ -->
     <div class="screen active" id="screen-treinos">
 
-      <!-- ── Câmera Inteligente IA & Visão Computacional (Topo) ── -->
-      <div class="camera-ai-top-trigger" onclick="cameraAI.openCameraModal()">
-        <div class="camera-ai-trigger-left">
-          <div class="camera-ai-trigger-icon">
-            <i class="fa-solid fa-camera"></i>
-            <span class="camera-ai-pulse-dot"></span>
-          </div>
-          <div class="camera-ai-trigger-info">
-            <div class="camera-ai-trigger-title">
-              Câmera Inteligente IA <span class="camera-ai-trigger-badge">Visão Computacional</span>
+      <!-- ── Câmera Inteligente IA & Visão Computacional (Interface Compacta) ── -->
+      <div class="camera-ai-compact-box" id="camera-ai-box">
+        <div class="camera-ai-top-trigger" onclick="cameraAI.toggleCameraBox()">
+          <div class="camera-ai-trigger-left">
+            <div class="camera-ai-trigger-icon">
+              <i class="fa-solid fa-camera"></i>
+              <span class="camera-ai-pulse-dot"></span>
             </div>
-            <div class="camera-ai-trigger-sub">Identificar aparelhos, avaliar postura e contar repetições</div>
+            <div class="camera-ai-trigger-info">
+              <div class="camera-ai-trigger-title">
+                Câmera Inteligente IA <span class="camera-ai-trigger-badge">Visão IA</span>
+              </div>
+              <div class="camera-ai-trigger-sub">Reconhecer aparelhos e postura ao vivo</div>
+            </div>
           </div>
+          <button class="camera-ai-trigger-btn" type="button" id="camera-ai-toggle-btn">
+            <i class="fa-solid fa-camera"></i> Abrir
+          </button>
         </div>
-        <button class="camera-ai-trigger-btn" type="button">
-          <i class="fa-solid fa-expand"></i> Abrir
-        </button>
+
+        <!-- Painel Compacto Expansível (Abre exatamente aqui) -->
+        <div class="camera-ai-inline-panel" id="camera-ai-inline-panel" style="display: none;">
+          <!-- Visor Compacto -->
+          <div class="camera-viewfinder-wrap compact">
+            <video id="camera-ai-video" autoplay playsinline muted></video>
+            <div class="camera-hud-overlay">
+              <div class="camera-hud-corners">
+                <div class="camera-scan-laser"></div>
+                <div class="camera-detection-box" id="camera-detection-box">
+                  <div class="camera-detection-tag" id="camera-detection-tag">
+                    <i class="fa-solid fa-dumbbell"></i> Aparelho Detectado
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modos Compactos & Ações Rápidas -->
+          <div class="camera-mode-tabs compact">
+            <button class="camera-mode-btn active" data-mode="device" onclick="cameraAI.setMode('device')">
+              <i class="fa-solid fa-dumbbell"></i> Aparelhos
+            </button>
+            <button class="camera-mode-btn" data-mode="person" onclick="cameraAI.setMode('person')">
+              <i class="fa-solid fa-person-running"></i> Postura/Reps
+            </button>
+            <button class="btn-camera-mini" onclick="cameraAI.scanNow()" title="Escanear próximo">
+              <i class="fa-solid fa-expand"></i> Scan
+            </button>
+            <button class="btn-camera-mini" onclick="cameraAI.toggleFacingMode()" title="Girar Câmera">
+              <i class="fa-solid fa-camera-rotate"></i>
+            </button>
+          </div>
+
+          <!-- Resultado Compacto & Dashboard -->
+          <div id="camera-results-content" class="compact-results"></div>
+        </div>
       </div>
 
       <div class="hero-strip">
@@ -3759,62 +3798,6 @@ Personalize TODAS as respostas considerando esse perfil. Use o nome "${p.name ||
     // Initial bot welcome message (personalized via injectWelcomeMessage)
     setTimeout(() => injectWelcomeMessage(), 400);
   </script>
-
-  <!-- ══ MODAL CÂMERA INTELIGENTE & VISÃO COMPUTACIONAL IA ═══ -->
-  <div class="camera-ai-modal" id="camera-ai-modal">
-    <div class="camera-ai-header">
-      <div class="camera-ai-header-title">
-        <i class="fa-solid fa-camera" style="color:var(--red-light);"></i>
-        FitSaúde <span>Câmera IA</span>
-      </div>
-      <button class="camera-ai-close-btn" onclick="cameraAI.closeCameraModal()" title="Fechar">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-
-    <!-- Visor da Câmera com HUD de Visão Computacional -->
-    <div class="camera-viewfinder-wrap">
-      <video id="camera-ai-video" autoplay playsinline muted></video>
-
-      <div class="camera-hud-overlay">
-        <div class="camera-hud-corners">
-          <div class="camera-scan-laser"></div>
-          <div class="camera-detection-box" id="camera-detection-box">
-            <div class="camera-detection-tag" id="camera-detection-tag">
-              <i class="fa-solid fa-dumbbell"></i> Aparelho Detectado
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Seletor de Modos (Diagrama: Aparelho x Pessoa) -->
-    <div class="camera-mode-tabs">
-      <button class="camera-mode-btn active" data-mode="device" onclick="cameraAI.setMode('device')">
-        <i class="fa-solid fa-dumbbell"></i> Banco de Equipamentos
-      </button>
-      <button class="camera-mode-btn" data-mode="person" onclick="cameraAI.setMode('person')">
-        <i class="fa-solid fa-person-running"></i> Pessoa & Postura (Reps)
-      </button>
-    </div>
-
-    <!-- Barra de Ações -->
-    <div class="camera-action-bar">
-      <button class="btn-camera-action btn-camera-flip" onclick="cameraAI.toggleFacingMode()" title="Girar Câmera">
-        <i class="fa-solid fa-camera-rotate"></i>
-      </button>
-      <button class="btn-camera-action btn-camera-scan" onclick="cameraAI.scanNow()">
-        <i class="fa-solid fa-expand"></i> Escanear / Próximo
-      </button>
-    </div>
-
-    <!-- Painel de Resultados & Dashboard da Academia -->
-    <div class="camera-results-panel">
-      <div id="camera-results-content">
-        <!-- Renderizado dinamicamente pelo camera_ai.js -->
-      </div>
-    </div>
-  </div>
 
   <script src="js/camera_ai.js"></script>
 </body>
