@@ -2606,6 +2606,7 @@ body[data-color="orange"] {
   font-weight: 900;
   background: linear-gradient(135deg, #38bdf8, #00f0ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
