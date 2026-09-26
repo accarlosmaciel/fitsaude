@@ -546,13 +546,49 @@ const GOAL_EXERCISES_DATABASE = {
   ]
 };
 
+/* ── FitBot IA: Insights e Sugestões por Objetivo ── */
+const FITBOT_GOAL_INSIGHTS = {
+  'Hipertrofia': {
+    badge: '🏋️‍♂️ Hipertrofia & Volume',
+    tip: 'Foco em 8 a 12 repetições com cadência controlada (2s excêntrica) e sobrecarga progressiva para ganho de massa magra.',
+    highlight: '#3b82f6'
+  },
+  'Perda de Gordura': {
+    badge: '🔥 Queima de Gordura & HIIT',
+    tip: 'Foco em alta densidade, 15 a 20 repetições com descansos curtos (30–45s) e estímulo aeróbico integrado para queima calórica acelerada.',
+    highlight: '#f97316'
+  },
+  'Definição': {
+    badge: '⚡ Definição & Densidade Muscular',
+    tip: 'Foco em 12 a 15 repetições, técnicas de Drop-Set e pico de contração para lapidação estética e definição profunda.',
+    highlight: '#a855f7'
+  },
+  'Força': {
+    badge: '💪 Força Bruta & Cargas Altas',
+    tip: 'Foco em 4 a 6 repetições em movimentos compostos básicos, descanso de 2 a 3 minutos para recrutamento neural máximo.',
+    highlight: '#ef4444'
+  },
+  'Saúde & Condicionamento': {
+    badge: '🏃 Saúde, Funcional & Mobilidade',
+    tip: 'Foco em fortalecimento articular, estabilidade do core, postura e melhora do VO2 máx cardiovascular.',
+    highlight: '#22c55e'
+  }
+};
+
 function renderGoalExerciseSuggestions() {
   const select = document.getElementById('f-goal-filter');
   const container = document.getElementById('goal-exercises-chips');
+  const tipBox = document.getElementById('fitbot-goal-tip');
   if (!container) return;
 
   const goal = select ? select.value : 'Hipertrofia';
   const list = GOAL_EXERCISES_DATABASE[goal] || GOAL_EXERCISES_DATABASE['Hipertrofia'];
+  const insight = FITBOT_GOAL_INSIGHTS[goal] || FITBOT_GOAL_INSIGHTS['Hipertrofia'];
+
+  if (tipBox) {
+    tipBox.style.borderLeftColor = insight.highlight;
+    tipBox.innerHTML = `<strong style="color:${insight.highlight};"><i class="fa-solid fa-robot"></i> FitBot IA:</strong> ${insight.tip}`;
+  }
 
   container.innerHTML = list.map((item, idx) => `
     <button type="button" onclick="selectSuggestedExercise('${goal}', ${idx})" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #f4f4f5; font-size: 11px; padding: 5px 9px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s ease; text-align: left; white-space: nowrap;">
@@ -561,6 +597,16 @@ function renderGoalExerciseSuggestions() {
       <span style="color: #a1a1aa; font-size: 10px;">(${item.sets}x ${item.reps})</span>
     </button>
   `).join('');
+}
+
+function pickRandomFitBotExercise() {
+  const select = document.getElementById('f-goal-filter');
+  const goal = select ? select.value : 'Hipertrofia';
+  const list = GOAL_EXERCISES_DATABASE[goal] || GOAL_EXERCISES_DATABASE['Hipertrofia'];
+  if (!list.length) return;
+  const randIdx = Math.floor(Math.random() * list.length);
+  selectSuggestedExercise(goal, randIdx);
+  toast('<i class="fa-solid fa-robot" style="color:#22d3a0"></i>', `FitBot IA selecionou: ${list[randIdx].name}!`);
 }
 
 function selectSuggestedExercise(goal, idx) {
@@ -594,9 +640,12 @@ function openAddModal() {
   syncEditDayFields(targetDay);
 
   const p = (typeof loadProfileData === 'function' ? loadProfileData() : null) || JSON.parse(localStorage.getItem('fitsaude_profile_v2') || '{}');
+  const currentUser = JSON.parse(localStorage.getItem('fitsaude_current_user_v2') || '{}');
+  const detectedGoal = p.goal || currentUser.goal || 'Hipertrofia';
+
   const goalFilter = document.getElementById('f-goal-filter');
   if (goalFilter) {
-    goalFilter.value = p.goal || 'Hipertrofia';
+    goalFilter.value = detectedGoal;
   }
   renderGoalExerciseSuggestions();
 

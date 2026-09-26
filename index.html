@@ -1223,22 +1223,30 @@
         </button>
       </div>
 
-      <!-- Sugestões de Exercícios de acordo com o Objetivo do Aluno -->
-      <div class="goal-suggestions-panel" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; margin-bottom: 16px;">
+      <!-- Sugestões de Exercícios com Detecção Automática do FitBot IA -->
+      <div class="goal-suggestions-panel" style="background: linear-gradient(135deg, rgba(220,20,60,0.06), rgba(24,24,27,0.7)); border: 1px solid rgba(220,20,60,0.25); border-radius: 12px; padding: 12px; margin-bottom: 16px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
-          <span style="font-size: 11px; font-weight: 800; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-bullseye" style="color:#dc143c;"></i> Objetivo do Aluno:
+          <span style="font-size: 11px; font-weight: 800; color: #f43f5e; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-robot" style="color:#22d3a0;"></i> FitBot IA • Objetivo Detectado:
           </span>
           <select id="f-goal-filter" onchange="renderGoalExerciseSuggestions()" style="background: #18181b; border: 1px solid rgba(220,20,60,0.4); color: #fff; font-size: 11px; font-weight: 700; border-radius: 6px; padding: 4px 8px; cursor: pointer; outline: none;">
             <option value="Hipertrofia">🏋️‍♂️ Hipertrofia (Massa)</option>
-            <option value="Perda de Gordura">🔥 Emagrecimento / Queima</option>
+            <option value="Perda de Gordura">🔥 Queima / Emagrecimento</option>
             <option value="Definição">⚡ Definição Muscular</option>
             <option value="Força">💪 Força Bruta</option>
             <option value="Saúde & Condicionamento">🏃 Saúde & Funcional</option>
           </select>
         </div>
-        <div style="font-size: 10.5px; color: #888; margin-bottom: 8px;">
-          ⚡ Clique no exercício recomendado para preencher automaticamente:
+
+        <div id="fitbot-goal-tip" style="font-size: 11px; color: #a1a1aa; background: rgba(0,0,0,0.3); border-left: 3px solid #22d3a0; padding: 6px 8px; border-radius: 4px; margin-bottom: 8px; line-height: 1.4;">
+          <strong style="color:#22d3a0;">🤖 FitBot IA:</strong> Carregando recomendação do objetivo...
+        </div>
+
+        <div style="font-size: 10.5px; color: #888; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+          <span>⚡ Clique no exercício recomendado para preencher:</span>
+          <button type="button" onclick="pickRandomFitBotExercise()" style="background: none; border: none; color: #ffd166; font-size: 10.5px; cursor: pointer; display: flex; align-items: center; gap: 3px; font-weight: 700;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Sugestão IA
+          </button>
         </div>
         <div id="goal-exercises-chips" style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 120px; overflow-y: auto; padding-right: 4px;">
           <!-- Chips gerados via JS de acordo com o objetivo -->
@@ -2652,13 +2660,49 @@
       ]
     };
 
+    /* ── FitBot IA: Insights e Sugestões por Objetivo ── */
+    const FITBOT_GOAL_INSIGHTS = {
+      'Hipertrofia': {
+        badge: '🏋️‍♂️ Hipertrofia & Volume',
+        tip: 'Foco em 8 a 12 repetições com cadência controlada (2s excêntrica) e sobrecarga progressiva para ganho de massa magra.',
+        highlight: '#3b82f6'
+      },
+      'Perda de Gordura': {
+        badge: '🔥 Queima de Gordura & HIIT',
+        tip: 'Foco em alta densidade, 15 a 20 repetições com descansos curtos (30–45s) e estímulo aeróbico integrado para queima calórica acelerada.',
+        highlight: '#f97316'
+      },
+      'Definição': {
+        badge: '⚡ Definição & Densidade Muscular',
+        tip: 'Foco em 12 a 15 repetições, técnicas de Drop-Set e pico de contração para lapidação estética e definição profunda.',
+        highlight: '#a855f7'
+      },
+      'Força': {
+        badge: '💪 Força Bruta & Cargas Altas',
+        tip: 'Foco em 4 a 6 repetições em movimentos compostos básicos, descanso de 2 a 3 minutos para recrutamento neural máximo.',
+        highlight: '#ef4444'
+      },
+      'Saúde & Condicionamento': {
+        badge: '🏃 Saúde, Funcional & Mobilidade',
+        tip: 'Foco em fortalecimento articular, estabilidade do core, postura e melhora do VO2 máx cardiovascular.',
+        highlight: '#22c55e'
+      }
+    };
+
     function renderGoalExerciseSuggestions() {
       const select = document.getElementById('f-goal-filter');
       const container = document.getElementById('goal-exercises-chips');
+      const tipBox = document.getElementById('fitbot-goal-tip');
       if (!container) return;
 
       const goal = select ? select.value : 'Hipertrofia';
       const list = GOAL_EXERCISES_DATABASE[goal] || GOAL_EXERCISES_DATABASE['Hipertrofia'];
+      const insight = FITBOT_GOAL_INSIGHTS[goal] || FITBOT_GOAL_INSIGHTS['Hipertrofia'];
+
+      if (tipBox) {
+        tipBox.style.borderLeftColor = insight.highlight;
+        tipBox.innerHTML = `<strong style="color:${insight.highlight};"><i class="fa-solid fa-robot"></i> FitBot IA:</strong> ${insight.tip}`;
+      }
 
       container.innerHTML = list.map((item, idx) => `
         <button type="button" onclick="selectSuggestedExercise('${goal}', ${idx})" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #f4f4f5; font-size: 11px; padding: 5px 9px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s ease; text-align: left; white-space: nowrap;">
@@ -2667,6 +2711,16 @@
           <span style="color: #a1a1aa; font-size: 10px;">(${item.sets}x ${item.reps})</span>
         </button>
       `).join('');
+    }
+
+    function pickRandomFitBotExercise() {
+      const select = document.getElementById('f-goal-filter');
+      const goal = select ? select.value : 'Hipertrofia';
+      const list = GOAL_EXERCISES_DATABASE[goal] || GOAL_EXERCISES_DATABASE['Hipertrofia'];
+      if (!list.length) return;
+      const randIdx = Math.floor(Math.random() * list.length);
+      selectSuggestedExercise(goal, randIdx);
+      toast('<i class="fa-solid fa-robot" style="color:#22d3a0"></i>', `FitBot IA selecionou: ${list[randIdx].name}!`);
     }
 
     function selectSuggestedExercise(goal, idx) {
@@ -2698,11 +2752,14 @@
       const targetDay = isNaN(parseInt(sel.value)) ? activeDay : parseInt(sel.value);
       syncEditDayFields(targetDay);
 
-      // Sincroniza o filtro com o objetivo do aluno ativo
+      // Sincroniza e detecta o objetivo do aluno ativo
       const p = (typeof loadProfileData === 'function' ? loadProfileData() : null) || JSON.parse(localStorage.getItem('fitsaude_profile_v2') || '{}');
+      const currentUser = JSON.parse(localStorage.getItem('fitsaude_current_user_v2') || '{}');
+      const detectedGoal = p.goal || currentUser.goal || 'Hipertrofia';
+
       const goalFilter = document.getElementById('f-goal-filter');
       if (goalFilter) {
-        goalFilter.value = p.goal || 'Hipertrofia';
+        goalFilter.value = detectedGoal;
       }
       renderGoalExerciseSuggestions();
 
