@@ -40,13 +40,24 @@ function saveProfileData(p) {
 function calcIMC(weight, heightCm) {
   if (!weight || !heightCm) return { imc: '—', label: 'Indefinido', badgeClass: 'badge-imc-normal' };
   const hM = heightCm / 100;
-  const imc = (weight / (hM * hM)).toFixed(1);
-  let label = 'Peso Ideal';
+  const imcNum = weight / (hM * hM);
+  const imc = imcNum.toFixed(1);
+  let label = 'Peso Saudável';
   let badgeClass = 'badge-imc-normal';
-  if (imc < 18.5) { label = 'Abaixo do Peso'; badgeClass = 'badge-imc-warn'; }
-  else if (imc < 25) { label = 'Peso Ideal'; badgeClass = 'badge-imc-normal'; }
-  else if (imc < 30) { label = 'Sobrepeso'; badgeClass = 'badge-imc-warn'; }
-  else { label = 'Obesidade'; badgeClass = 'badge-imc-alert'; }
+
+  if (imcNum < 18.5) {
+    label = 'Abaixo do Peso';
+    badgeClass = 'badge-imc-warn';
+  } else if (imcNum < 26.0) {
+    label = 'Peso Saudável';
+    badgeClass = 'badge-imc-normal';
+  } else if (imcNum < 30.0) {
+    label = 'Sobrepeso';
+    badgeClass = 'badge-imc-warn';
+  } else {
+    label = 'Obesidade';
+    badgeClass = 'badge-imc-alert';
+  }
   return { imc, label, badgeClass };
 }
 
