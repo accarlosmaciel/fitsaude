@@ -484,6 +484,104 @@ function saveWorkoutDayDetails(notify = true) {
   return true;
 }
 
+/* ── Sugestões de Exercícios por Objetivo do Aluno ── */
+const GOAL_EXERCISES_DATABASE = {
+  'Hipertrofia': [
+    { name: 'Supino Reto com Barra', muscle: 'Peitoral', sets: 4, reps: '8-10', weight: '60 kg' },
+    { name: 'Supino Inclinado com Halteres', muscle: 'Peitoral', sets: 3, reps: '10-12', weight: '22 kg' },
+    { name: 'Crucifixo na Polia', muscle: 'Peitoral', sets: 3, reps: '12-15', weight: '15 kg' },
+    { name: 'Agachamento Livre', muscle: 'Quadríceps', sets: 4, reps: '8-10', weight: '70 kg' },
+    { name: 'Leg Press 45°', muscle: 'Pernas', sets: 4, reps: '10-12', weight: '160 kg' },
+    { name: 'Cadeira Extensora', muscle: 'Quadríceps', sets: 3, reps: '12-15', weight: '45 kg' },
+    { name: 'Puxada Aberta no Pulley', muscle: 'Costas', sets: 4, reps: '10-12', weight: '55 kg' },
+    { name: 'Remada Curvada com Barra', muscle: 'Costas', sets: 4, reps: '8-10', weight: '50 kg' },
+    { name: 'Desenvolvimento com Halteres', muscle: 'Ombros', sets: 4, reps: '10-12', weight: '18 kg' },
+    { name: 'Elevação Lateral na Polia', muscle: 'Ombros', sets: 4, reps: '12-15', weight: '10 kg' },
+    { name: 'Rosca Direta Barra W', muscle: 'Bíceps', sets: 3, reps: '10-12', weight: '20 kg' },
+    { name: 'Tríceps Corda', muscle: 'Tríceps', sets: 4, reps: '12', weight: '25 kg' }
+  ],
+  'Perda de Gordura': [
+    { name: 'Burpee com Salto', muscle: 'Cardio / Full Body', sets: 4, reps: '15-20', weight: 'Peso do corpo' },
+    { name: 'Kettlebell Swing', muscle: 'Posterior / Glúteos', sets: 4, reps: '20', weight: '16 kg' },
+    { name: 'Jump Squats (Salto)', muscle: 'Pernas / Cardio', sets: 4, reps: '15-20', weight: 'Peso do corpo' },
+    { name: 'Mountain Climbers', muscle: 'Core / Cardio', sets: 4, reps: '40 seg', weight: 'Peso do corpo' },
+    { name: 'Corda Naval (Battle Rope)', muscle: 'Membros Superiores', sets: 4, reps: '30 seg', weight: 'Moderada' },
+    { name: 'Agachamento Goblet Dinâmico', muscle: 'Pernas', sets: 4, reps: '15-20', weight: '14 kg' },
+    { name: 'Remada Baixa no Cabo', muscle: 'Costas', sets: 4, reps: '15', weight: '35 kg' },
+    { name: 'Thruster com Halteres', muscle: 'Full Body', sets: 4, reps: '12-15', weight: '10 kg' },
+    { name: 'Prancha Dinâmica com Toque', muscle: 'Abdômen', sets: 4, reps: '20', weight: 'Peso do corpo' },
+    { name: 'Passada com Halteres', muscle: 'Glúteos / Pernas', sets: 4, reps: '15 cada', weight: '8 kg' }
+  ],
+  'Definição': [
+    { name: 'Crossover Alto na Polia', muscle: 'Peitoral', sets: 4, reps: '12-15', weight: '15 kg' },
+    { name: 'Cadeira Extensora Drop-Set', muscle: 'Quadríceps', sets: 4, reps: '12+10', weight: '40 kg' },
+    { name: 'Cadeira Flexora Drop-Set', muscle: 'Posterior', sets: 4, reps: '12+10', weight: '35 kg' },
+    { name: 'Puxada com Triângulo', muscle: 'Costas', sets: 4, reps: '12-15', weight: '50 kg' },
+    { name: 'Remada Cavalinho', muscle: 'Costas', sets: 3, reps: '12-15', weight: '35 kg' },
+    { name: 'Elevação Lateral Drop-Set', muscle: 'Ombros', sets: 4, reps: '12+10', weight: '8 kg' },
+    { name: 'Tríceps Testa com Halteres', muscle: 'Tríceps', sets: 4, reps: '12-15', weight: '10 kg' },
+    { name: 'Rosca Martelo na Polia', muscle: 'Bíceps / Antebraço', sets: 4, reps: '12-15', weight: '18 kg' },
+    { name: 'Elevação de Pernas na Barra', muscle: 'Abdômen Infra', sets: 4, reps: '15-20', weight: 'Peso do corpo' },
+    { name: 'Afundo Búlgaro com Halteres', muscle: 'Glúteos / Quadríceps', sets: 3, reps: '12 cada', weight: '12 kg' }
+  ],
+  'Força': [
+    { name: 'Levantamento Terra Convencional', muscle: 'Costas / Posteriores', sets: 5, reps: '4-6', weight: '100 kg' },
+    { name: 'Agachamento Livre com Barra', muscle: 'Quadríceps / Glúteos', sets: 5, reps: '5', weight: '90 kg' },
+    { name: 'Supino Reto Pesado com Barra', muscle: 'Peitoral', sets: 5, reps: '5', weight: '80 kg' },
+    { name: 'Desenvolvimento Militar em Pé', muscle: 'Ombros', sets: 5, reps: '5-6', weight: '40 kg' },
+    { name: 'Remada Curvada com Barra', muscle: 'Costas', sets: 5, reps: '5', weight: '65 kg' },
+    { name: 'Paralelas com Sobrecarga', muscle: 'Peitoral / Tríceps', sets: 4, reps: '6', weight: '+10 kg' },
+    { name: 'Barra Fixa com Carga', muscle: 'Costas / Bíceps', sets: 4, reps: '5-6', weight: '+5 kg' },
+    { name: 'Supino Fechado com Barra', muscle: 'Tríceps / Peitoral', sets: 4, reps: '6', weight: '55 kg' }
+  ],
+  'Saúde & Condicionamento': [
+    { name: 'Caminhada Inclinada na Esteira', muscle: 'Cardiovascular', sets: 1, reps: '20 min', weight: 'Inclinação 6' },
+    { name: 'Agachamento Goblet', muscle: 'Pernas / Core', sets: 3, reps: '12-15', weight: '12 kg' },
+    { name: 'Flexão de Braço no Solo', muscle: 'Peitoral / Core', sets: 3, reps: '10-12', weight: 'Peso do corpo' },
+    { name: 'Remada Sentada no Cabo', muscle: 'Costas', sets: 3, reps: '12-15', weight: '30 kg' },
+    { name: 'Elevação Lateral Leve', muscle: 'Ombros', sets: 3, reps: '15', weight: '5 kg' },
+    { name: 'Prancha Isométrica', muscle: 'Core / Lombar', sets: 3, reps: '45 seg', weight: 'Isometria' },
+    { name: 'Ponte para Glúteos', muscle: 'Glúteos / Lombar', sets: 3, reps: '15', weight: 'Peso do corpo' },
+    { name: 'Bicicleta Ergométrica', muscle: 'Cardio', sets: 1, reps: '15 min', weight: 'Nível 5' }
+  ]
+};
+
+function renderGoalExerciseSuggestions() {
+  const select = document.getElementById('f-goal-filter');
+  const container = document.getElementById('goal-exercises-chips');
+  if (!container) return;
+
+  const goal = select ? select.value : 'Hipertrofia';
+  const list = GOAL_EXERCISES_DATABASE[goal] || GOAL_EXERCISES_DATABASE['Hipertrofia'];
+
+  container.innerHTML = list.map((item, idx) => `
+    <button type="button" onclick="selectSuggestedExercise('${goal}', ${idx})" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #f4f4f5; font-size: 11px; padding: 5px 9px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s ease; text-align: left; white-space: nowrap;">
+      <span style="color: #dc143c; font-weight: 700;">+</span>
+      <strong>${item.name}</strong>
+      <span style="color: #a1a1aa; font-size: 10px;">(${item.sets}x ${item.reps})</span>
+    </button>
+  `).join('');
+}
+
+function selectSuggestedExercise(goal, idx) {
+  const item = (GOAL_EXERCISES_DATABASE[goal] || [])[idx];
+  if (!item) return;
+
+  const fName = document.getElementById('f-name');
+  const fMuscle = document.getElementById('f-muscle');
+  const fSets = document.getElementById('f-sets');
+  const fReps = document.getElementById('f-reps');
+  const fWeight = document.getElementById('f-weight');
+
+  if (fName) fName.value = item.name;
+  if (fMuscle) fMuscle.value = item.muscle;
+  if (fSets) fSets.value = item.sets;
+  if (fReps) fReps.value = item.reps;
+  if (fWeight) fWeight.value = item.weight;
+
+  toast('<i class="fa-solid fa-wand-magic-sparkles" style="color:#ffd166"></i>', `Exercício "${item.name}" inserido!`);
+}
+
 function openAddModal() {
   const sel = document.getElementById('f-day');
   if (!sel) return;
@@ -494,6 +592,13 @@ function openAddModal() {
 
   const targetDay = isNaN(parseInt(sel.value)) ? activeDay : parseInt(sel.value);
   syncEditDayFields(targetDay);
+
+  const p = (typeof loadProfileData === 'function' ? loadProfileData() : null) || JSON.parse(localStorage.getItem('fitsaude_profile_v2') || '{}');
+  const goalFilter = document.getElementById('f-goal-filter');
+  if (goalFilter) {
+    goalFilter.value = p.goal || 'Hipertrofia';
+  }
+  renderGoalExerciseSuggestions();
 
   const panel = document.getElementById('edit-day-panel');
   if (panel) panel.style.display = 'none';
