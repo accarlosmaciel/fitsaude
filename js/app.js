@@ -419,6 +419,71 @@ function switchScreen(name) {
 }
 
 /* Modals Management */
+function syncEditDayFields(dayIdx) {
+  const d = schedule[dayIdx];
+  if (!d) return;
+  const fDayName = document.getElementById('f-day-name');
+  const fDayDur = document.getElementById('f-day-dur');
+  const fDayLvl = document.getElementById('f-day-lvl');
+  if (fDayName) fDayName.value = d.name || '';
+  if (fDayDur) fDayDur.value = d.dur || '60 min';
+  if (fDayLvl) fDayLvl.value = d.lvl || 'Média';
+}
+
+function toggleEditDaySection() {
+  const panel = document.getElementById('edit-day-panel');
+  const btnText = document.getElementById('btn-edit-day-text');
+  if (!panel) return;
+  const isHidden = panel.style.display === 'none' || !panel.style.display;
+  panel.style.display = isHidden ? 'block' : 'none';
+  if (btnText) btnText.textContent = isHidden ? 'Ocultar Edição' : 'Editar Dia';
+  if (isHidden) {
+    const dayIdx = parseInt(document.getElementById('f-day').value) || activeDay;
+    syncEditDayFields(dayIdx);
+    setTimeout(() => document.getElementById('f-day-name')?.focus(), 200);
+  }
+}
+
+function handleDaySelectChange() {
+  const dayIdx = parseInt(document.getElementById('f-day').value);
+  syncEditDayFields(dayIdx);
+}
+
+function saveWorkoutDayDetails(notify = true) {
+  const dayIdx = parseInt(document.getElementById('f-day').value);
+  if (isNaN(dayIdx) || !schedule[dayIdx]) return false;
+  const newName = document.getElementById('f-day-name')?.value.trim();
+  const newDur = document.getElementById('f-day-dur')?.value.trim();
+  const newLvl = document.getElementById('f-day-lvl')?.value;
+
+  if (!newName) {
+    if (document.getElementById('f-day-name')) document.getElementById('f-day-name').style.borderColor = '#dc143c';
+    return false;
+  }
+  if (document.getElementById('f-day-name')) document.getElementById('f-day-name').style.borderColor = '';
+
+  schedule[dayIdx].name = newName;
+  if (newDur) schedule[dayIdx].dur = newDur;
+  if (newLvl) schedule[dayIdx].lvl = newLvl;
+
+  saveSched();
+  render();
+
+  const sel = document.getElementById('f-day');
+  if (sel) {
+    const currentVal = sel.value;
+    sel.innerHTML = schedule.filter(d => !d.rest).map(d => {
+      const i = schedule.indexOf(d);
+      return `<option value="${i}" ${i == currentVal ? 'selected' : ''}>${d.day} – ${d.name}</option>`;
+    }).join('');
+  }
+
+  if (notify) {
+    toast('<i class="fa-solid fa-check"></i>', `Dia "${schedule[dayIdx].day}" atualizado!`);
+  }
+  return true;
+}
+
 function openAddModal() {
   const sel = document.getElementById('f-day');
   if (!sel) return;
@@ -426,6 +491,15 @@ function openAddModal() {
     const i = schedule.indexOf(d);
     return `<option value="${i}" ${i === activeDay ? 'selected' : ''}>${d.day} – ${d.name}</option>`;
   }).join('');
+
+  const targetDay = isNaN(parseInt(sel.value)) ? activeDay : parseInt(sel.value);
+  syncEditDayFields(targetDay);
+
+  const panel = document.getElementById('edit-day-panel');
+  if (panel) panel.style.display = 'none';
+  const btnText = document.getElementById('btn-edit-day-text');
+  if (btnText) btnText.textContent = 'Editar Dia';
+
   document.getElementById('modal-overlay')?.classList.add('show');
   setTimeout(() => document.getElementById('f-name')?.focus(), 400);
 }
@@ -437,6 +511,10 @@ function closeModal() {
   });
   if (document.getElementById('f-sets')) document.getElementById('f-sets').value = 3;
   if (document.getElementById('f-reps')) document.getElementById('f-reps').value = 12;
+  const panel = document.getElementById('edit-day-panel');
+  if (panel) panel.style.display = 'none';
+  const btnText = document.getElementById('btn-edit-day-text');
+  if (btnText) btnText.textContent = 'Editar Dia';
 }
 
 function saveExercise() {
@@ -446,6 +524,11 @@ function saveExercise() {
   const sets = parseInt(document.getElementById('f-sets').value) || 3;
   const reps = document.getElementById('f-reps').value.trim() || '12';
   const weight = document.getElementById('f-weight').value.trim() || '—';
+
+  const panel = document.getElementById('edit-day-panel');
+  if (panel && panel.style.display !== 'none') {
+    saveWorkoutDayDetails(false);
+  }
 
   if (!name) {
     document.getElementById('f-name').style.borderColor = '#dc143c';

@@ -1182,9 +1182,47 @@
       <div class="sheet-title">Adicionar Exercício</div>
 
       <div class="form-group">
-        <label class="form-label" for="f-day">Dia do treino</label>
-        <select class="form-select" id="f-day"></select>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label class="form-label" for="f-day" style="margin-bottom: 0;">Dia do treino</label>
+          <button type="button" class="btn-edit-day-toggle" onclick="toggleEditDaySection()" style="background: rgba(220,20,60,0.12); border: 1px solid rgba(220,20,60,0.3); color: #dc143c; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 6px; transition: all 0.2s ease;">
+            <i class="fa-solid fa-pen-to-square"></i> <span id="btn-edit-day-text">Editar Dia</span>
+          </button>
+        </div>
+        <select class="form-select" id="f-day" onchange="handleDaySelectChange()"></select>
       </div>
+
+      <!-- Painel expansível: Editar detalhes do dia de treino -->
+      <div id="edit-day-panel" style="display: none; background: rgba(220, 20, 60, 0.05); border: 1px dashed rgba(220, 20, 60, 0.4); border-radius: 12px; padding: 12px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div style="font-size: 11px; text-transform: uppercase; color: #dc143c; font-weight: 800; letter-spacing: 0.5px;">
+            <i class="fa-solid fa-calendar-pen"></i> Editar Informações do Dia
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 8px;">
+          <label class="form-label" for="f-day-name" style="font-size: 11px;">Título / Foco do Treino</label>
+          <input class="form-input" id="f-day-name" type="text" placeholder="ex: Peito & Tríceps, Full Body..." style="font-size: 13px; padding: 8px 12px;" />
+        </div>
+        <div class="form-row" style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <div style="flex: 1;">
+            <label class="form-label" for="f-day-dur" style="font-size: 11px;">Duração</label>
+            <input class="form-input" id="f-day-dur" type="text" placeholder="ex: 60 min" style="font-size: 13px; padding: 8px 12px;" />
+          </div>
+          <div style="flex: 1;">
+            <label class="form-label" for="f-day-lvl" style="font-size: 11px;">Intensidade</label>
+            <select class="form-select" id="f-day-lvl" style="font-size: 13px; padding: 8px 12px;">
+              <option value="Baixa">Baixa</option>
+              <option value="Média">Média</option>
+              <option value="Média-Alta">Média-Alta</option>
+              <option value="Alta">Alta</option>
+              <option value="Muito Alta">Muito Alta</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" onclick="saveWorkoutDayDetails()" style="width: 100%; padding: 8px; font-size: 12px; font-weight: 700; border-radius: 8px; background: rgba(220, 20, 60, 0.2); border: 1px solid #dc143c; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.2s;">
+          <i class="fa-solid fa-check"></i> Salvar Apenas o Dia
+        </button>
+      </div>
+
       <div class="form-group">
         <label class="form-label" for="f-name">Nome do exercício</label>
         <input class="form-input" id="f-name" type="text" placeholder="ex: Supino Reto" />
@@ -2464,20 +2502,102 @@
     });
 
     /* ── Modal ── */
+    function syncEditDayFields(dayIdx) {
+      const d = schedule[dayIdx];
+      if (!d) return;
+      const fDayName = document.getElementById('f-day-name');
+      const fDayDur = document.getElementById('f-day-dur');
+      const fDayLvl = document.getElementById('f-day-lvl');
+      if (fDayName) fDayName.value = d.name || '';
+      if (fDayDur) fDayDur.value = d.dur || '60 min';
+      if (fDayLvl) fDayLvl.value = d.lvl || 'Média';
+    }
+
+    function toggleEditDaySection() {
+      const panel = document.getElementById('edit-day-panel');
+      const btnText = document.getElementById('btn-edit-day-text');
+      if (!panel) return;
+      const isHidden = panel.style.display === 'none' || !panel.style.display;
+      panel.style.display = isHidden ? 'block' : 'none';
+      if (btnText) btnText.textContent = isHidden ? 'Ocultar Edição' : 'Editar Dia';
+      if (isHidden) {
+        const dayIdx = parseInt(document.getElementById('f-day').value) || activeDay;
+        syncEditDayFields(dayIdx);
+        setTimeout(() => document.getElementById('f-day-name')?.focus(), 200);
+      }
+    }
+
+    function handleDaySelectChange() {
+      const dayIdx = parseInt(document.getElementById('f-day').value);
+      syncEditDayFields(dayIdx);
+    }
+
+    function saveWorkoutDayDetails(notify = true) {
+      const dayIdx = parseInt(document.getElementById('f-day').value);
+      if (isNaN(dayIdx) || !schedule[dayIdx]) return false;
+      const newName = document.getElementById('f-day-name').value.trim();
+      const newDur = document.getElementById('f-day-dur').value.trim();
+      const newLvl = document.getElementById('f-day-lvl').value;
+
+      if (!newName) {
+        document.getElementById('f-day-name').style.borderColor = '#dc143c';
+        return false;
+      }
+      document.getElementById('f-day-name').style.borderColor = '';
+
+      schedule[dayIdx].name = newName;
+      if (newDur) schedule[dayIdx].dur = newDur;
+      if (newLvl) schedule[dayIdx].lvl = newLvl;
+
+      saveSched();
+      render();
+
+      // Atualiza o texto da opção no select
+      const sel = document.getElementById('f-day');
+      if (sel) {
+        const currentVal = sel.value;
+        sel.innerHTML = schedule.filter(d => !d.rest).map(d => {
+          const i = schedule.indexOf(d);
+          return `<option value="${i}" ${i == currentVal ? 'selected' : ''}>${d.day} – ${d.name}</option>`;
+        }).join('');
+      }
+
+      if (notify) {
+        toast('<i class="fa-solid fa-check"></i>', `Dia "${schedule[dayIdx].day}" atualizado!`);
+      }
+      return true;
+    }
+
     function openAddModal() {
       const sel = document.getElementById('f-day');
       sel.innerHTML = schedule.filter(d => !d.rest).map(d => {
         const i = schedule.indexOf(d);
         return `<option value="${i}" ${i === activeDay ? 'selected' : ''}>${d.day} – ${d.name}</option>`;
       }).join('');
+
+      const targetDay = isNaN(parseInt(sel.value)) ? activeDay : parseInt(sel.value);
+      syncEditDayFields(targetDay);
+
+      const panel = document.getElementById('edit-day-panel');
+      if (panel) panel.style.display = 'none';
+      const btnText = document.getElementById('btn-edit-day-text');
+      if (btnText) btnText.textContent = 'Editar Dia';
+
       document.getElementById('modal-overlay').classList.add('show');
       setTimeout(() => document.getElementById('f-name').focus(), 400);
     }
+
     function closeModal() {
       document.getElementById('modal-overlay').classList.remove('show');
-      ['f-name', 'f-muscle', 'f-weight'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('f-sets').value = 3;
-      document.getElementById('f-reps').value = 12;
+      ['f-name', 'f-muscle', 'f-weight'].forEach(id => {
+        if (document.getElementById(id)) document.getElementById(id).value = '';
+      });
+      if (document.getElementById('f-sets')) document.getElementById('f-sets').value = 3;
+      if (document.getElementById('f-reps')) document.getElementById('f-reps').value = 12;
+      const panel = document.getElementById('edit-day-panel');
+      if (panel) panel.style.display = 'none';
+      const btnText = document.getElementById('btn-edit-day-text');
+      if (btnText) btnText.textContent = 'Editar Dia';
     }
     document.getElementById('modal-overlay').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
 
@@ -2488,6 +2608,13 @@
       const sets = parseInt(document.getElementById('f-sets').value) || 3;
       const reps = document.getElementById('f-reps').value.trim() || '12';
       const weight = document.getElementById('f-weight').value.trim() || '—';
+
+      // Se o painel de editar dia estiver visível ou preenchido, salva alterações do dia também
+      const panel = document.getElementById('edit-day-panel');
+      if (panel && panel.style.display !== 'none') {
+        saveWorkoutDayDetails(false);
+      }
+
       if (!name) { document.getElementById('f-name').style.borderColor = '#dc143c'; return; }
       document.getElementById('f-name').style.borderColor = '';
       schedule[dayIdx].exercises.push({ id: 'c' + Date.now(), name, muscle, sets, reps, weight });
