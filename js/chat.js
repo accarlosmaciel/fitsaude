@@ -17,6 +17,10 @@ let lastUserQuery = '';
 
 const BOT_RESPONSES_LOCAL = [
   {
+    keys: ['dieta', 'nutricao', 'refeicao', 'alimentacao', 'cardapio', 'calorias'],
+    reply: `**🥗 Guia Rápido de Dieta & Nutrição**\n\n• **Hipertrofia:** Superávit calórico leve (+300 kcal/dia) com proteínas elevadas (1.8g–2.2g/kg) e bastante água.\n• **Emagrecimento:** Déficit calórico moderado (-400 kcal/dia) mantendo a proteína alta para preservar músculos.\n• **Qualidade:** Baseie a alimentação em comida de verdade (ovos, aves, peixes, arroz, batata, aveia e vegetais).\n\n💡 *Dica:* A constância na dieta é o combustível que transforma o treino em resultados!`
+  },
+  {
     keys: ['dor', 'doendo', 'muscular', 'doms', 'recuperacao', 'recuperar'],
     reply: `**💪 Treinar com Dor Muscular (DOMS)**\n\n• **Dor leve a moderada:** Pode treinar! Foque em outro grupo muscular ou faça treino regenerativo com carga reduzida.\n• **Dor intensa ou nas articulações:** Descanse! O músculo cresce e se regenera durante o descanso.\n• **Dicas de alívio:** Hidrate-se bem, consuma boas fontes de proteína e faça 10 min de aquecimento/alongamento dinâmico.\n\n💡 *Regra de ouro:* Dor tardia no músculo é normal; pontadas em tendões e articulações exigem pausa imediata!`
   },
