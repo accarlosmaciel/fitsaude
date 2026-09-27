@@ -153,10 +153,12 @@ function updateRoleTopBar() {
     topBar.style.display = 'flex';
     topBar.classList.add('is-admin');
     if (quickSelect) quickSelect.style.display = 'flex';
+    document.documentElement.style.setProperty('--top-bar-h', topBar.offsetHeight + 'px');
   } else {
     topBar.style.display = 'none';
     topBar.classList.remove('is-admin');
     if (quickSelect) quickSelect.style.display = 'none';
+    document.documentElement.style.setProperty('--top-bar-h', '0px');
   }
 }
 
