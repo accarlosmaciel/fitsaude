@@ -1139,6 +1139,7 @@ body.chat-screen-active {
 
 /* Garante que header, quick-replies e input NUNCA encolham */
 .chat-bot-header,
+.typing-indicator,
 .quick-replies,
 .chat-input-wrap {
   flex-shrink: 0 !important;
