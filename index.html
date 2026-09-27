@@ -3333,8 +3333,83 @@
     let isBotTyping = false;
     let lastUserQuery = '';
 
+    function getDietPlanForGoal() {
+      const p = (typeof userProfile !== 'undefined' && userProfile) ? userProfile : (typeof DEFAULT_PROFILE !== 'undefined' ? DEFAULT_PROFILE : {});
+      const goal = (p.goal || 'Hipertrofia').toLowerCase();
+      const weight = parseFloat(p.weight) || 75;
+      const firstName = p.name ? ` ${p.name.split(' ')[0]}` : '';
+
+      if (goal.includes('emagrec') || goal.includes('perda') || goal.includes('gordura')) {
+        const protMin = Math.round(weight * 2.0);
+        const protMax = Math.round(weight * 2.2);
+        const water = (weight * 0.045).toFixed(1);
+        return `🥗 **Plano de Dieta: Emagrecimento & Definição** para${firstName}\n\n` +
+          `• 🎯 **Objetivo:** Perda de gordura preservando ao máximo sua massa muscular\n` +
+          `• ⚖️ **Déficit Calórico:** Redução moderada de **350 a 500 kcal/dia** abaixo do seu gasto total\n` +
+          `• 🥩 **Meta de Proteína:** **${protMin}g a ${protMax}g/dia** (${weight}kg × 2.0–2.2g) — ovos, frango, peixes e Whey\n` +
+          `• 🥔 **Carboidratos:** Aveia, batata-doce, arroz e frutas, concentrados perto dos treinos\n` +
+          `• 💧 **Água:** Mínimo de **${water} Litros/dia** para acelerar a oxidação de gordura\n\n` +
+          `💡 *Dica de Ouro:* Comece as refeições sempre pela salada e proteína para aumentar a saciedade!`;
+      }
+
+      if (goal.includes('defin')) {
+        const protMin = Math.round(weight * 2.0);
+        const protMax = Math.round(weight * 2.4);
+        const water = (weight * 0.042).toFixed(1);
+        return `🥗 **Plano de Dieta: Definição Muscular (Cutting)** para${firstName}\n\n` +
+          `• 🎯 **Objetivo:** Reduzir gordura subcutânea mantendo a densidade dos músculos\n` +
+          `• ⚖️ **Calorias:** Leve déficit de **-250 a -350 kcal/dia** (não faça restrições bruscas)\n` +
+          `• 🥩 **Meta de Proteína:** **${protMin}g a ${protMax}g/dia** (${weight}kg × 2.0–2.4g) para blindar os músculos\n` +
+          `• 🥑 **Gorduras Boas:** Azeite de oliva, abacate e castanhas (~0.8g por kg de peso)\n` +
+          `• 💧 **Hidratação:** Pelo menos **${water} Litros/dia** para evitar retenção hídrica\n\n` +
+          `💡 *Dica de Ouro:* Mantenha o treino pesado! É o estímulo de carga que avisa o corpo para não queimar músculo.`;
+      }
+
+      if (goal.includes('forca') || goal.includes('força')) {
+        const protMin = Math.round(weight * 1.8);
+        const protMax = Math.round(weight * 2.0);
+        const carbMin = Math.round(weight * 4.0);
+        return `🥗 **Plano de Dieta: Ganho de Força & Potência** para${firstName}\n\n` +
+          `• 🎯 **Objetivo:** Máximo combustível para progressão de carga e recuperação neuromuscular\n` +
+          `• ⚖️ **Calorias:** Manutenção ou superávit leve de **+200 a +300 kcal/dia**\n` +
+          `• 🍚 **Carboidratos Energéticos:** **~${carbMin}g/dia** para repor todo o glicogênio muscular\n` +
+          `• 🥩 **Meta de Proteína:** **${protMin}g a ${protMax}g/dia** (${weight}kg × 1.8–2.0g)\n` +
+          `• 🧪 **Suplementação-Chave:** 5g de Creatina diariamente para elevar estoques de fosfocreatina\n\n` +
+          `💡 *Dica de Ouro:* Faça uma refeição com carboidratos de média digestão 90 min antes de treinar pesado!`;
+      }
+
+      if (goal.includes('saude') || goal.includes('saúde') || goal.includes('condicionamento')) {
+        const prot = Math.round(weight * 1.6);
+        const water = (weight * 0.038).toFixed(1);
+        return `🥗 **Plano de Dieta: Saúde & Condicionamento Geral** para${firstName}\n\n` +
+          `• 🎯 **Objetivo:** Energia diária, imunidade forte, longevidade e equilíbrio metabólico\n` +
+          `• 🍽️ **Divisão do Prato:** 50% legumes e verduras, 25% proteína magra e 25% carboidratos complexos\n` +
+          `• 🥩 **Meta de Proteína:** Aproximadamente **${prot}g/dia** (${weight}kg × 1.6g)\n` +
+          `• 🍎 **Fibras e Vitaminas:** Ao menos 3 porções de frutas frescas variadas todos os dias\n` +
+          `• 💧 **Água:** Mínimo de **${water} Litros/dia**\n\n` +
+          `💡 *Dica de Ouro:* Descasque mais e desembale menos — priorize comida de verdade e reduza ultraprocessados!`;
+      }
+
+      // Padrão: Hipertrofia
+      const protMin = Math.round(weight * 1.8);
+      const protMax = Math.round(weight * 2.2);
+      const carbEst = Math.round(weight * 4.5);
+      const water = (weight * 0.04).toFixed(1);
+      return `🥗 **Plano de Dieta: Hipertrofia (Ganho de Massa)** para${firstName}\n\n` +
+        `• 🎯 **Objetivo:** Superávit calórico limpo para crescimento e reparação muscular acelerada\n` +
+        `• ⚖️ **Calorias:** Superávit de **+300 a +450 kcal/dia** acima do seu gasto diário total\n` +
+        `• 🥩 **Meta de Proteína:** **${protMin}g a ${protMax}g/dia** (${weight}kg × 1.8–2.2g) divididas em 4 a 5 refeições\n` +
+        `• 🍚 **Carboidratos Anabólicos:** **~${carbEst}g/dia** (arroz, batata, aveia, banana, mandioca)\n` +
+        `• 💧 **Água:** Pelo menos **${water} Litros/dia** (músculo hidratado gera muito mais força e volume!)\n\n` +
+        `💡 *Dica de Ouro:* Tome 3g a 5g de Creatina todos os dias junto a uma refeição rica em carboidratos!`;
+    }
+
     // Local fallback database — respostas ricas para modo offline
     const BOT_RESPONSES_LOCAL = [
+      {
+        keys: ['dieta', 'nutricao', 'refeicao', 'alimentacao', 'cardapio', 'calorias', 'o que comer', 'comer'],
+        getReply: () => getDietPlanForGoal()
+      },
       {
         keys: ['oi', 'ola', 'ola!', 'bom dia', 'boa tarde', 'boa noite', 'hey', 'hello', 'tudo bem', 'tudo bom'],
         reply: `**👋 Olá! Seja bem-vindo ao FitBot IA!**\n\n• Sou seu personal trainer virtual do FitSaúde 💪\n• Estou aqui para te ajudar com treinos, nutrição e bem-estar\n• Me faça qualquer pergunta sobre academia, exercícios ou saúde\n\n💡 *Dica:* Use os botões rápidos abaixo ou escreva sua dúvida diretamente! 🚀`
@@ -3417,7 +3492,7 @@
       const lower = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       for (const r of BOT_RESPONSES_LOCAL) {
         if (r.keys.some(k => lower.includes(k.normalize('NFD').replace(/[\u0300-\u036f]/g, '')))) {
-          return r.reply;
+          return typeof r.getReply === 'function' ? r.getReply() : r.reply;
         }
       }
       return `💪 **FitBot IA ao seu dispor!**\n\nPosso te orientar com:\n• **Treinos** — Hipertrofia, Emagrecimento, Força, Condicionamento\n• **Execução** — Agachamento, Supino, Levantamento Terra e mais\n• **Nutrição** — Proteína, carboidratos, déficit calórico, bulking\n• **Suplementos** — Creatina, Whey, Cafeína, Vitaminas\n• **Recuperação** — Sono, descanso, DOMS, lesões\n• **Motivação** — Quando o ânimo estiver baixo!\n\nToque em um botão rápido acima ou escreva sua pergunta! 🚀`;

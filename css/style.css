@@ -1137,10 +1137,16 @@ body.chat-screen-active {
   background: var(--bg);
 }
 
-@media (min-width: 861px) {
+@media (min-width: 769px) {
+  #screen-chat.active {
+    bottom: 106px;
+    top: calc(var(--header-h) + 16px + var(--top-bar-h, 0px) + var(--trial-banner-h, 0px));
+  }
+
   .chat-screen {
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
+    border-radius: 20px 20px 16px 16px;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
   }
 }
