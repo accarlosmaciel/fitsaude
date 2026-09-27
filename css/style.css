@@ -48,6 +48,8 @@
   /* safe areas */
   --nav-h: 68px;
   --header-h: 60px;
+  --top-bar-h: 0px;
+  --trial-banner-h: 0px;
 }
 
 html {
@@ -1097,10 +1099,29 @@ body::before {
 /* ─── Chat Screen ────────────────────────────────────────────── */
 #screen-chat {
   padding: 0 !important;
-  height: calc(100dvh - var(--nav-h) - var(--header-h) - var(--top-bar-h, 0px));
-  max-height: calc(100dvh - var(--nav-h) - var(--header-h) - var(--top-bar-h, 0px));
+  margin: 0 !important;
+  display: none;
+}
+
+#screen-chat.active {
+  display: flex !important;
+  flex-direction: column;
+  position: fixed;
+  top: calc(var(--header-h) + var(--top-bar-h, 0px) + var(--trial-banner-h, 0px));
+  bottom: var(--nav-h);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  max-height: none;
   overflow: hidden;
-  min-height: 0;
+  z-index: 75;
+  background: var(--bg);
+}
+
+body.chat-screen-active {
+  overflow: hidden !important;
+  height: 100dvh;
 }
 
 .chat-screen {
@@ -1112,20 +1133,47 @@ body::before {
   max-width: 860px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  background: var(--bg);
+}
+
+@media (min-width: 861px) {
+  .chat-screen {
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  }
 }
 
 .chat-messages {
-  flex: 1;
+  flex: 1 1 0px;
+  min-height: 0;
   overflow-y: auto;
-  padding: 14px 14px 8px;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px 16px 10px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
 .chat-messages::-webkit-scrollbar {
-  display: none;
+  width: 5px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--red);
 }
 
 .msg {
@@ -1425,6 +1473,8 @@ body::before {
   overflow-x: auto;
   scrollbar-width: none;
   flex-shrink: 0;
+  background: rgba(6, 6, 8, 0.92);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .quick-replies::-webkit-scrollbar { display: none; }
@@ -1458,13 +1508,17 @@ body::before {
   background: var(--red-subtle);
 }
 
-/* Chat input wrap */
+/* Chat input wrap - fixado permanentemente no rodapé do chat */
 .chat-input-wrap {
   flex-shrink: 0;
-  background: rgba(10, 10, 14, 0.95);
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background: rgba(10, 10, 14, 0.98);
   border-top: 1px solid var(--border);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  z-index: 10;
 }
 
 .chat-input-bar {

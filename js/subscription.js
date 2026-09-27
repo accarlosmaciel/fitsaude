@@ -516,6 +516,7 @@ function updateTrialBanner(sub) {
     const diffDays = Math.max(0, Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24)));
 
     banner.style.display = 'flex';
+    document.documentElement.style.setProperty('--trial-banner-h', banner.offsetHeight + 'px');
     banner.innerHTML = `
       <div class="trial-banner-left">
         <i class="fa-solid fa-gift"></i>
@@ -525,8 +526,12 @@ function updateTrialBanner(sub) {
         Assinar R$ 29,90/mês
       </button>
     `;
+    setTimeout(() => {
+      document.documentElement.style.setProperty('--trial-banner-h', banner.offsetHeight + 'px');
+    }, 50);
   } else {
     banner.style.display = 'none';
+    document.documentElement.style.setProperty('--trial-banner-h', '0px');
   }
 }
 

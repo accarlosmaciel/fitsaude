@@ -389,9 +389,12 @@ function switchRoleScreen(screenId) {
   if (screenId === 'planilhas' && typeof renderPlanilhas === 'function') renderPlanilhas();
   if (screenId === 'resumo' && typeof renderSummary === 'function') renderSummary();
   if (screenId === 'chat') {
+    document.body.classList.add('chat-screen-active');
     const badge = document.getElementById('chat-badge');
     if (badge) badge.classList.remove('show');
     if (typeof scrollChat === 'function') setTimeout(scrollChat, 100);
+  } else {
+    document.body.classList.remove('chat-screen-active');
   }
   if (screenId === 'perfil' && typeof renderProfileForm === 'function') renderProfileForm();
   if (screenId === 'atleta-assinatura' && typeof renderAthleteSubscriptionScreen === 'function') renderAthleteSubscriptionScreen();
