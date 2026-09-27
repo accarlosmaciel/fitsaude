@@ -1108,14 +1108,14 @@ body::before {
   flex-direction: column;
   position: fixed;
   top: calc(var(--header-h) + var(--top-bar-h, 0px) + var(--trial-banner-h, 0px));
-  bottom: var(--nav-h);
+  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
   left: 0;
   right: 0;
   width: 100%;
   height: auto;
   max-height: none;
   overflow: hidden;
-  z-index: 75;
+  z-index: 91;
   background: var(--bg);
 }
 
