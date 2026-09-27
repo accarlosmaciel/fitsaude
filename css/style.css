@@ -1137,6 +1137,20 @@ body.chat-screen-active {
   background: var(--bg);
 }
 
+/* Garante que header, quick-replies e input NUNCA encolham */
+.chat-bot-header,
+.quick-replies,
+.chat-input-wrap {
+  flex-shrink: 0 !important;
+}
+
+/* Messages é o único que encolhe e rola */
+.chat-messages {
+  flex: 1 1 0px !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+}
+
 @media (min-width: 769px) {
   #screen-chat.active {
     bottom: 106px;
