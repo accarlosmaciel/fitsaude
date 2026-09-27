@@ -133,25 +133,6 @@
         <h1 class="hero-title">Seus <span>Treinos</span><br>da Semana</h1>
       </div>
 
-      <!-- Stats row -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <span class="stat-v" id="s-sessions">5</span>
-          <span class="stat-l">Sessões</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-v" id="s-total">32</span>
-          <span class="stat-l">Exerc.</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-v" id="s-today">0</span>
-          <span class="stat-l">Hoje</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-v" id="s-pct">0%</span>
-          <span class="stat-l">Semana</span>
-        </div>
-      </div>
 
       <!-- Modality / Gender Selector -->
       <div class="modality-selector-wrap">
@@ -2266,10 +2247,10 @@
       const doneToday = todayEx.filter(e => done.has(e.id)).length;
       const totalEx = schedule.reduce((a, d) => a + d.exercises.length, 0);
       const pct = totalEx ? Math.round(([...done].length / totalEx) * 100) : 0;
-      document.getElementById('s-sessions').textContent = schedule.filter(d => !d.rest).length;
-      document.getElementById('s-total').textContent = totalEx;
-      document.getElementById('s-today').textContent = doneToday;
-      document.getElementById('s-pct').textContent = pct + '%';
+      if (document.getElementById('s-sessions')) document.getElementById('s-sessions').textContent = schedule.filter(d => !d.rest).length;
+      if (document.getElementById('s-total')) document.getElementById('s-total').textContent = totalEx;
+      if (document.getElementById('s-today')) document.getElementById('s-today').textContent = doneToday;
+      if (document.getElementById('s-pct')) document.getElementById('s-pct').textContent = pct + '%';
     }
 
     // ════════════════════════════════════════════════════════
