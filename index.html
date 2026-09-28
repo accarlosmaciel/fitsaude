@@ -305,6 +305,7 @@
           <div class="chat-input-bar">
             <textarea class="chat-input" id="chat-input" placeholder="Pergunte qualquer coisa sobre treinos e saúde..."
               rows="1" maxlength="600"
+              onfocus="setTimeout(() => { if (typeof scrollChat === 'function') scrollChat(); }, 250)"
               onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
               oninput="autoResize(this); updateCharCount(this)"></textarea>
             <button class="chat-send-btn" id="send-btn" onclick="sendMessage()" aria-label="Enviar">
