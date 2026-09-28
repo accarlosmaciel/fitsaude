@@ -1442,17 +1442,26 @@
 
   /* Chat FitBot IA no PC - Posicionado acima do menu de navegação flutuante */
   #screen-chat.active {
-    bottom: 114px !important;
+    position: fixed !important;
     top: calc(var(--header-h) + 16px + var(--top-bar-h, 0px) + var(--trial-banner-h, 0px)) !important;
+    bottom: 114px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 40px) !important;
+    max-width: 860px !important;
+    background: transparent !important;
   }
 
   .chat-screen {
-    max-width: 860px;
-    margin: 0 auto;
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    border-radius: 20px 20px 16px 16px;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: rgba(10, 10, 14, 0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(255, 26, 75, 0.08);
   }
 
   #admin-alunos-list, #admin-pending-payments-list {
