@@ -287,5 +287,25 @@ function hideTyping() {
 
 function autoResize(el) {
   el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+  scrollChat();
 }
+
+// Auto-scroll e ajuste quando o teclado mobile abre
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => {
+    if (document.body.classList.contains('chat-screen-active')) {
+      setTimeout(scrollChat, 100);
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const chatInput = document.getElementById('chat-input');
+  if (chatInput) {
+    chatInput.addEventListener('focus', () => {
+      setTimeout(scrollChat, 200);
+      setTimeout(scrollChat, 400);
+    });
+  }
+});
