@@ -349,7 +349,7 @@ function switchRoleScreen(screenId) {
     'treinos': 'Fit<span>Saúde</span>',
     'planilhas': 'Planilhas <span>Treinos</span>',
     'resumo': 'Resumo <span>Semanal</span>',
-    'chat': 'FitBot <span>IA</span>',
+    'chat': '<div class="header-bot-info"><div class="header-bot-title">FitBot <span>IA</span> <span class="ai-status-badge"><i class="fa-solid fa-circle ai-dot"></i> IA Online</span></div><div class="header-bot-status"><span>•</span> Especialista em Treinos &amp; Saúde</div></div>',
     'perfil': 'Perfil <span>Atleta</span>',
     'atleta-assinatura': 'Minha <span>Assinatura</span>',
     'atleta-seguranca': 'Segurança & <span>Acesso</span>',
@@ -383,6 +383,20 @@ function switchRoleScreen(screenId) {
 
   if (headerTitle && titles[screenId]) headerTitle.innerHTML = titles[screenId];
   if (headerIcon && icons[screenId]) headerIcon.innerHTML = icons[screenId];
+
+  // Header Right Action (ex: limpar chat no FitBot)
+  const headerRight = document.getElementById('header-right');
+  if (headerRight) {
+    if (screenId === 'chat') {
+      headerRight.innerHTML = `
+        <button class="chat-clear-btn" id="chat-clear-btn" onclick="clearChat(); event.stopPropagation();" aria-label="Limpar chat" title="Limpar conversa">
+          <i class="fa-solid fa-broom"></i>
+        </button>
+      `;
+    } else {
+      headerRight.innerHTML = '';
+    }
+  }
 
   // Call relevant screen renderers
   if (screenId === 'treinos' && typeof render === 'function') render();

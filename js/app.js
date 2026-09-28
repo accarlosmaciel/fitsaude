@@ -391,7 +391,7 @@ function switchScreen(name) {
     treinos: 'Fit<span>Saúde</span>',
     planilhas: 'Planilhas <span>Treinos</span>',
     resumo: 'Resumo <span>Semanal</span>',
-    chat: 'FitBot <span>IA</span>',
+    chat: '<div class="header-bot-info"><div class="header-bot-title">FitBot <span>IA</span> <span class="ai-status-badge"><i class="fa-solid fa-circle ai-dot"></i> IA Online</span></div><div class="header-bot-status"><span>•</span> Especialista em Treinos &amp; Saúde</div></div>',
     perfil: 'Perfil <span>Usuário</span>'
   };
   const icons = {
@@ -405,6 +405,19 @@ function switchScreen(name) {
   if (document.getElementById('header-title')) document.getElementById('header-title').innerHTML = titles[name] || 'Fit<span>Saúde</span>';
   if (document.getElementById('header-icon')) document.getElementById('header-icon').innerHTML = icons[name] || '<img src="images/logo.png" alt="FitSaúde" class="app-header-logo-img" />';
   if (document.getElementById('header-action-btn')) document.getElementById('header-action-btn').style.display = name === 'treinos' ? '' : 'none';
+
+  const headerRight = document.getElementById('header-right');
+  if (headerRight) {
+    if (name === 'chat') {
+      headerRight.innerHTML = `
+        <button class="chat-clear-btn" id="chat-clear-btn" onclick="clearChat(); event.stopPropagation();" aria-label="Limpar chat" title="Limpar conversa">
+          <i class="fa-solid fa-broom"></i>
+        </button>
+      `;
+    } else {
+      headerRight.innerHTML = '';
+    }
+  }
 
   if (name === 'planilhas' && typeof renderPlanilhas === 'function') {
     renderPlanilhas();

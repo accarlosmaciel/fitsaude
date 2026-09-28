@@ -219,10 +219,58 @@ body::before {
   display: flex;
   align-items: center;
   line-height: 1;
+  min-width: 0;
 }
 
 .app-header-title span {
   color: var(--red-light);
+}
+
+.header-bot-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.header-bot-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.header-bot-title span {
+  color: var(--red-light);
+}
+
+.header-bot-status {
+  font-size: 0.68rem;
+  color: #22d3a0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-bot-status span {
+  color: #22d3a0 !important;
+  font-size: 0.8rem;
+}
+
+.app-header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .app-header-action {
