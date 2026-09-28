@@ -1319,6 +1319,11 @@
   .stats-row {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  #screen-chat.active {
+    bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px)) !important;
+    top: calc(var(--header-h) + var(--top-bar-h, 0px) + var(--trial-banner-h, 0px)) !important;
+  }
 }
 
 /* ── 2. VERSÃO DESKTOP (PC / Notebooks / Telas Grandes: >= 769px) ── */
@@ -1435,10 +1440,19 @@
     gap: 20px;
   }
 
-  /* Chat FitBot IA no PC */
+  /* Chat FitBot IA no PC - Posicionado acima do menu de navegação flutuante */
+  #screen-chat.active {
+    bottom: 114px !important;
+    top: calc(var(--header-h) + 16px + var(--top-bar-h, 0px) + var(--trial-banner-h, 0px)) !important;
+  }
+
   .chat-screen {
     max-width: 860px;
     margin: 0 auto;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-radius: 20px 20px 16px 16px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
   }
 
   #admin-alunos-list, #admin-pending-payments-list {

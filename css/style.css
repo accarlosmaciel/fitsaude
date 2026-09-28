@@ -1154,7 +1154,7 @@ body.chat-screen-active {
 
 @media (min-width: 769px) {
   #screen-chat.active {
-    bottom: 106px;
+    bottom: 114px;
     top: calc(var(--header-h) + 16px + var(--top-bar-h, 0px) + var(--trial-banner-h, 0px));
   }
 
