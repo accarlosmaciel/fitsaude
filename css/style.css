@@ -1604,28 +1604,27 @@ body.chat-screen-active {
   letter-spacing: 0.01em;
 }
 
-/* Quick replies com mini barra de rolagem elegante */
+/* Quick replies posicionados abaixo da caixa de texto */
 .quick-replies {
   display: flex;
-  gap: 7px;
-  padding: 8px 14px 10px;
+  gap: 6px;
+  padding: 8px 2px 4px;
   overflow-x: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 42, 85, 0.5) rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
-  background: rgba(6, 6, 8, 0.94);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: transparent;
+  border-top: none;
   -webkit-overflow-scrolling: touch;
 }
 
 .quick-replies::-webkit-scrollbar {
-  height: 4px;
+  height: 3px;
 }
 
 .quick-replies::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 4px;
-  margin: 0 14px;
 }
 
 .quick-replies::-webkit-scrollbar-thumb {

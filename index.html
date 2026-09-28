@@ -285,22 +285,7 @@
           <span class="typing-label">FitBot está digitando...</span>
         </div>
 
-        <!-- Quick replies -->
-        <div class="quick-replies" id="quick-replies">
-          <button class="quick-btn" onclick="sendQuick('Qual a dieta ideal para meu objetivo?')"><i class="fa-solid fa-utensils"></i> Dieta</button>
-          <button class="quick-btn" onclick="sendQuick('Como fazer agachamento?')"><i class="fa-solid fa-person-walking"></i> Agachamento</button>
-          <button class="quick-btn" onclick="sendQuick('Devo treinar com dor muscular?')"><i class="fa-solid fa-heart-crack"></i> Dor Muscular</button>
-          <button class="quick-btn" onclick="sendQuick('Quanto de proteína devo consumir?')"><i class="fa-solid fa-drumstick-bite"></i> Proteína</button>
-          <button class="quick-btn" onclick="sendQuick('Quantas horas devo dormir para ganhar músculo?')"><i class="fa-solid fa-moon"></i> Sono</button>
-          <button class="quick-btn" onclick="sendQuick('Como fazer aquecimento?')"><i class="fa-solid fa-fire"></i> Aquecimento</button>
-          <button class="quick-btn" onclick="sendQuick('Como suplementar Creatina?')"><i class="fa-solid fa-flask"></i> Creatina</button>
-          <button class="quick-btn" onclick="sendQuick('Como perder gordura mantendo massa?')"><i class="fa-solid fa-weight-scale"></i> Perder Gordura</button>
-          <button class="quick-btn" onclick="sendQuick('Estou desmotivado para treinar, o que fazer?')"><i class="fa-solid fa-bolt"></i> Motivação</button>
-          <button class="quick-btn" onclick="sendQuick('Como fazer bulking limpo?')"><i class="fa-solid fa-arrow-trend-up"></i> Bulking</button>
-          <button class="quick-btn" onclick="sendQuick('Montar treino de hipertrofia')"><i class="fa-solid fa-dumbbell"></i> Monte um Treino</button>
-        </div>
-
-        <!-- Input bar -->
+        <!-- Input bar & Quick replies unificados -->
         <div class="chat-input-wrap">
           <div class="chat-input-bar">
             <textarea class="chat-input" id="chat-input" placeholder="Pergunte qualquer coisa sobre treinos e saúde..."
@@ -312,6 +297,22 @@
               <i class="fa-solid fa-paper-plane"></i>
             </button>
           </div>
+
+          <!-- Quick replies posicionados abaixo da caixa de digitação -->
+          <div class="quick-replies" id="quick-replies">
+            <button class="quick-btn" onclick="sendQuick('Qual a dieta ideal para meu objetivo?')"><i class="fa-solid fa-utensils"></i> Dieta</button>
+            <button class="quick-btn" onclick="sendQuick('Como fazer agachamento?')"><i class="fa-solid fa-person-walking"></i> Agachamento</button>
+            <button class="quick-btn" onclick="sendQuick('Devo treinar com dor muscular?')"><i class="fa-solid fa-heart-crack"></i> Dor Muscular</button>
+            <button class="quick-btn" onclick="sendQuick('Quanto de proteína devo consumir?')"><i class="fa-solid fa-drumstick-bite"></i> Proteína</button>
+            <button class="quick-btn" onclick="sendQuick('Quantas horas devo dormir para ganhar músculo?')"><i class="fa-solid fa-moon"></i> Sono</button>
+            <button class="quick-btn" onclick="sendQuick('Como fazer aquecimento?')"><i class="fa-solid fa-fire"></i> Aquecimento</button>
+            <button class="quick-btn" onclick="sendQuick('Como suplementar Creatina?')"><i class="fa-solid fa-flask"></i> Creatina</button>
+            <button class="quick-btn" onclick="sendQuick('Como perder gordura mantendo massa?')"><i class="fa-solid fa-weight-scale"></i> Perder Gordura</button>
+            <button class="quick-btn" onclick="sendQuick('Estou desmotivado para treinar, o que fazer?')"><i class="fa-solid fa-bolt"></i> Motivação</button>
+            <button class="quick-btn" onclick="sendQuick('Como fazer bulking limpo?')"><i class="fa-solid fa-arrow-trend-up"></i> Bulking</button>
+            <button class="quick-btn" onclick="sendQuick('Montar treino de hipertrofia')"><i class="fa-solid fa-dumbbell"></i> Monte um Treino</button>
+          </div>
+
           <div class="chat-input-meta">
             <span class="chat-char-count" id="chat-char-count">0 / 600</span>
           </div>
