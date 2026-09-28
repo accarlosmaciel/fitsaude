@@ -1321,7 +1321,7 @@
   }
 
   #screen-chat.active {
-    bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 16px) !important;
     top: calc(var(--header-h) + var(--top-bar-h, 0px) + var(--trial-banner-h, 0px)) !important;
   }
 }
