@@ -1274,8 +1274,24 @@ body.chat-screen-active {
     box-shadow: 0 8px 28px rgba(230, 0, 57, 0.75) !important;
   }
 
+  .quick-replies {
+    padding: 10px 4px 6px !important;
+    gap: 8px !important;
+  }
+
+  .quick-btn {
+    padding: 6px 14px !important;
+    font-size: 0.8rem !important;
+    border-radius: 20px !important;
+  }
+
+  .quick-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 14px rgba(220, 20, 60, 0.4) !important;
+  }
+
   .chat-input-meta {
-    padding: 6px 10px 0 !important;
+    padding: 4px 6px 0 !important;
   }
 
   .chat-char-count {
