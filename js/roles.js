@@ -288,14 +288,14 @@ function renderRoleNavigation(role) {
         <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
         <span class="nav-label">Resumo</span>
       </button>
+      <button class="nav-btn" id="nav-perfil" onclick="switchRoleScreen('perfil')">
+        <span class="nav-icon"><i class="fa-solid fa-user"></i></span>
+        <span class="nav-label">Perfil</span>
+      </button>
       <button class="nav-btn" id="nav-chat" onclick="switchRoleScreen('chat')">
         <span class="nav-icon"><i class="fa-solid fa-comment-dots"></i></span>
         <div class="badge show" id="chat-badge"></div>
         <span class="nav-label">FitBot</span>
-      </button>
-      <button class="nav-btn" id="nav-perfil" onclick="switchRoleScreen('perfil')">
-        <span class="nav-icon"><i class="fa-solid fa-user"></i></span>
-        <span class="nav-label">Perfil</span>
       </button>
     `;
   } else if (role === 'admin') {
