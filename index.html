@@ -1948,16 +1948,6 @@
       <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
     </div>
 
-    <!-- Exercises (redesigned with GIF thumbnails) -->
-    <div class="workout-list-header">
-      <div class="workout-list-header-icon" style="background:${d.color}22;">
-        ${d.icon}
-      </div>
-      <div class="workout-list-header-info">
-        <h3>${d.name}</h3>
-        <span>${d.exercises.length} exercícios</span>
-      </div>
-    </div>
     <div class="ex-list-new">
       ${d.exercises.map((ex, i) => renderExItemNew(ex, i)).join('')}
     </div>
