@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="css/pdf_cards.css" />
   <link rel="stylesheet" href="css/workout_player.css" />
-  <link rel="stylesheet" href="css/camera_ai.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -71,63 +70,6 @@
     <!-- ══ SCREEN: TREINOS ═════════════════════════════════ -->
     <div class="screen active" id="screen-treinos">
 
-      <!-- ── Câmera Inteligente IA & Visão Computacional ── -->
-      <div class="camera-ai-compact-box" id="camera-ai-box">
-        <div class="camera-ai-top-trigger" onclick="cameraAI.toggleCameraBox()" title="Toque para abrir a Câmera IA">
-          <div class="camera-ai-trigger-left">
-            <div class="camera-ai-trigger-icon">
-              <i class="fa-solid fa-camera"></i>
-              <span class="camera-ai-pulse-dot"></span>
-            </div>
-            <div class="camera-ai-trigger-info">
-              <div class="camera-ai-trigger-title">
-                Câmera Inteligente IA <span class="camera-ai-trigger-badge">VISÃO COMPUTACIONAL</span>
-              </div>
-              <div class="camera-ai-trigger-sub">Identificar aparelhos, avaliar postura e contar repetições</div>
-            </div>
-          </div>
-          <div class="camera-ai-trigger-arrow" id="camera-ai-arrow">
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-        </div>
-
-        <!-- Painel Compacto Expansível (Abre exatamente aqui) -->
-        <div class="camera-ai-inline-panel" id="camera-ai-inline-panel" style="display: none;">
-          <!-- Visor Compacto -->
-          <div class="camera-viewfinder-wrap compact">
-            <video id="camera-ai-video" autoplay playsinline muted></video>
-            <div class="camera-hud-overlay">
-              <div class="camera-hud-corners">
-                <div class="camera-scan-laser"></div>
-                <div class="camera-detection-box" id="camera-detection-box">
-                  <div class="camera-detection-tag" id="camera-detection-tag">
-                    <i class="fa-solid fa-dumbbell"></i> Aparelho Detectado
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modos Compactos & Ações Rápidas -->
-          <div class="camera-mode-tabs compact">
-            <button class="camera-mode-btn active" data-mode="device" onclick="cameraAI.setMode('device')">
-              <i class="fa-solid fa-dumbbell"></i> Aparelhos
-            </button>
-            <button class="camera-mode-btn" data-mode="person" onclick="cameraAI.setMode('person')">
-              <i class="fa-solid fa-person-running"></i> Postura/Reps
-            </button>
-            <button class="btn-camera-mini" onclick="cameraAI.scanNow()" title="Escanear próximo">
-              <i class="fa-solid fa-expand"></i> Scan
-            </button>
-            <button class="btn-camera-mini" onclick="cameraAI.toggleFacingMode()" title="Girar Câmera">
-              <i class="fa-solid fa-camera-rotate"></i>
-            </button>
-          </div>
-
-          <!-- Resultado Compacto & Dashboard -->
-          <div id="camera-results-content" class="compact-results"></div>
-        </div>
-      </div>
 
       <div class="hero-strip">
         <div class="hero-greeting" id="day-greeting">Bom dia! <i class="fa-solid fa-hand-wave"></i></div>
@@ -3995,7 +3937,6 @@ Personalize TODAS as respostas considerando esse perfil. Use o nome "${p.name ||
     setTimeout(() => injectWelcomeMessage(), 400);
   </script>
 
-  <script src="js/camera_ai.js"></script>
 </body>
 
 </html>
