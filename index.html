@@ -2629,6 +2629,175 @@
     }
     document.getElementById('modal-overlay').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
 
+    /* ══════════════════════════════════════════════════════
+       VÍDEO DB — armazena vídeos por nome de exercício
+    ══════════════════════════════════════════════════════ */
+    const VIDEO_DB_KEY = 'fitsaude_videos_v1';
+    function dbLoadVideos() {
+      try { return JSON.parse(localStorage.getItem(VIDEO_DB_KEY) || '{}'); } catch { return {}; }
+    }
+    function dbSaveVideo(exName, dataUrl, duration) {
+      const db = dbLoadVideos();
+      db[exName.trim().toLowerCase()] = { dataUrl, duration, addedAt: Date.now() };
+      localStorage.setItem(VIDEO_DB_KEY, JSON.stringify(db));
+    }
+    function dbGetVideo(exName) {
+      const db = dbLoadVideos();
+      return db[exName.trim().toLowerCase()] || null;
+    }
+
+    /* getExMedia — retorna { type: 'video'|'gif', url } para renderExItemNew */
+    function getExMedia(exName, ex) {
+      // Verifica se o exercício tem vídeo salvo inline (no objeto)
+      if (ex && ex.video) return { type: 'video', url: ex.video };
+      // Verifica banco de vídeos
+      const v = dbGetVideo(exName);
+      if (v && v.dataUrl) return { type: 'video', url: v.dataUrl };
+      // Fallback: GIF 3D
+      const gif = getExGif(exName);
+      return { type: 'gif', url: gif };
+    }
+
+    /* variável para vídeo carregado no modal de adicionar exercício */
+    let currentModalUploadedVideo = null;
+
+    /* ── Handler: vídeo no modal de Adicionar Exercício ── */
+    function handleModalExVideoChange(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const tmpVid = document.createElement('video');
+      tmpVid.src = url;
+      tmpVid.onloadedmetadata = function () {
+        const dur = tmpVid.duration;
+        if (dur > 31) {
+          alert('⚠️ O vídeo tem mais de 30 segundos (' + Math.round(dur) + 's). Por favor, use um vídeo de até 30 segundos.');
+          event.target.value = '';
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          currentModalUploadedVideo = { dataUrl: e.target.result, duration: Math.round(dur) };
+          const prev = document.getElementById('f-video-preview');
+          const box = document.getElementById('f-video-preview-box');
+          const badge = document.getElementById('f-video-badge');
+          const btnTxt = document.getElementById('f-video-btn-txt');
+          if (prev) { prev.src = e.target.result; }
+          if (box) box.style.display = 'block';
+          if (badge) { badge.textContent = Math.round(dur) + 's'; badge.style.display = 'inline-block'; }
+          if (btnTxt) btnTxt.textContent = 'Vídeo selecionado (' + Math.round(dur) + 's) ✓';
+        };
+        reader.readAsDataURL(file);
+      };
+    }
+
+    /* ══════════════════════════════════════════════════════
+       MODAL: Adicionar Vídeo 30s a um Exercício Existente
+    ══════════════════════════════════════════════════════ */
+    let _currentVideoData = null; // { dataUrl, duration }
+
+    function openAddVideoModal() {
+      _currentVideoData = null;
+      // Preencher select com todos os exercícios do schedule
+      const sel = document.getElementById('v-exercise-select');
+      if (!sel) return;
+      const allEx = [];
+      schedule.forEach(day => {
+        if (!day.rest) {
+          day.exercises.forEach(ex => {
+            allEx.push({ name: ex.name, day: day.day });
+          });
+        }
+      });
+      // Remove duplicatas por nome
+      const seen = new Set();
+      const unique = allEx.filter(e => { if (seen.has(e.name)) return false; seen.add(e.name); return true; });
+      sel.innerHTML = unique.map(e => `<option value="${e.name}">${e.name} (${e.day})</option>`).join('');
+      sel.innerHTML += '<option value="__custom__">➕ Nome personalizado...</option>';
+
+      // Reset preview e estado
+      const player = document.getElementById('v-preview-player');
+      const empty = document.getElementById('v-preview-empty');
+      const durBadge = document.getElementById('v-dur-badge');
+      const statusMsg = document.getElementById('v-status-msg');
+      const saveBtn = document.getElementById('btn-save-video');
+      const fileInput = document.getElementById('v-file-input');
+      if (player) { player.src = ''; player.style.display = 'none'; }
+      if (empty) empty.style.display = 'block';
+      if (durBadge) durBadge.style.display = 'none';
+      if (statusMsg) statusMsg.style.display = 'none';
+      if (saveBtn) saveBtn.disabled = true;
+      if (fileInput) fileInput.value = '';
+      document.getElementById('v-custom-name-wrap').style.display = 'none';
+
+      document.getElementById('video-modal-overlay').classList.add('show');
+    }
+
+    function closeAddVideoModal() {
+      document.getElementById('video-modal-overlay').classList.remove('show');
+      _currentVideoData = null;
+      const player = document.getElementById('v-preview-player');
+      if (player) { player.pause(); player.src = ''; }
+    }
+
+    function handleVideoExSelectChange() {
+      const val = document.getElementById('v-exercise-select').value;
+      document.getElementById('v-custom-name-wrap').style.display = val === '__custom__' ? 'block' : 'none';
+    }
+
+    function handleVideoFileChange(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const tmpVid = document.createElement('video');
+      tmpVid.src = url;
+      tmpVid.onloadedmetadata = function () {
+        const dur = tmpVid.duration;
+        if (dur > 31) {
+          alert('⚠️ Vídeo com ' + Math.round(dur) + 's — máximo permitido é 30 segundos!');
+          event.target.value = '';
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (re) {
+          _currentVideoData = { dataUrl: re.target.result, duration: Math.round(dur) };
+          const player = document.getElementById('v-preview-player');
+          const empty = document.getElementById('v-preview-empty');
+          const durBadge = document.getElementById('v-dur-badge');
+          const saveBtn = document.getElementById('btn-save-video');
+          if (player) { player.src = re.target.result; player.style.display = 'block'; player.play(); }
+          if (empty) empty.style.display = 'none';
+          if (durBadge) { durBadge.textContent = Math.round(dur) + 's'; durBadge.style.display = 'inline-block'; }
+          if (saveBtn) saveBtn.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      };
+    }
+
+    function saveVideoToExercise() {
+      if (!_currentVideoData) return;
+      let exName = document.getElementById('v-exercise-select').value;
+      if (exName === '__custom__') {
+        exName = (document.getElementById('v-custom-name').value || '').trim();
+        if (!exName) { alert('Por favor, informe o nome do exercício.'); return; }
+      }
+      // Salva inline no exercício dentro do schedule
+      schedule.forEach(day => {
+        day.exercises.forEach(ex => {
+          if (ex.name.trim().toLowerCase() === exName.trim().toLowerCase()) {
+            ex.video = _currentVideoData.dataUrl;
+          }
+        });
+      });
+      // Salva no banco de vídeos
+      dbSaveVideo(exName, _currentVideoData.dataUrl, _currentVideoData.duration);
+      saveSched();
+      render();
+      const statusMsg = document.getElementById('v-status-msg');
+      if (statusMsg) { statusMsg.textContent = '✅ Vídeo salvo para "' + exName + '"!'; statusMsg.style.display = 'block'; }
+      setTimeout(() => closeAddVideoModal(), 1200);
+    }
+
     function saveExercise() {
       const dayIdx = parseInt(document.getElementById('f-day').value);
       const name = document.getElementById('f-name').value.trim();
