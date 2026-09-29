@@ -1688,17 +1688,17 @@ body.chat-screen-active {
   position: relative;
   bottom: 0;
   width: 100%;
-  background: #0f1015;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.45);
+  background: linear-gradient(to top, #0f1015 60%, rgba(15, 16, 21, 0.95));
+  border-top: 1.5px solid rgba(255, 42, 85, 0.3);
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.55), 0 -2px 8px rgba(255, 42, 85, 0.08);
   z-index: 25;
-  padding: 6px 12px 2px;
+  padding: 10px 14px 6px;
 }
 
 .chat-input-bar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 0;
 }
 
@@ -1717,46 +1717,47 @@ body.chat-screen-active {
 
 .chat-input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 8px 14px;
-  font-size: 0.88rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: 12px 18px;
+  font-size: 0.95rem;
   font-family: 'Space Grotesk', sans-serif;
   color: #ffffff;
   outline: none;
-  transition: all 0.2s ease;
-  min-height: 38px;
-  max-height: 100px;
+  transition: all 0.25s ease;
+  min-height: 46px;
+  max-height: 110px;
   resize: none;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .chat-input:focus {
   border-color: #ff2a55;
-  background: rgba(255, 42, 85, 0.1);
-  box-shadow: 0 0 0 3px rgba(255, 42, 85, 0.25), 0 0 16px rgba(255, 42, 85, 0.2);
+  background: rgba(255, 42, 85, 0.12);
+  box-shadow: 0 0 0 3px rgba(255, 42, 85, 0.3), 0 0 20px rgba(255, 42, 85, 0.2);
 }
 
 .chat-input::placeholder {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .chat-send-btn {
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: linear-gradient(135deg, #ff2a55, #e60039);
   border: none;
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   cursor: pointer;
   display: grid;
   place-items: center;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
   flex-shrink: 0;
-  box-shadow: 0 3px 12px rgba(230, 0, 57, 0.5);
+  box-shadow: 0 4px 16px rgba(230, 0, 57, 0.55);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1768,6 +1769,7 @@ body.chat-screen-active {
 .chat-send-btn:active {
   transform: scale(0.9);
 }
+
 
 /* ─── Modal ──────────────────────────────────────────────────── */
 .modal-overlay {
