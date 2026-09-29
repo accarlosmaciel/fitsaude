@@ -3134,3 +3134,70 @@ body[data-color="orange"] {
   color: #22d3a0;
   border-color: rgba(34, 211, 160, 0.4);
 }
+
+/* ─── Vídeos de Exercício (Máx 30s) Tamanho Animação 3D (4:3) ─── */
+.video-3d-box {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 280px;
+  background: linear-gradient(145deg, #0a0a10 0%, #12121a 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 42, 85, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.video-3d-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-upload-dropzone {
+  border: 2px dashed rgba(255, 42, 85, 0.4);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255, 42, 85, 0.04);
+  transition: all 0.2s ease;
+}
+
+.video-upload-dropzone:hover {
+  background: rgba(255, 42, 85, 0.08);
+  border-color: #ff2a55;
+  transform: translateY(-1px);
+}
+
+.video-duration-pill {
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(34, 211, 160, 0.15);
+  color: #22d3a0;
+  border: 1px solid rgba(34, 211, 160, 0.35);
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.video-badge-mini {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #22d3a0;
+  font-size: 8px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 700;
+  border: 1px solid rgba(34, 211, 160, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}

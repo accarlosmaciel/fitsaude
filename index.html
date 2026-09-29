@@ -824,6 +824,19 @@
         </div>
       </div>
 
+      <!-- Card: Adicionar Vídeo (Máx 30s) no mesmo tamanho das animações 3D -->
+      <div class="profile-card" style="margin-top:14px;border: 1px solid rgba(255,42,85,0.3);background:linear-gradient(135deg, rgba(255,42,85,0.06), rgba(20,20,30,0.6));">
+        <div class="section-label" style="padding:0;margin-bottom:8px;color:#ff2a55;">
+          <i class="fa-solid fa-video"></i> Vídeos Demonstrativos (Máx. 30s)
+        </div>
+        <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.5;">
+          Adicione vídeos de até <strong>30 segundos</strong> na proporção e formato idênticos às animações 3D (4:3) para qualquer exercício da academia.
+        </p>
+        <button class="btn-save" onclick="openAddVideoModal()" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg, #ff2a55, #d60032);box-shadow: 0 4px 18px rgba(255,42,85,0.35);">
+          <i class="fa-solid fa-video"></i> Adicionar Vídeo (Máx 30s)
+        </button>
+      </div>
+
       <div class="profile-card" style="margin-top:14px;">
         <div class="section-label" style="padding:0;margin-bottom:12px;"><i class="fa-solid fa-plus-circle"></i>
           Adicionar Exercício Global</div>
@@ -948,9 +961,10 @@
       <div class="wp-header-timer" id="wp-timer">00:00</div>
     </div>
 
-    <!-- GIF Container -->
+    <!-- GIF / Video 3D Container -->
     <div class="wp-gif-container">
       <img id="wp-gif" src="" alt="Exercício" />
+      <video id="wp-video" autoplay loop muted playsinline style="display:none;width:100%;height:100%;object-fit:contain;border-radius:inherit;"></video>
       <div class="wp-gif-loader" id="wp-gif-loader">
         <div class="spinner"></div>
       </div>
@@ -1156,8 +1170,79 @@
         </div>
       </div>
 
+      <div class="form-group" style="margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <label class="form-label" style="margin-bottom:0;"><i class="fa-solid fa-video" style="color:#ff2a55;"></i> Vídeo Demonstrativo (Máx. 30s - Opcional)</label>
+          <span id="f-video-badge" class="video-duration-pill" style="display:none;"></span>
+        </div>
+        <input type="file" id="f-video-input" accept="video/mp4,video/webm,video/*" onchange="handleModalExVideoChange(event)" style="display:none;" />
+        <button type="button" onclick="document.getElementById('f-video-input').click()" style="width:100%; padding:8px 12px; font-size:12px; font-weight:700; border-radius:8px; background:rgba(255,42,85,0.1); border:1px solid rgba(255,42,85,0.3); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+          <i class="fa-solid fa-cloud-arrow-up"></i> <span id="f-video-btn-txt">Selecionar Vídeo (Máx 30s)</span>
+        </button>
+        <div class="video-3d-box" id="f-video-preview-box" style="display:none; margin-top:8px;">
+          <video id="f-video-preview" autoplay loop muted playsinline></video>
+        </div>
+      </div>
+
       <button class="btn-save" id="btn-save" onclick="saveExercise()">Salvar Exercício</button>
       <button class="btn-reset" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- ── Modal: Adicionar Vídeo 30s ao Exercício ──────────── -->
+  <div class="modal-overlay" id="video-modal-overlay" onclick="if(event.target===this)closeAddVideoModal()">
+    <div class="modal-sheet" id="video-modal-sheet" style="max-width: 520px;">
+      <div class="sheet-handle"></div>
+      <div class="sheet-eyebrow"><i class="fa-solid fa-video" style="color:var(--red-light);"></i> Mídia de Exercício</div>
+      <div class="sheet-title">Adicionar Vídeo (Máx. 30s)</div>
+      <p style="font-size:12px;color:var(--txt2);margin-bottom:14px;line-height:1.5;">
+        O vídeo será exibido na mesma proporção e tamanho das animações 3D (4:3) durante a execução e visualização do treino.
+      </p>
+
+      <div class="form-group">
+        <label class="form-label" for="v-exercise-select">Selecione o Exercício</label>
+        <select class="form-select" id="v-exercise-select" onchange="handleVideoExSelectChange()">
+          <!-- Preenchido dinamicamente via JS -->
+        </select>
+      </div>
+
+      <div class="form-group" id="v-custom-name-wrap" style="display:none;">
+        <label class="form-label" for="v-custom-name">Nome do Exercício Personalizado</label>
+        <input class="form-input" id="v-custom-name" type="text" placeholder="ex: Elevação Frontal na Polia" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Arquivo de Vídeo (Máx. 30 segundos)</label>
+        <input type="file" id="v-file-input" accept="video/mp4,video/webm,video/quicktime,video/*" onchange="handleVideoFileChange(event)" style="display:none;" />
+        <div class="video-upload-dropzone" onclick="document.getElementById('v-file-input').click()">
+          <div style="font-size: 26px; color: #ff2a55; margin-bottom: 6px;"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <div style="font-size: 13px; font-weight: 700; color: #fff;">Toque para selecionar o vídeo</div>
+          <div style="font-size: 11px; color: var(--txt3); margin-top: 4px;">MP4 ou WebM • Duração máxima permitida: <strong>30 segundos</strong></div>
+        </div>
+      </div>
+
+      <!-- Preview no tamanho e proporção exata da animação 3D -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; margin-bottom: 6px;">
+        <span style="font-size: 11px; font-weight: 700; color: var(--txt2);"><i class="fa-solid fa-cube" style="color:#ff2a55;"></i> Tamanho Animação 3D (4:3)</span>
+        <span id="v-dur-badge" class="video-duration-pill" style="display:none;"></span>
+      </div>
+
+      <div class="video-3d-box" id="v-preview-box">
+        <video id="v-preview-player" autoplay loop muted playsinline style="display:none;"></video>
+        <div id="v-preview-empty" style="text-align: center; padding: 20px; color: var(--txt3); font-size: 12px;">
+          <i class="fa-solid fa-video-slash" style="font-size: 24px; opacity: 0.5; margin-bottom: 6px; display: block;"></i>
+          Nenhum vídeo carregado ainda.<br>Selecione um arquivo de até 30s.
+        </div>
+      </div>
+
+      <div id="v-status-msg" style="display:none; font-size:11.5px; color:#22d3a0; margin-top:8px; text-align:center; font-weight:700;"></div>
+
+      <div style="display: flex; gap: 8px; margin-top: 14px;">
+        <button class="btn-save" id="btn-save-video" onclick="saveVideoToExercise()" disabled style="flex: 2; background: linear-gradient(135deg, #ff2a55, #d60032);">
+          <i class="fa-solid fa-check"></i> Salvar Vídeo no Treino
+        </button>
+        <button class="btn-reset" onclick="closeAddVideoModal()" style="flex: 1;">Cancelar</button>
+      </div>
     </div>
   </div>
 
@@ -1983,18 +2068,26 @@
   `;
     }
 
-    /* ── New Exercise Item (with GIF thumbnail) ── */
+    /* ── New Exercise Item (with GIF / Video 30s thumbnail) ── */
     function renderExItemNew(ex, i) {
       const isDone = done.has(ex.id);
-      const gifUrl = getExGif(ex.name);
+      const media = (typeof getExMedia === 'function') ? getExMedia(ex.name, ex) : { type: 'gif', url: getExGif(ex.name) };
+      let thumbHtml = '';
+      if (media && media.type === 'video') {
+        thumbHtml = `<video src="${media.url}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;border-radius:10px;"></video><span class="video-badge-mini" title="Vídeo de até 30s"><i class="fa-solid fa-play"></i> 30s</span>`;
+      } else if (media && media.url) {
+        thumbHtml = `<img src="${media.url}" alt="${ex.name}" loading="lazy" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';" /><span class="ex-gif-placeholder" style="display:none;"><i class="fa-solid fa-dumbbell"></i></span>`;
+      } else {
+        thumbHtml = `<span class="ex-gif-placeholder"><i class="fa-solid fa-dumbbell"></i></span>`;
+      }
       return `
     <div class="ex-item-new ${isDone ? 'done' : ''}" id="ex-${ex.id}"
          onclick="toggleEx('${ex.id}')" role="checkbox" aria-checked="${isDone}" tabindex="0">
-      <div class="ex-gif-thumb">
-        ${gifUrl ? `<img src="${gifUrl}" alt="${ex.name}" loading="lazy" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';" /><span class="ex-gif-placeholder" style="display:none;"><i class="fa-solid fa-dumbbell"></i></span>` : `<span class="ex-gif-placeholder"><i class="fa-solid fa-dumbbell"></i></span>`}
+      <div class="ex-gif-thumb" style="position:relative;">
+        ${thumbHtml}
       </div>
       <div class="ex-item-new-body">
-        <div class="ex-item-new-name">${ex.name}</div>
+        <div class="ex-item-new-name">${ex.name} ${media && media.type === 'video' ? '<span style="font-size:10px;color:#22d3a0;margin-left:4px;font-weight:700;"><i class="fa-solid fa-video"></i> 30s</span>' : ''}</div>
         <div class="ex-item-new-meta">${ex.sets} Séries × ${ex.reps} Rep.${ex.weight && ex.weight !== 'Corpo' ? ` × ${ex.weight}` : ''}</div>
       </div>
       <div class="ex-item-new-check">
@@ -2522,6 +2615,17 @@
       if (panel) panel.style.display = 'none';
       const btnText = document.getElementById('btn-edit-day-text');
       if (btnText) btnText.textContent = 'Editar Dia';
+
+      // Reset vídeo do modal
+      currentModalUploadedVideo = null;
+      if (document.getElementById('f-video-input')) document.getElementById('f-video-input').value = '';
+      if (document.getElementById('f-video-preview-box')) document.getElementById('f-video-preview-box').style.display = 'none';
+      if (document.getElementById('f-video-preview')) {
+        document.getElementById('f-video-preview').pause();
+        document.getElementById('f-video-preview').src = '';
+      }
+      if (document.getElementById('f-video-badge')) document.getElementById('f-video-badge').style.display = 'none';
+      if (document.getElementById('f-video-btn-txt')) document.getElementById('f-video-btn-txt').textContent = 'Selecionar Vídeo (Máx 30s)';
     }
     document.getElementById('modal-overlay').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
 
@@ -2541,7 +2645,14 @@
 
       if (!name) { document.getElementById('f-name').style.borderColor = '#dc143c'; return; }
       document.getElementById('f-name').style.borderColor = '';
-      schedule[dayIdx].exercises.push({ id: 'c' + Date.now(), name, muscle, sets, reps, weight });
+
+      const newEx = { id: 'c' + Date.now(), name, muscle, sets, reps, weight };
+      if (currentModalUploadedVideo && currentModalUploadedVideo.dataUrl) {
+        newEx.video = currentModalUploadedVideo.dataUrl;
+        dbSaveVideo(name, currentModalUploadedVideo.dataUrl, currentModalUploadedVideo.duration);
+      }
+
+      schedule[dayIdx].exercises.push(newEx);
       saveSched(); activeDay = dayIdx; closeModal(); render();
       toast('<i class="fa-solid fa-plus"></i>', `"${name}" adicionado!`);
     }
@@ -3530,6 +3641,7 @@ Personalize TODAS as respostas considerando esse perfil. Use o nome "${p.name ||
           </div>
           <div class="wp-gif-container">
             <img id="wp-gif" src="" alt="Exercício" />
+            <video id="wp-video" autoplay loop muted playsinline style="display:none;width:100%;height:100%;object-fit:contain;border-radius:inherit;"></video>
             <div class="wp-gif-loader" id="wp-gif-loader"><div class="spinner"></div></div>
             <div class="wp-gif-actions">
               <button class="wp-gif-action-btn" onclick="reloadGif()" title="Recarregar"><i class="fa-solid fa-rotate"></i></button>
@@ -3606,27 +3718,45 @@ Personalize TODAS as respostas considerando esse perfil. Use o nome "${p.name ||
       document.getElementById('wp-progress').textContent = `${wpCurrentIdx + 1}/${total} ${groupName}`;
       document.getElementById('wp-group').textContent = wpDayData ? wpDayData.name : '';
 
-      // GIF
-      const gifUrl = getExGif(ex.name);
+      // Media (Vídeo 30s ou GIF 3D)
+      const media = (typeof getExMedia === 'function') ? getExMedia(ex.name, ex) : { type: 'gif', url: getExGif(ex.name) };
       const gifImg = document.getElementById('wp-gif');
+      const wpVideo = document.getElementById('wp-video');
       const gifLoader = document.getElementById('wp-gif-loader');
 
-      if (gifUrl) {
-        gifLoader.classList.add('show');
-        gifImg.classList.add('loading');
-        gifImg.onload = () => {
-          gifLoader.classList.remove('show');
-          gifImg.classList.remove('loading');
-        };
-        gifImg.onerror = () => {
-          gifLoader.classList.remove('show');
-          gifImg.classList.remove('loading');
-          gifImg.src = '';
-        };
-        gifImg.src = gifUrl;
+      if (media && media.type === 'video') {
+        if (gifImg) { gifImg.style.display = 'none'; gifImg.src = ''; }
+        if (wpVideo) {
+          wpVideo.src = media.url;
+          wpVideo.style.display = 'block';
+          wpVideo.play().catch(() => {});
+        }
+        if (gifLoader) gifLoader.classList.remove('show');
+      } else if (media && media.url) {
+        if (wpVideo) {
+          wpVideo.pause();
+          wpVideo.src = '';
+          wpVideo.style.display = 'none';
+        }
+        if (gifImg) {
+          gifImg.style.display = 'block';
+          gifLoader.classList.add('show');
+          gifImg.classList.add('loading');
+          gifImg.onload = () => {
+            gifLoader.classList.remove('show');
+            gifImg.classList.remove('loading');
+          };
+          gifImg.onerror = () => {
+            gifLoader.classList.remove('show');
+            gifImg.classList.remove('loading');
+            gifImg.src = '';
+          };
+          gifImg.src = media.url;
+        }
       } else {
-        gifImg.src = '';
-        gifLoader.classList.remove('show');
+        if (wpVideo) { wpVideo.pause(); wpVideo.src = ''; wpVideo.style.display = 'none'; }
+        if (gifImg) { gifImg.src = ''; gifImg.style.display = 'block'; }
+        if (gifLoader) gifLoader.classList.remove('show');
       }
 
       // Exercise info
